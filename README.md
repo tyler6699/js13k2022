@@ -1,2 +1,4 @@
 # js13k2022
-JS13k Game Jame #11
+JS13k Game Jam #11
+
+Theme is Death
