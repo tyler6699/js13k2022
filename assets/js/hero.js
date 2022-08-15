@@ -1,11 +1,24 @@
 function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
   this.e.hp=100;
-  this.speed=5;
+  this.speed=6;
   this.currentTile=null;
+  this.jumping=false;
+  this.maxJumpTime=.4;
+  this.maxJumpH=13;
+  this.jumpH=0;
+  this.jumpTime=0;
 
   this.update = function(delta) {
     this.time+=delta;
+    if(this.jumpTime <= 0){
+      this.jumping=false;
+    } else if (this.jumpTime > 0){
+      this.e.y -= this.gMove(0,-1, false, true)
+      this.jumpTime-=delta
+    }
+    // Gravity
+    this.e.y += this.gMove(0,1, true, false);
     this.e.update(delta);
   }
 
@@ -25,19 +38,51 @@ function hero(w, h, x, y, angle, type, scale) {
     }
   }
 
+  this.jump = function(){
+    if(!this.jumping && this.grounded()){ // Check on floor!
+      this.jumping=true;
+      this.jumpTime=this.maxJumpTime;
+      this.jumpH=this.maxJumpH;
+    }
+  }
+
+  this.grounded = function(){
+    rec = cloneRectanlge(this.e.hb);
+    rec.y += 8;
+    canJump = false;
+
+    for (var t = 0; t < this.e.colArr.length; t++) {
+      obj = this.e.colArr[t];
+      e = obj.entity;
+      if(obj.isTile()){
+        if(rectColiding(e.hb,rec) && obj.active && e.isSolid){
+          canJump = true;
+          break;
+        }
+      }
+    }
+    return canJump;
+  }
+
   // check for each pixel if the hero can move, starting with full amount
   // The array contains tiles and mobs (Entities)
-  this.gMove = function(xx,yy){
+  this.gMove = function(xx,yy, gravity=false, jump=false){
     this.e.idle=0;
+    var spd = gravity ? 5 : this.speed;
+    if(jump){
+      this.jumpH-=.3;
+      this.jumpH = this.jumpH > 0 ? this.jumpH : 0;
+      spd=this.jumpH;
+    }
+
     rec = cloneRectanlge(this.e.hb);
-    rec.x += xx * this.speed;
-    rec.y += yy * this.speed;
-    amount = this.speed;
-    stop = false;
+    rec.x += xx * spd;
+    rec.y += yy * spd;
     canMove = true;
+    amount = spd;
 
     // Move full amount and then try decreasing
-    for(var i = this.speed; i>0; i--){
+    for(var i = spd; i>0; i--){
       canMove = true;
 
       for (var t = 0; t < this.e.colArr.length; t++) {
@@ -45,20 +90,20 @@ function hero(w, h, x, y, angle, type, scale) {
         e = obj.entity;
 
         if(obj.isTile()){
-          if(!stop && rectColiding(e.hb,rec)){
+          if(rectColiding(e.hb,rec)){
             if(obj.active && e.isSolid){
               canMove = false;
               break;
             }
           }
         } else { // MOB
-          if(!stop && obj.active && obj.isSolid && rectColiding(obj.hb, rec)){
+          if(obj.active && obj.isSolid && rectColiding(obj.hb, rec)){
             canMove = false;
             break;
           }
         }
       }
-      if(canMove || stop){
+      if(canMove){
         break;
       } else {
         amount--;
@@ -66,7 +111,6 @@ function hero(w, h, x, y, angle, type, scale) {
         rec.y -= yy;
       }
     }
-
     return amount;
   }
 }

@@ -18,7 +18,7 @@ function Cart() {
   this.scale = 3*ratio;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
-  this.hero = new hero(16, 16, canvasW/2, canvasH/2, 0, types.HERO, this.scale);
+  this.hero = new hero(16, 16, canvasW/2, 120, 0, types.HERO, this.scale);
   this.introT=0;
   this.shake=0;
   this.shakeTime=0;
@@ -57,8 +57,11 @@ function Cart() {
       this.hero.e.x += this.hero.gMove(1,0);
       this.hero.e.flip = false;
     }
-    if (up())    this.hero.e.y -= this.hero.gMove(0,-1);
-    if (down())  this.hero.e.y += this.hero.gMove(0,1);
+
+    // Jump
+    if (up()) this.hero.jump();
+
+    //if (down())  this.hero.e.y += this.hero.gMove(0,1);
 
     this.hero.setCurrentTile(this.scaled);
 

@@ -4,7 +4,7 @@
 var mg;
 var canvasW = window.innerWidth;
 var canvasH = window.innerHeight;
-var gameStarted = false;
+var gameStarted = true;
 var delta = 0.0;
 var prevDelta = Date.now();
 var currentDelta = Date.now();

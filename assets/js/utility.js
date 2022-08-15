@@ -70,7 +70,7 @@ function warp(t) {
   for(i=200;i--;
     ctx.fillRect(canvasW/2+i*Math.sin(i)*Z, 423+i*Math.cos(i*9)*Z,Z,Z))
     ctx.fillStyle="rgba(255,255,255," + (i+.1) + ")",
-    Z=2**Math.tan(i/9+t/3)
+    Z=2*Math.tan(i/9+t/3)
 }
 
 function drawImg(ctx, img, sx, sy, w, h, x, y, alpha, scale){
