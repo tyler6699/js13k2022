@@ -5,6 +5,7 @@ function Cart() {
   var widthToHeight = 4 / 3;
   var newWidthToHeight = canvasW / canvasH;
   var ratio=0;
+  var lastDir=RIGHT;
 
   // TODO: Not rendering on all screen sizes!
   if (newWidthToHeight > widthToHeight) {
@@ -47,21 +48,6 @@ function Cart() {
   this.update = function(delta, time) {
     // Screen shake
     this.shake = shaky ? Math.cos(TIME) : 0;
-
-    // Controls
-    if (left()){
-      this.hero.e.x -= this.hero.gMove(-1,0);
-      this.hero.e.flip = true;
-    }
-    if (right()){
-      this.hero.e.x += this.hero.gMove(1,0);
-      this.hero.e.flip = false;
-    }
-
-    // Jump
-    if (up()) this.hero.jump();
-
-    //if (down())  this.hero.e.y += this.hero.gMove(0,1);
 
     this.hero.setCurrentTile(this.scaled);
 

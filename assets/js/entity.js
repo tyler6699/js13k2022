@@ -105,7 +105,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         ctx.drawImage(img, this.sx, this.sy, w, h, hw+z, hh+f, w * s, h * s);
       }
       ctx.restore();
-    }  
+    }
   }
 
   this.isHero = function(){
@@ -134,8 +134,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
     switch(this.type) {
       case types.HERO:
         this.isSolid = true;
-        this.sx=96;
-        this.sy=16;
+        this.sx=0;
+        this.sy=0;
         break;
       case types.WALL:
         this.sy=16;

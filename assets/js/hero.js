@@ -1,15 +1,38 @@
 function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
   this.e.hp=100;
-  this.speed=6;
+  this.speed=0;
+  this.maxSpeed=6;
   this.currentTile=null;
   this.jumping=false;
   this.maxJumpTime=.4;
-  this.maxJumpH=12;
+  this.maxJumpH=14;
   this.jumpH=0;
   this.jumpTime=0;
+  this.gravity=6;
 
   this.update = function(delta) {
+    // Controls
+    if(!left() && !right()){
+      this.speed = this.speed > 0 ? this.speed -= .5 : 0;
+    } else {
+      this.speed = this.speed > this.maxSpeed ? this.maxSpeed : this.speed += .5;
+    }
+
+    if (left() || (this.speed > 0 && lastDir==LEFT)){
+      lastDir=LEFT;
+      this.e.x -= this.gMove(-1,0);
+      this.e.flip = true;
+    }
+    if (right() || (this.speed > 0 && lastDir==RIGHT)){
+      lastDir=RIGHT;
+      this.e.x += this.gMove(1,0);
+      this.e.flip = false;
+    }
+
+    // Jump
+    if (up() || space()) this.jump();
+
     this.time+=delta;
     if(this.jumpTime <= 0){
       this.jumping=false;
@@ -69,7 +92,7 @@ function hero(w, h, x, y, angle, type, scale) {
   // The array contains tiles and mobs (Entities)
   this.gMove = function(xx,yy, gravity=false, jump=false){
     this.e.idle=0;
-    var spd = gravity ? 5 : this.speed;
+    var spd = gravity ? this.gravity : this.speed;
     if(jump){
       this.jumpH-=.3;
       this.jumpH = this.jumpH > 0 ? this.jumpH : 0;

@@ -35,6 +35,10 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
         // Create a room
         if(r == 0 || c == 0 || r == 12 || c == this.cols){
           type = types.AIR;
+        } else if (r==this.rows-3 && c==5){
+          type = types.BLOCK;
+        } else if (r==this.rows-4 && c==5){
+          type = types.BLOCK;
         } else if (isEdge(r,c,this.cols,this.rows)){
           type = types.BLOCK;
         }

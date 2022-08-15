@@ -28,6 +28,8 @@ var shaky = true;
 var cart = new Cart();
 var v = speechSynthesis.getVoices();
 var talk = true;
+
+// TODO move this after menu screen is no longer skipped
 audioCtx = new AudioContext()
 // Audio
 var start=false;
