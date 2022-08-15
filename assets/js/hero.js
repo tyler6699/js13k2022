@@ -5,7 +5,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.currentTile=null;
   this.jumping=false;
   this.maxJumpTime=.4;
-  this.maxJumpH=13;
+  this.maxJumpH=12;
   this.jumpH=0;
   this.jumpTime=0;
 
@@ -43,6 +43,7 @@ function hero(w, h, x, y, angle, type, scale) {
       this.jumping=true;
       this.jumpTime=this.maxJumpTime;
       this.jumpH=this.maxJumpH;
+      playSound(JUMPFX,.2);
     }
   }
 

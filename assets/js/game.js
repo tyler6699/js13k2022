@@ -28,7 +28,7 @@ var shaky = true;
 var cart = new Cart();
 var v = speechSynthesis.getVoices();
 var talk = true;
-
+audioCtx = new AudioContext()
 // Audio
 var start=false;
 
