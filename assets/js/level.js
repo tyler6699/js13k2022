@@ -39,6 +39,10 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
           type = types.BLOCK;
         } else if (r==this.rows-4 && c==5){
           type = types.BLOCK;
+        } else if (r==this.rows-6 && c==5){
+          type = types.BLOCK;
+        } else if (r==this.rows-4 && c==8){
+          type = types.BLOCK;
         } else if (isEdge(r,c,this.cols,this.rows)){
           type = types.BLOCK;
         }

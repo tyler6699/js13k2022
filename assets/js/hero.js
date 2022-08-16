@@ -9,7 +9,9 @@ function hero(w, h, x, y, angle, type, scale) {
   this.maxJumpH=14;
   this.jumpH=0;
   this.jumpTime=0;
-  this.gravity=6;
+  this.gravity=7;
+  this.coyote=0;
+  this.maxCoyote=3;
 
   this.update = function(delta) {
     // Controls
@@ -24,6 +26,7 @@ function hero(w, h, x, y, angle, type, scale) {
       this.e.x -= this.gMove(-1,0);
       this.e.flip = true;
     }
+
     if (right() || (this.speed > 0 && lastDir==RIGHT)){
       lastDir=RIGHT;
       this.e.x += this.gMove(1,0);
@@ -41,7 +44,13 @@ function hero(w, h, x, y, angle, type, scale) {
       this.jumpTime-=delta
     }
     // Gravity
-    this.e.y += this.gMove(0,1, true, false);
+    if(this.canFall && this.coyote > this.maxCoyote){
+      this.e.y += this.gMove(0,1, true, false);
+    } else {
+      this.coyote += delta;
+    }
+
+    console.log("Can fall: " + this.canFall());
     this.e.update(delta);
   }
 
@@ -61,6 +70,10 @@ function hero(w, h, x, y, angle, type, scale) {
     }
   }
 
+  this.canFall = function(){
+     return this.gMove(0,1, false, false, true) > 0;
+  }
+
   this.jump = function(){
     if(!this.jumping && this.grounded()){ // Check on floor!
       this.jumping=true;
@@ -73,6 +86,8 @@ function hero(w, h, x, y, angle, type, scale) {
   this.grounded = function(){
     rec = cloneRectanlge(this.e.hb);
     rec.y += 8;
+    rec.x -= 8;
+    rec.w += 16;
     canJump = false;
 
     for (var t = 0; t < this.e.colArr.length; t++) {
@@ -90,13 +105,16 @@ function hero(w, h, x, y, angle, type, scale) {
 
   // check for each pixel if the hero can move, starting with full amount
   // The array contains tiles and mobs (Entities)
-  this.gMove = function(xx,yy, gravity=false, jump=false){
+  this.gMove = function(xx,yy, gravity=false, jump=false, fall=false){
     this.e.idle=0;
+
     var spd = gravity ? this.gravity : this.speed;
     if(jump){
       this.jumpH-=.3;
       this.jumpH = this.jumpH > 0 ? this.jumpH : 0;
       spd=this.jumpH;
+    } else if(fall){
+      spd=1;
     }
 
     rec = cloneRectanlge(this.e.hb);
