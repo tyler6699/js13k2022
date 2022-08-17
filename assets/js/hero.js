@@ -6,15 +6,17 @@ function hero(w, h, x, y, angle, type, scale) {
   let speed=0;
   let maxSpeed=6;
   let maxJumpTime=.5;
-  let maxJumpH=15;
+  let maxJumpH=16;
   let jumpH=0;
   let jumpTime=0;
   let gravity=7;
   let maxCoyote=.1;
   let coyote=maxCoyote;
   let lastDir = RIGHT;
+  this.hereos = []
+  let currentHero = []
 
-  this.update = function(delta){
+  this.update = function(ctx, delta){
     this.time+=delta;
 
     // Controls
@@ -54,6 +56,10 @@ function hero(w, h, x, y, angle, type, scale) {
 
     if(currentTile != null && currentTile.entity.type == types.SPIKE){
       console.log("death");
+      this.hereos.push(currentHero);
+      currentHero = [];
+      this.e.x = 150;
+      this.e.y=300;
       // Track the hero during life, when death occurs add all of the positions to an Array
       // Allow the player to rewind the position of the previous death
       // if they rewind to the begining then the soul re enters the player
@@ -63,7 +69,13 @@ function hero(w, h, x, y, angle, type, scale) {
     // Jump
     if (up() || space()) this.jump();
 
+    // draw the dead ones
+    this.hereos.forEach(e => drawDead(ctx, e));
+
     this.e.update(delta);
+
+    // Add current position to Array
+    addCoords(this.e.x, this.e.y, currentHero);
     //console.log("Can fall: " + this.canFall() + " Coyote: " + coyote + " Grounded: " + this.grounded());
   }
 
@@ -169,4 +181,18 @@ function hero(w, h, x, y, angle, type, scale) {
     }
     return amount;
   }
+
+  function drawDead(ctx, e) {
+    if(e.constructor === Array){
+      e.forEach(f => drawDead(ctx, f));
+    } else {
+      //let last = e[e.length-1];
+      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, e.x, e.y, .6, scale);
+    }
+  }
+
+  function addCoords(x, y, arr) {
+    arr.push({x: x, y: y, d: lastDir})
+  }
+
 }

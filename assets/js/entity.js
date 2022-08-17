@@ -157,6 +157,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         break;
      }
   }
-
+  
   this.setType();
 }

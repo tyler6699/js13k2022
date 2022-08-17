@@ -62,7 +62,7 @@ function Cart() {
     processClick = false;
 
     // HERO
-    this.hero.update(delta);
+    this.hero.update(ctx, delta);
 
     // MOUSE
     mg.canvas.style.cursor='none';
