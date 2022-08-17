@@ -9,7 +9,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.mhHScaled = (h / -2) * scale;
   this.hWidth = w / 2;
   this.hHeight = h / 2;
-  this.yOffset = 0;
   this.angle = angle;
   this.x = x;
   this.y = y;

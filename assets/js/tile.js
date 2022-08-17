@@ -18,5 +18,4 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
   this.isTile = function(){
     return true;
   }
-
 }

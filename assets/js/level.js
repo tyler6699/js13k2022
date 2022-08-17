@@ -5,9 +5,9 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
   this.mvTiles = [];
   this.active = false;
   this.roomNo = id;
-  var tileSize = 16;
-  var levelArray;
-  this.rows = 13;
+  let tileSize = 16;
+  let levelArray;
+  let rows = 13;
   this.cols = 24;
 
   this.draw = function(hero, delta){
@@ -22,7 +22,7 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
 
     // Main level tiles
     // Testing with a box as a level
-    for (r = 0; r < this.rows; r++) {
+    for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
 
         ts = tileSize * scale;
@@ -35,15 +35,15 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
         // Create a room
         if(r == 0 || c == 0 || r == 12 || c == this.cols){
           type = types.AIR;
-        } else if (r==this.rows-3 && c==5){
+        } else if (r==rows-3 && c==5){
           type = types.BLOCK;
-        } else if (r==this.rows-4 && c==5){
+        } else if (r==rows-4 && c==5){
           type = types.BLOCK;
-        } else if (r==this.rows-6 && c==5){
+        } else if (r==rows-6 && c==5){
           type = types.BLOCK;
-        } else if (r==this.rows-4 && c==8){
+        } else if (r==rows-4 && c==8){
           type = types.BLOCK;
-        } else if (isEdge(r,c,this.cols,this.rows)){
+        } else if (isEdge(r,c,this.cols,rows)){
           type = types.BLOCK;
         }
 

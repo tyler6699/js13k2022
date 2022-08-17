@@ -1,45 +1,45 @@
 // ╔═══════════════════════════════╗
 // ║ JS13K Entry by @CarelessLabs  ║
 // ╚═══════════════════════════════╝
-var mg;
-var canvasW = window.innerWidth;
-var canvasH = window.innerHeight;
-var gameStarted = true;
-var delta = 0.0;
-var prevDelta = Date.now();
-var currentDelta = Date.now();
-var TIME = 0;
-var introT = 0;
-var mousePos = new vec2(0,0);
-var clickedAt = new vec2(0,0);
-var clickRow;
-var clickCol;
-var processClick = false;
-var holdClick = false;
-var holdClickT = 0;
-var GAMEOVER=false;
-var COL1 = "990099";
-var COL2 = "05f2db";
-var WIN = false;
-var STAGE=1;
-var atlas = new Image();
+
+let canvasW = window.innerWidth;
+let canvasH = window.innerHeight;
+let gameStarted = true;
+let delta = 0.0;
+let prevDelta = Date.now();
+let currentDelta = Date.now();
+let TIME = 0;
+let introT = 0;
+let mousePos = new vec2(0,0);
+let clickedAt = new vec2(0,0);
+let clickRow;
+let clickCol;
+let processClick = false;
+let holdClick = false;
+let holdClickT = 0;
+let GAMEOVER=false;
+let COL1 = "990099";
+let COL2 = "05f2db";
+let WIN = false;
+let STAGE=1;
+let atlas = new Image();
 atlas.src = "atlas.png";
-var shaky = true;
-var cart = new Cart();
-var v = speechSynthesis.getVoices();
-var talk = true;
+let shaky = true;
+let cart = new Cart();
+let v = speechSynthesis.getVoices();
+let talk = true;
 
 // TODO move this after menu screen is no longer skipped
 audioCtx = new AudioContext()
 // Audio
-var start=false;
+let start=false;
 
 // Called by body onload on index page
 function startGame() {
   mg.start();
 }
 
-var mg = {
+let mg = {
   canvas: document.createElement("canvas"),
   start: function() {
     this.canvas.width = canvasW;
@@ -89,7 +89,7 @@ var mg = {
     //window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', function(e) {
       e.preventDefault();
-      var r = mg.canvas.getBoundingClientRect();
+      let r = mg.canvas.getBoundingClientRect();
       mousePos.set((e.clientX - r.left) / (r.right - r.left) * canvasW,
                    (e.clientY - r.top) / (r.bottom - r.top) * canvasH);
       row = Math.floor(mousePos.y / this.scaled);
@@ -117,7 +117,7 @@ function setclicks(){
 function updateGameArea() {
   if(GAMEOVER){
     TIME=0;
-    var h = cart.hero;
+    let h = cart.hero;
     h.e.hp=100;
     GAMEOVER=false;
     WIN=false;

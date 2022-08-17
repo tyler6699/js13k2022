@@ -8,8 +8,8 @@ function rectanlge(x, y, w, h) {
 }
 
 function ranColor() {
-  var l = '0123456789ABCDEF';
-  var c = '#';
+  let l = '0123456789ABCDEF';
+  let c = '#';
   for (var i = 0; i < 6; i++) {
     c += l[Math.floor(Math.random() * 16)];
   }
@@ -18,7 +18,7 @@ function ranColor() {
 
 var voiceSelect = "Google UK English Female";
 function speak(t) {
-	var s = new SpeechSynthesisUtterance();
+	let s = new SpeechSynthesisUtterance();
 	s.text = t;
   s.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect; })[0];
 	speechSynthesis.speak(s);
@@ -92,15 +92,15 @@ function drawRect(ctx, ox, oy, x, y, w, h, col, alpha){
 
 function resizeCanvas(){
   // Needs to handle screens smaller than 800x600
-  var totalWidth = 1216; // Tiles are 16x16 scaled up by 4 with 19 columns
-  var totalHeight = 832; // 13 Rows
+  let totalWidth = 1216; // Tiles are 16x16 scaled up by 4 with 19 columns
+  let totalHeight = 832; // 13 Rows
 
   canvasW = window.innerWidth;
   canvasH = window.innerHeight;
 
-  var widthToHeight = 4 / 3;
-  var newWidthToHeight = canvasW / canvasH;
-  var ratio=0;
+  let widthToHeight = 4 / 3;
+  let newWidthToHeight = canvasW / canvasH;
+  let ratio=0;
 
   if (newWidthToHeight > widthToHeight) {
     canvasW = canvasH * widthToHeight;

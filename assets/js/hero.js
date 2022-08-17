@@ -1,57 +1,65 @@
 function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
   this.e.hp=100;
-  this.speed=0;
-  this.maxSpeed=6;
-  this.currentTile=null;
-  this.jumping=false;
-  this.maxJumpTime=.4;
-  this.maxJumpH=14;
-  this.jumpH=0;
-  this.jumpTime=0;
-  this.gravity=7;
-  this.coyote=0;
-  this.maxCoyote=3;
+  let currentTile=null;
+  let jumping=false;
+  let speed=0;
+  let maxSpeed=6;
+  let maxJumpTime=.5;
+  let maxJumpH=15;
+  let jumpH=0;
+  let jumpTime=0;
+  let gravity=7;
+  let maxCoyote=.1;
+  let coyote=maxCoyote;
+  let lastDir = RIGHT;
 
-  this.update = function(delta) {
+  this.update = function(delta){
+    console.log(maxCoyote);
+    this.time+=delta;
+
     // Controls
     if(!left() && !right()){
-      this.speed = this.speed > 0 ? this.speed -= .5 : 0;
+      speed = speed > 0 ? speed -= .5 : 0;
     } else {
-      this.speed = this.speed > this.maxSpeed ? this.maxSpeed : this.speed += .5;
+      speed = speed > maxSpeed ? maxSpeed : speed += .5;
     }
 
-    if (left() || (this.speed > 0 && lastDir==LEFT)){
+    if (left() || (speed > 0 && lastDir==LEFT)){
       lastDir=LEFT;
       this.e.x -= this.gMove(-1,0);
       this.e.flip = true;
     }
 
-    if (right() || (this.speed > 0 && lastDir==RIGHT)){
+    if (right() || (speed > 0 && lastDir==RIGHT)){
       lastDir=RIGHT;
       this.e.x += this.gMove(1,0);
       this.e.flip = false;
     }
 
+    if(jumpTime <= 0 && this.grounded()){
+      jumping=false;
+    } else if (jumpTime > 0){
+      this.e.y -= this.gMove(0,-1, false, true)
+      jumpTime-=delta
+    }
+
+    // Gravity
+    if(this.canFall && coyote >= maxCoyote){
+      this.e.y += this.gMove(0,1, true, false);
+    } else if(!this.grounded()){
+      coyote += delta;
+    }
+
+    if(this.grounded() && coyote != 0 && !jumping){
+      coyote=0;
+    }
+
     // Jump
     if (up() || space()) this.jump();
 
-    this.time+=delta;
-    if(this.jumpTime <= 0){
-      this.jumping=false;
-    } else if (this.jumpTime > 0){
-      this.e.y -= this.gMove(0,-1, false, true)
-      this.jumpTime-=delta
-    }
-    // Gravity
-    if(this.canFall && this.coyote > this.maxCoyote){
-      this.e.y += this.gMove(0,1, true, false);
-    } else {
-      this.coyote += delta;
-    }
-
-    console.log("Can fall: " + this.canFall());
     this.e.update(delta);
+    //console.log("Can fall: " + this.canFall() + " Coyote: " + coyote + " Grounded: " + this.grounded());
   }
 
   this.setCurrentTile = function(scaled){
@@ -59,10 +67,10 @@ function hero(w, h, x, y, angle, type, scale) {
     heroRow = Math.floor((this.e.y - this.e.mhHScaled) / scaled);
     heroCol = Math.floor((this.e.x - this.e.mhWScaled) / scaled);
     heroTileIndex = heroCol + (cart.levels[this.e.currentLevel].cols*heroRow);
-    if(this.currentTile != null) this.prevTile = this.currentTile;
-    this.currentTile = cart.level.tiles[heroTileIndex];
+    if(currentTile != null) this.prevTile = currentTile;
+    currentTile = cart.level.tiles[heroTileIndex];
 
-    if(this.currentTile != this.prevTile){
+    if(currentTile != this.prevTile){
       this.e.colArr = [];
 
       // Add surrounding tiles
@@ -75,26 +83,27 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.jump = function(){
-    if(!this.jumping && this.grounded()){ // Check on floor!
-      this.jumping=true;
-      this.jumpTime=this.maxJumpTime;
-      this.jumpH=this.maxJumpH;
+    if(!jumping && coyote <= maxCoyote){
+      coyote=maxCoyote;
+      jumping=true;
+      jumpTime=maxJumpTime;
+      jumpH=maxJumpH;
       playSound(JUMPFX,.2);
     }
   }
 
   this.grounded = function(){
     rec = cloneRectanlge(this.e.hb);
-    rec.y += 8;
-    rec.x -= 8;
-    rec.w += 16;
+    rec.y += 2;
+    //rec.x -= 8;
+    //rec.w += 16;
     canJump = false;
 
     for (var t = 0; t < this.e.colArr.length; t++) {
       obj = this.e.colArr[t];
       e = obj.entity;
       if(obj.isTile()){
-        if(rectColiding(e.hb,rec) && obj.active && e.isSolid){
+        if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
           canJump = true;
           break;
         }
@@ -105,14 +114,14 @@ function hero(w, h, x, y, angle, type, scale) {
 
   // check for each pixel if the hero can move, starting with full amount
   // The array contains tiles and mobs (Entities)
-  this.gMove = function(xx,yy, gravity=false, jump=false, fall=false){
+  this.gMove = function(xx,yy, grav=false, jump=false, fall=false){
     this.e.idle=0;
 
-    var spd = gravity ? this.gravity : this.speed;
+    var spd = grav ? gravity : speed;
     if(jump){
-      this.jumpH-=.3;
-      this.jumpH = this.jumpH > 0 ? this.jumpH : 0;
-      spd=this.jumpH;
+      jumpH-=.3;
+      jumpH = jumpH > 0 ? jumpH : 0;
+      spd=jumpH;
     } else if(fall){
       spd=1;
     }
