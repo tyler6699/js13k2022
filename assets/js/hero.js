@@ -13,6 +13,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let maxCoyote=.1;
   let coyote=maxCoyote;
   let lastDir = RIGHT;
+  let prevPos={x: this.e.x, y: this.e.y};
   this.hereos = []
   let currentHero = []
 
@@ -75,7 +76,11 @@ function hero(w, h, x, y, angle, type, scale) {
     this.e.update(delta);
 
     // Add current position to Array
-    addCoords(this.e.x, this.e.y, currentHero);
+    if(prevPos.x != this.e.x || prevPos.y != this.e.y){
+      addCoords(this.e.x, this.e.y, currentHero);
+      prevPos={x: this.e.x, y: this.e.y};
+    }
+
     //console.log("Can fall: " + this.canFall() + " Coyote: " + coyote + " Grounded: " + this.grounded());
   }
 
