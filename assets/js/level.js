@@ -43,6 +43,8 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
           type = types.BLOCK;
         } else if (r==rows-4 && c==8){
           type = types.BLOCK;
+        } else if (r==rows-3 && c==10){
+          type = types.SPIKE;
         } else if (isEdge(r,c,this.cols,rows)){
           type = types.BLOCK;
         }

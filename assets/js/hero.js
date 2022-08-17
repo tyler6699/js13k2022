@@ -15,7 +15,6 @@ function hero(w, h, x, y, angle, type, scale) {
   let lastDir = RIGHT;
 
   this.update = function(delta){
-    console.log(maxCoyote);
     this.time+=delta;
 
     // Controls
@@ -51,8 +50,14 @@ function hero(w, h, x, y, angle, type, scale) {
       coyote += delta;
     }
 
-    if(this.grounded() && coyote != 0 && !jumping){
-      coyote=0;
+    if(this.grounded() && coyote != 0 && !jumping) coyote=0;
+
+    if(currentTile != null && currentTile.entity.type == types.SPIKE){
+      console.log("death");
+      // Track the hero during life, when death occurs add all of the positions to an Array
+      // Allow the player to rewind the position of the previous death
+      // if they rewind to the begining then the soul re enters the player
+      // The dead body can be used as a platform
     }
 
     // Jump
@@ -95,8 +100,8 @@ function hero(w, h, x, y, angle, type, scale) {
   this.grounded = function(){
     rec = cloneRectanlge(this.e.hb);
     rec.y += 2;
-    //rec.x -= 8;
-    //rec.w += 16;
+    //rec.x -= 8;  // Wall Jumping
+    //rec.w += 16; // Wall Jumping
     canJump = false;
 
     for (var t = 0; t < this.e.colArr.length; t++) {
