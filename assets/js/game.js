@@ -192,3 +192,7 @@ function space() {
 function map() {
   return mg.keys && mg.keys[M];
 }
+
+function one() {
+  return mg.keys && mg.keys[ONE];
+}

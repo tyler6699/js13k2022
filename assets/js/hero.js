@@ -16,6 +16,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let prevPos={x: this.e.x, y: this.e.y};
   this.hereos = []
   let currentHero = []
+  let showDeaths = 0;
 
   this.update = function(ctx, delta){
     this.time+=delta;
@@ -71,7 +72,7 @@ function hero(w, h, x, y, angle, type, scale) {
     if (up() || space()) this.jump();
 
     // draw the dead ones
-    this.hereos.forEach(e => drawDead(ctx, e));
+    this.hereos.forEach((e,i) => drawDead(ctx, e, i, this.hereos.length-1));
 
     this.e.update(delta);
 
@@ -81,6 +82,12 @@ function hero(w, h, x, y, angle, type, scale) {
       prevPos={x: this.e.x, y: this.e.y};
     }
 
+    if(one() && this.hereos.length > 0){
+      showDeaths = .1;
+      this.hereos[this.hereos.length-1].pop();
+      if(this.hereos[this.hereos.length-1].length == 0 )this.hereos.splice(this.hereos.length-1,1);
+    }
+    if(showDeaths>0) showDeaths -= delta;
     //console.log("Can fall: " + this.canFall() + " Coyote: " + coyote + " Grounded: " + this.grounded());
   }
 
@@ -187,12 +194,19 @@ function hero(w, h, x, y, angle, type, scale) {
     return amount;
   }
 
-  function drawDead(ctx, e) {
-    if(e.constructor === Array){
+  function drawDead(ctx, e, i, j) {
+    // If the rewind is active show all the frames
+    if(e.constructor === Array && showDeaths>0 && i == j){
       e.forEach(f => drawDead(ctx, f));
-    } else {
-      //let last = e[e.length-1];
-      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, e.x, e.y, .6, scale);
+    } else if(showDeaths>0) {
+      // if we are drawing frames then make the transparent
+      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, e.x, e.y, showDeaths, scale);
+    }
+
+    // Always draw the last frame of each death
+    if(e.constructor === Array){
+      let last = e[e.length-1];
+      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, last.x, last.y, .6, scale);
     }
   }
 

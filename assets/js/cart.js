@@ -70,7 +70,7 @@ function Cart() {
     let my = mousePos.y;
     let mw = 4;
     let mh = 20;
-    ctx.fillStyle='BLACK'
+    ctx.fillStyle='WHITE'
     ctx.globalAlpha=.4;
     w=mw*2;
     h=mh*2;
