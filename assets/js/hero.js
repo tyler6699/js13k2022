@@ -5,8 +5,8 @@ function hero(w, h, x, y, angle, type, scale) {
   let jumping=false;
   let speed=0;
   let maxSpeed=6;
-  let maxJumpTime=.5;
-  let maxJumpH=16;
+  let maxJumpTime=.45;
+  let maxJumpH=14;
   let jumpH=0;
   let jumpTime=0;
   let gravity=7;
@@ -20,6 +20,12 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.update = function(ctx, delta){
     this.time+=delta;
+
+    // Add current position to Array
+    if(prevPos.x != this.e.x || prevPos.y != this.e.y){
+      addCoords(this.e.x, this.e.y, currentHero);
+      prevPos={x: this.e.x, y: this.e.y};
+    }
 
     // Controls
     if(!left() && !right()){
@@ -57,15 +63,10 @@ function hero(w, h, x, y, angle, type, scale) {
     if(this.grounded() && coyote != 0 && !jumping) coyote=0;
 
     if(currentTile != null && currentTile.entity.type == types.SPIKE){
-      console.log("death");
       this.hereos.push(currentHero);
       currentHero = [];
       this.e.x = 150;
       this.e.y=300;
-      // Track the hero during life, when death occurs add all of the positions to an Array
-      // Allow the player to rewind the position of the previous death
-      // if they rewind to the begining then the soul re enters the player
-      // The dead body can be used as a platform
     }
 
     // Jump
@@ -76,19 +77,12 @@ function hero(w, h, x, y, angle, type, scale) {
 
     this.e.update(delta);
 
-    // Add current position to Array
-    if(prevPos.x != this.e.x || prevPos.y != this.e.y){
-      addCoords(this.e.x, this.e.y, currentHero);
-      prevPos={x: this.e.x, y: this.e.y};
-    }
-
     if(one() && this.hereos.length > 0){
       showDeaths = .1;
       this.hereos[this.hereos.length-1].pop();
       if(this.hereos[this.hereos.length-1].length == 0 )this.hereos.splice(this.hereos.length-1,1);
     }
     if(showDeaths>0) showDeaths -= delta;
-    //console.log("Can fall: " + this.canFall() + " Coyote: " + coyote + " Grounded: " + this.grounded());
   }
 
   this.setCurrentTile = function(scaled){
@@ -99,30 +93,22 @@ function hero(w, h, x, y, angle, type, scale) {
     if(currentTile != null) this.prevTile = currentTile;
     currentTile = cart.level.tiles[heroTileIndex];
 
-    if(currentTile != this.prevTile){
-      console.log("Hero Moved: " + this.e.colArr.length);
+    if(this.e.x != prevPos.x || this.e.y != prevPos.y){
       this.e.colArr = [];
-      console.log("Cleared tiles: " + this.e.colArr.length);
 
       // Add surrounding tiles
       cart.surTiles.forEach(e => this.e.colArr.push(cart.level.tiles[heroTileIndex+e]));
-      console.log("Added Surrounding tiles: " + this.e.colArr.length);
 
       // add an entity for each dead body
-      console.log("Add bodies: " + this.e.colArr.length);
       this.hereos.forEach(e => addBody(e, this.e.colArr));
-      console.log("Final Count: " + this.e.colArr.length);
     }
   }
 
   function addBody(e, arr){
-    console.log("Add Body: " + arr.length)
     let body = e[e.length-1];
     let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale);
     tile.entity.updateHitbox();
-    console.log(tile);
     arr.push(tile);
-    console.log("Added Body: " + arr.length)
   }
 
   this.canFall = function(){

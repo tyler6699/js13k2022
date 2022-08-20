@@ -18,7 +18,7 @@ function Cart() {
   this.scale = 3*ratio;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
-  this.hero = new hero(16, 16, canvasW/2, 200, 0, types.HERO, this.scale);
+  this.hero = new hero(16, 16, 200, 200, 0, types.HERO, this.scale);
   this.introT=0;
   this.shake=0;
   this.shakeTime=0;
