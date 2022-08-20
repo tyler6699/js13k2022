@@ -17,12 +17,13 @@ function hero(w, h, x, y, angle, type, scale) {
   this.hereos = []
   let currentHero = []
   let showDeaths = 0;
+  let rewindDelay=.1;
 
   this.update = function(ctx, delta){
     this.time+=delta;
 
     // Add current position to Array
-    if(prevPos.x != this.e.x || prevPos.y != this.e.y){
+    if(Math.abs(prevPos.x - this.e.x) > 20 || Math.abs(prevPos.y - this.e.y) > 20){
       addCoords(this.e.x, this.e.y, currentHero);
       prevPos={x: this.e.x, y: this.e.y};
     }
@@ -79,8 +80,13 @@ function hero(w, h, x, y, angle, type, scale) {
 
     if(one() && this.hereos.length > 0){
       showDeaths = .1;
-      this.hereos[this.hereos.length-1].pop();
-      if(this.hereos[this.hereos.length-1].length == 0 )this.hereos.splice(this.hereos.length-1,1);
+      if(rewindDelay <= 0){
+          rewindDelay=.1;
+        this.hereos[this.hereos.length-1].pop();
+        if(this.hereos[this.hereos.length-1].length == 0 )this.hereos.splice(this.hereos.length-1,1);
+      } else {
+        rewindDelay -= delta;
+      }
     }
     if(showDeaths>0) showDeaths -= delta;
   }
