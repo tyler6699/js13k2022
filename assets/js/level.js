@@ -49,6 +49,11 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
           type = types.BLOCK;
         }
 
+        if (r==rows-3 && c==11) type = types.SPIKE;
+        if (r==rows-3 && c==12) type = types.SPIKE;
+        if (r==rows-3 && c==13) type = types.SPIKE;
+        if (r==rows-3 && c==14) type = types.SPIKE;
+
         tile = new Tile(tileSize, xx, yy, angle, type, false, c, r, scale);
         this.tiles.push(tile);
       }

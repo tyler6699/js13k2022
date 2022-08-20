@@ -100,11 +100,29 @@ function hero(w, h, x, y, angle, type, scale) {
     currentTile = cart.level.tiles[heroTileIndex];
 
     if(currentTile != this.prevTile){
+      console.log("Hero Moved: " + this.e.colArr.length);
       this.e.colArr = [];
+      console.log("Cleared tiles: " + this.e.colArr.length);
 
       // Add surrounding tiles
       cart.surTiles.forEach(e => this.e.colArr.push(cart.level.tiles[heroTileIndex+e]));
+      console.log("Added Surrounding tiles: " + this.e.colArr.length);
+
+      // add an entity for each dead body
+      console.log("Add bodies: " + this.e.colArr.length);
+      this.hereos.forEach(e => addBody(e, this.e.colArr));
+      console.log("Final Count: " + this.e.colArr.length);
     }
+  }
+
+  function addBody(e, arr){
+    console.log("Add Body: " + arr.length)
+    let body = e[e.length-1];
+    let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale);
+    tile.entity.updateHitbox();
+    console.log(tile);
+    arr.push(tile);
+    console.log("Added Body: " + arr.length)
   }
 
   this.canFall = function(){
