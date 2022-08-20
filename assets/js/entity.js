@@ -144,8 +144,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sx=16;
         break;
       case types.SPIKE:
-        this.sx=16;
-        this.sy=16;
+        this.sx=48;
         break;
       case types.FLOOR:
         this.sx=32;
@@ -157,6 +156,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         break;
      }
   }
-  
+
   this.setType();
 }
