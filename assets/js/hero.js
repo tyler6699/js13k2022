@@ -1,6 +1,7 @@
 function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
   this.e.hp=100;
+  this.hereos = []
   let currentTile=null;
   let jumping=false;
   let speed=0;
@@ -14,7 +15,6 @@ function hero(w, h, x, y, angle, type, scale) {
   let coyote=maxCoyote;
   let lastDir = RIGHT;
   let prevPos={x: this.e.x, y: this.e.y};
-  this.hereos = []
   let currentHero = []
   let showDeaths = 0;
   let rewindDelay=.1;
@@ -78,12 +78,20 @@ function hero(w, h, x, y, angle, type, scale) {
 
     this.e.update(delta);
 
+    // Rewind the last death
     if(one() && this.hereos.length > 0){
       showDeaths = .1;
       if(rewindDelay <= 0){
-          rewindDelay=.1;
-        this.hereos[this.hereos.length-1].pop();
-        if(this.hereos[this.hereos.length-1].length == 0 )this.hereos.splice(this.hereos.length-1,1);
+        rewindDelay=.1;
+        // check if new location would cause collision
+        let arr = this.hereos[this.hereos.length-1];
+        let body = arr[arr.length-2];
+        rec = new rectanlge(body.x, body.y, this.e.hb.w, this.e.hb.h);
+
+        if(!rectColiding(this.e.hb,rec)){
+          this.hereos[this.hereos.length-1].pop();
+          if(this.hereos[this.hereos.length-1].length == 0 )this.hereos.splice(this.hereos.length-1,1);
+        }
       } else {
         rewindDelay -= delta;
       }
@@ -108,13 +116,6 @@ function hero(w, h, x, y, angle, type, scale) {
       // add an entity for each dead body
       this.hereos.forEach(e => addBody(e, this.e.colArr));
     }
-  }
-
-  function addBody(e, arr){
-    let body = e[e.length-1];
-    let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale);
-    tile.entity.updateHitbox();
-    arr.push(tile);
   }
 
   this.canFall = function(){
@@ -151,8 +152,6 @@ function hero(w, h, x, y, angle, type, scale) {
     return canJump;
   }
 
-  // check for each pixel if the hero can move, starting with full amount
-  // The array contains tiles and mobs (Entities)
   this.gMove = function(xx,yy, grav=false, jump=false, fall=false){
     this.e.idle=0;
 
@@ -202,6 +201,13 @@ function hero(w, h, x, y, angle, type, scale) {
       }
     }
     return amount;
+  }
+
+  function addBody(e, arr){
+    let body = e[e.length-1];
+    let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale);
+    tile.entity.updateHitbox();
+    arr.push(tile);
   }
 
   function drawDead(ctx, e, i, j) {
