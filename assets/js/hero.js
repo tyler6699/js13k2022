@@ -85,7 +85,7 @@ function hero(w, h, x, y, angle, type, scale) {
         rewindDelay=.1;
         // check if new location would cause collision
         let arr = this.hereos[this.hereos.length-1];
-        let body = arr[arr.length-2];
+        let body = arr.length == 1 ? arr[0] : arr[arr.length-2];
         rec = new rectanlge(body.x, body.y, this.e.hb.w, this.e.hb.h);
 
         if(!rectColiding(this.e.hb,rec)){
