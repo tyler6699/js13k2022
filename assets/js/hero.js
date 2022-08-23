@@ -2,6 +2,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
   this.e.hp=100;
   this.hereos = []
+  this.active=true;
   let currentTile=null;
   let jumping=false;
   let speed=0;
@@ -18,6 +19,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let currentHero = []
   let showDeaths = 0;
   let rewindDelay=.1;
+  let hp=9;
 
   this.update = function(ctx, delta){
     this.time+=delta;
@@ -29,22 +31,24 @@ function hero(w, h, x, y, angle, type, scale) {
     }
 
     // Controls
-    if(!left() && !right()){
-      speed = speed > 0 ? speed -= .5 : 0;
-    } else {
-      speed = speed > maxSpeed ? maxSpeed : speed += .5;
-    }
+    if(this.active){
+      if(!left() && !right()){
+        speed = speed > 0 ? speed -= .5 : 0;
+      } else {
+        speed = speed > maxSpeed ? maxSpeed : speed += .5;
+      }
 
-    if (left() || (speed > 0 && lastDir==LEFT)){
-      lastDir=LEFT;
-      this.e.x -= this.gMove(-1,0);
-      this.e.flip = true;
-    }
+      if (left()|| (speed > 0 && lastDir==LEFT)){
+        lastDir=LEFT;
+        this.e.x -= this.gMove(-1,0);
+        this.e.flip = true;
+      }
 
-    if (right() || (speed > 0 && lastDir==RIGHT)){
-      lastDir=RIGHT;
-      this.e.x += this.gMove(1,0);
-      this.e.flip = false;
+      if (right()|| (speed > 0 && lastDir==RIGHT)){
+        lastDir=RIGHT;
+        this.e.x += this.gMove(1,0);
+        this.e.flip = false;
+      }
     }
 
     if(jumpTime <= 0 && this.grounded()){
@@ -63,11 +67,16 @@ function hero(w, h, x, y, angle, type, scale) {
 
     if(this.grounded() && coyote != 0 && !jumping) coyote=0;
 
-    if(currentTile != null && currentTile.entity.type == types.SPIKE){
+    if(currentTile != null && currentTile.entity.type == types.SPIKE && hp>0){
+      hp--;
       this.hereos.push(currentHero);
       currentHero = [];
       this.e.x = 150;
       this.e.y=300;
+
+      if(hp==0){
+        this.active=false;
+      }
     }
 
     // Jump
@@ -75,6 +84,11 @@ function hero(w, h, x, y, angle, type, scale) {
 
     // draw the dead ones
     this.hereos.forEach((e,i) => drawDead(ctx, e, i, this.hereos.length-1));
+
+    //HP
+    for (let i = 1; i <= hp; i++){
+      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2, 1, scale);
+    }
 
     this.e.update(delta);
 
@@ -88,9 +102,14 @@ function hero(w, h, x, y, angle, type, scale) {
         let body = arr.length == 1 ? arr[0] : arr[arr.length-2];
         rec = new rectanlge(body.x, body.y, this.e.hb.w, this.e.hb.h);
 
-        if(!rectColiding(this.e.hb,rec)){
+        if(!rectColiding(this.e.hb,rec) || !this.active){
           this.hereos[this.hereos.length-1].pop();
-          if(this.hereos[this.hereos.length-1].length == 0 )this.hereos.splice(this.hereos.length-1,1);
+
+          if(this.hereos[this.hereos.length-1].length == 0 ){
+            this.hereos.splice(this.hereos.length-1,1);
+            hp++;
+            this.active=true;
+          }
         }
       } else {
         rewindDelay -= delta;
@@ -123,7 +142,7 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.jump = function(){
-    if(!jumping && coyote <= maxCoyote){
+    if(!jumping && coyote <= maxCoyote && this.active){
       coyote=maxCoyote;
       jumping=true;
       jumpTime=maxJumpTime;
@@ -205,9 +224,11 @@ function hero(w, h, x, y, angle, type, scale) {
 
   function addBody(e, arr){
     let body = e[e.length-1];
-    let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale);
-    tile.entity.updateHitbox();
-    arr.push(tile);
+    if(body!=null){
+      let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale);
+      tile.entity.updateHitbox();
+      arr.push(tile);
+    }
   }
 
   function drawDead(ctx, e, i, j) {
@@ -222,7 +243,7 @@ function hero(w, h, x, y, angle, type, scale) {
     // Always draw the last frame of each death
     if(e.constructor === Array){
       let last = e[e.length-1];
-      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, last.x, last.y, .6, scale);
+      if(last!=null) drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, last.x, last.y, .6, scale);
     }
   }
 
