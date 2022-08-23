@@ -250,5 +250,4 @@ function hero(w, h, x, y, angle, type, scale) {
   function addCoords(x, y, arr) {
     arr.push({x: x, y: y, d: lastDir})
   }
-
 }
