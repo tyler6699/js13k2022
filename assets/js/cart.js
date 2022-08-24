@@ -10,7 +10,9 @@ function Cart() {
   if (newWidthToHeight > widthToHeight) {
     canvasW = canvasH * widthToHeight;
     ratio=canvasW / totalWidth;
+    console.log("wide");
   } else {
+    console.log("high");
     canvasH = canvasW / widthToHeight;
     ratio=canvasH / totalHeight;
   }
@@ -18,7 +20,7 @@ function Cart() {
   this.scale = 3*ratio;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
-  this.hero = new hero(16, 16, 200, 200, 0, types.HERO, this.scale);
+  this.hero = new hero(16, 16, 40 * this.scale, 100 * this.scale, 0, types.HERO, this.scale);
   this.introT=0;
   this.shake=0;
   this.shakeTime=0;
@@ -56,7 +58,7 @@ function Cart() {
     // Render background
     //drawRect(ctx, 80, 120, 0, 0, 16*this.scaled, 10*this.scaled, this.bkcol, .8);
 
-    this.level.draw(this.hero.e, delta);
+    this.level.draw(this.hero, delta);
 
     // Reset mouse click checker
     processClick = false;

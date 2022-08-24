@@ -4,7 +4,7 @@ function Tile(size, x, y, angle, type, solid, column, row, scale, trigger) {
   this.row = row;
   this.active = true;
   this.trigger=trigger;
-
+  
   this.update = function(delta) {
     this.entity.update(delta);
   }

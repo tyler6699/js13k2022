@@ -3,12 +3,14 @@ function hero(w, h, x, y, angle, type, scale) {
   this.e.hp=100;
   this.hereos = []
   this.active=true;
+  this.hp=9;
   let currentTile=null;
   let jumping=false;
   let speed=0;
-  let maxSpeed=6;
+  let maxSpeed=scale*1.9;
   let maxJumpTime=.45;
   let maxJumpH=14;
+  console.log("Speed:" + maxSpeed + " maxJumpH:"+ maxJumpH);
   let jumpH=0;
   let jumpTime=0;
   let gravity=7;
@@ -19,8 +21,8 @@ function hero(w, h, x, y, angle, type, scale) {
   let currentHero = []
   let showDeaths = 0;
   let rewindDelay=.1;
-  let hp=9;
 
+  console.log("scale: " + scale);
   this.update = function(ctx, delta){
     this.time+=delta;
 
@@ -67,16 +69,9 @@ function hero(w, h, x, y, angle, type, scale) {
 
     if(this.grounded() && coyote != 0 && !jumping) coyote=0;
 
-    if(currentTile != null && currentTile.entity.type == types.SPIKE && hp>0){
-      hp--;
-      this.hereos.push(currentHero);
-      currentHero = [];
-      this.e.x = 150;
-      this.e.y=300;
-
-      if(hp==0){
-        this.active=false;
-      }
+    // Check if death
+    if(currentTile != null && currentTile.entity.type == types.SPIKE){
+      this.kill();
     }
 
     // Jump
@@ -86,7 +81,7 @@ function hero(w, h, x, y, angle, type, scale) {
     this.hereos.forEach((e,i) => drawDead(ctx, e, i, this.hereos.length-1));
 
     //HP
-    for (let i = 1; i <= hp; i++){
+    for (let i = 1; i <= this.hp; i++){
       drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2, 1, scale);
     }
 
@@ -107,7 +102,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
           if(this.hereos[this.hereos.length-1].length == 0 ){
             this.hereos.splice(this.hereos.length-1,1);
-            hp++;
+            this.hp++;
             this.active=true;
           }
         }
@@ -116,6 +111,21 @@ function hero(w, h, x, y, angle, type, scale) {
       }
     }
     if(showDeaths>0) showDeaths -= delta;
+  }
+
+  this.kill = function(){
+    if(this.hp>0){
+      this.hp--;
+      this.hereos.push(currentHero);
+      currentHero = [];
+      // TODO: Reset hero to level start point
+      this.e.x= 40 * scale;
+      this.e.y= 100 * scale;
+
+      if(this.hp==0){
+        this.active=false;
+      }
+    }
   }
 
   this.setCurrentTile = function(scaled){
@@ -237,13 +247,13 @@ function hero(w, h, x, y, angle, type, scale) {
       e.forEach(f => drawDead(ctx, f));
     } else if(showDeaths>0) {
       // if we are drawing frames then make the transparent
-      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, e.x, e.y, showDeaths, scale);
+      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, showDeaths, scale);
     }
 
     // Always draw the last frame of each death
     if(e.constructor === Array){
       let last = e[e.length-1];
-      if(last!=null) drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, last.x, last.y, .6, scale);
+      if(last!=null) drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, last.x, last.y, .6, scale);
     }
   }
 

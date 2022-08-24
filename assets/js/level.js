@@ -19,17 +19,24 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
     // Triggered things
     for(let i=0;i<this.triggers.length;i++){
       let t=this.triggers[i];
+      if(!t.trigger) return;
       let mid=t.entity.x+(t.entity.hWidth*scale);
 
       if(t.entity.type==types.TONNE){
-        let hx=hero.x;
-        let hx2=hero.x+(hero.width*scale);
+        let hx=hero.e.x;
+        let hx2=hero.e.x+(hero.e.width*scale);
         let tx=t.entity.x;
         let tx2=t.entity.x+(t.entity.width*scale);
 
         if( (hx > tx && hx < tx2) || (hx2 > tx && hx2 < tx2)){
-           if(hero.y - hero.height > t.entity.y) t.entity.y+=30;
+           if(hero.e.y - hero.e.height > t.entity.y) t.entity.y+=30;
         }
+
+        if(rectColiding(hero.e.hb, t.entity.hb)){
+          hero.kill();
+          t.trigger=false;
+        }
+
       }
     }
   }
