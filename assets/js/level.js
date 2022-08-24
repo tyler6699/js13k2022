@@ -1,6 +1,7 @@
 function level(num, canvasW, canvasH, id, scale, noDoors = false) {
   STAGE=num;
   this.tiles = [];
+  this.triggers = [];
   this.breakTiles=[];
   this.mvTiles = [];
   this.active = false;
@@ -14,17 +15,35 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
     // Remove decor tiles for now
     //this.dTiles.forEach(e => e.update(delta));
     this.tiles.forEach(e => e.update(delta));
+
+    // Triggered things
+    for(let i=0;i<this.triggers.length;i++){
+      let t=this.triggers[i];
+      let mid=t.entity.x+(t.entity.hWidth*scale);
+
+      if(t.entity.type==types.TONNE){
+        let hx=hero.x;
+        let hx2=hero.x+(hero.width*scale);
+        let tx=t.entity.x;
+        let tx2=t.entity.x+(t.entity.width*scale);
+
+        if( (hx > tx && hx < tx2) || (hx2 > tx && hx2 < tx2)){
+           if(hero.y - hero.height > t.entity.y) t.entity.y+=30;
+        }
+      }
+    }
   }
 
   this.reset = function(id, scaled){
     this.tiles = [];
     this.dTiles = [];
-
+    let trigger=false;
+    let t=0;
     // Main level tiles
     // Testing with a box as a level
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
-
+        trigger=false;
         ts = tileSize * scale;
         xx = c * ts;
         yy = r * ts;
@@ -33,29 +52,30 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
         var angle = 0;
 
         // Create a room
+        // Will move from code to simple array
         if(r == 0 || c == 0 || r == 12 || c == this.cols){
           type = types.AIR;
         } else if (r==rows-3 && c==5){
           type = types.BLOCK;
-        } else if (r==rows-4 && c==5){
-          type = types.BLOCK;
-        } else if (r==rows-6 && c==5){
-          type = types.BLOCK;
-        } else if (r==rows-4 && c==8){
-          //type = types.BLOCK;
-        } else if (r==rows-3 && c==10){
-          type = types.SPIKE;
         } else if (isEdge(r,c,this.cols,rows)){
           type = types.BLOCK;
         }
 
-        if (r==rows-3 && c==11) type = types.SPIKE;
+        if (r==rows-10 && c==8) type = types.TONNE;
         if (r==rows-3 && c==12) type = types.SPIKE;
         if (r==rows-3 && c==13) type = types.SPIKE;
         if (r==rows-3 && c==14) type = types.SPIKE;
 
-        tile = new Tile(tileSize, xx, yy, angle, type, false, c, r, scale);
+        if(type == types.TONNE){
+          trigger=true;
+        }
+
+        tile = new Tile(tileSize, xx, yy, angle, type, false, c, r, scale, trigger);
         this.tiles.push(tile);
+
+        if(tile.trigger==true){
+          this.triggers.push(tile);
+        }
       }
     }
   }

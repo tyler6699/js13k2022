@@ -66,16 +66,16 @@ function Cart() {
 
     // MOUSE
     mg.canvas.style.cursor='none';
-    let mx = mousePos.x;
-    let my = mousePos.y;
-    let mw = 4;
-    let mh = 20;
-    ctx.fillStyle='WHITE'
-    ctx.globalAlpha=.4;
-    w=mw*2;
-    h=mh*2;
-    ctx.fillRect(mx-mw,my-mh,w,h);
-    ctx.fillRect(mx-mh,my-mw,h,w);
+    // let mx = mousePos.x;
+    // let my = mousePos.y;
+    // let mw = 4;
+    // let mh = 20;
+    // ctx.fillStyle='WHITE'
+    // ctx.globalAlpha=.4;
+    // w=mw*2;
+    // h=mh*2;
+    // ctx.fillRect(mx-mw,my-mh,w,h);
+    // ctx.fillRect(mx-mh,my-mw,h,w);
 
     // TODO: Move to utility
     if(this.introT > 0){

@@ -146,6 +146,10 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.SPIKE:
         this.sx=48;
         break;
+      case types.TONNE:
+        this.sx=48;
+        this.sy=16;
+        break;
       case types.FLOOR:
         this.sx=32;
         this.sy=32;

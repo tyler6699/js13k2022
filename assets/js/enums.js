@@ -3,7 +3,8 @@ const types = {
   AIR:2,
   HERO:3,
   WALL:4,
-  SPIKE:5
+  SPIKE:5,
+  TONNE:6
 }
 
 const mobtype = {
