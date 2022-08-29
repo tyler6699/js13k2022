@@ -1,23 +1,30 @@
 function Cart() {
   // Testing making the game fit the screen
-  var totalWidth = 1216; // Tiles are 16x16 scaled up by 4 with 19 columns
-  var totalHeight = 832; // 13 Rows
+  var totalWidth = 800;
+  var totalHeight = 600;
   var widthToHeight = 4 / 3;
-  var newWidthToHeight = canvasW / canvasH;
-  var ratio=0;
+  var newWidth = canvasW/totalWidth;
+  var newHeight = canvasW/totalWidth;
+  var newWidthToHeight = totalHeight / canvasH;
+  var resize=true;
+  this.ratio=0;
 
-  // TODO: Not rendering on all screen sizes!
-  if (newWidthToHeight > widthToHeight) {
-    canvasW = canvasH * widthToHeight;
-    ratio=canvasW / totalWidth;
-    console.log("wide");
+  console.log("Canvas W: " + canvasW + " Canvas H: " + canvasH + " newWidthToHeight:" + newWidthToHeight);
+  console.log("totalWidth: " + totalWidth + " totalHeight: " + totalHeight );
+  console.log("Width Ratio: " + newWidth + " Height Ratio: " + newHeight);
+  console.log("Width:: " + (newWidth*totalWidth) + " Height:: " + (newHeight*totalHeight));
+
+  if (canvasW > totalWidth) {
+    this.ratio=canvasW / totalWidth;
+    console.log("Wider: " + this.ratio);
   } else {
-    console.log("high");
-    canvasH = canvasW / widthToHeight;
-    ratio=canvasH / totalHeight;
+    this.ratio=canvasW / totalWidth;
+    console.log("High Screen: " + this.ratio);
   }
 
-  this.scale = 3*ratio;
+  // if the window is 800px and your canvas 600px, apply scale(/*800/600 = */ 1.2)
+
+  this.scale = 2;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
   this.hero = new hero(16, 16, 40 * this.scale, 100 * this.scale, 0, types.HERO, this.scale);
@@ -47,6 +54,10 @@ function Cart() {
 
   // Render & Logic
   this.update = function(delta, time) {
+    if(resize){
+      resize=false;
+      ctx.scale(this.ratio,this.ratio);
+    }
     // Screen shake
     this.shake = shaky ? Math.cos(TIME) : 0;
 

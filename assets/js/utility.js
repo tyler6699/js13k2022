@@ -73,10 +73,11 @@ function warp(t) {
     Z=2*Math.tan(i/9+t/3)
 }
 
-function drawImg(ctx, img, sx, sy, w, h, x, y, alpha, scale){
+function drawImg(ctx, img, sx, sy, w, h, x, y, alpha, scale, angle=0){
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.translate(x, y);
+  ctx.rotate(angle*Math.PI/180);
   ctx.drawImage(img, sx, sy, w, h, w/2, h/2, w * scale, h * scale);
   ctx.restore();
 }

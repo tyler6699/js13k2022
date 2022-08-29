@@ -7,8 +7,8 @@ function hero(w, h, x, y, angle, type, scale) {
   let currentTile=null;
   let jumping=false;
   let speed=0;
-  let maxSpeed=scale*1.9;
-  let maxJumpTime=.45;
+  let maxSpeed=6;
+  let maxJumpTime=.5;
   let maxJumpH=14;
   console.log("Speed:" + maxSpeed + " maxJumpH:"+ maxJumpH);
   let jumpH=0;

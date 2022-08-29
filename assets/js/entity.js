@@ -69,7 +69,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
     if(this.active && !this.isFloor()) {
       ctx.save();
       ctx.translate(this.x, this.y);
-      ctx.rotate(this.angle);
+      //ctx.rotate(this.angle);
+      ctx.rotate(this.angle*Math.PI/180);
       ctx.globalAlpha = this.alpha;
 
       img = this.image;
@@ -100,6 +101,11 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         }
         f=0; // float
         z=0; // hover
+
+        if(this.angle > 0){
+          ctx.rotate(this.angle*Math.PI/180);
+          ctx.translate(-w*1.5*s,-h*1.5*s);
+        }
 
         ctx.drawImage(img, this.sx, this.sy, w, h, hw+z, hh+f, w * s, h * s);
       }
@@ -144,6 +150,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sx=16;
         break;
       case types.SPIKE:
+        this.sx=48;
+        break;
+      case types.WALLSPIKE:
         this.sx=48;
         break;
       case types.TONNE:
