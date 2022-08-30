@@ -102,7 +102,16 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         f=0; // float
         z=0; // hover
 
+
         if(this.angle > 0){
+          // 1. Move the canvas [0,0] origin to the shape's center point
+          // context.translate( shapeCenterX, shapeCenterY );
+
+          // 2 Rotate the canvas by the desired angle (in radians)
+          // context.rotate( radianAngle );
+
+          // Move the canvas origin back to the top-left corner
+          //  context.translate( -shapeCenterX, -shapeCenterY );
           ctx.rotate(this.angle*Math.PI/180);
           ctx.translate(-w*1.5*s,-h*1.5*s);
         }
