@@ -37,9 +37,6 @@ function hero(w, h, x, y, angle, type, scale) {
       if(!left() && !right()){
         speed = speed > 0 ? speed -= .5 : 0;
         this.e.angle=0;
-        // if(this.e.angle > 0){
-        //   this.e.angle-=200
-        // }
       } else {
         this.e.angle+=20;
         speed = speed > maxSpeed ? maxSpeed : speed += .5;
