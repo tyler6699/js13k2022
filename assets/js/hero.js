@@ -3,7 +3,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.e.hp=100;
   this.hereos = []
   this.active=true;
-  this.hp=9;
+  this.hp=3;
   let currentTile=null;
   let jumping=false;
   let speed=0;
@@ -20,8 +20,8 @@ function hero(w, h, x, y, angle, type, scale) {
   let currentHero = []
   let showDeaths = 0;
   let rewindDelay=.1;
+  let runtime=0;
 
-  console.log("scale: " + scale);
   this.update = function(ctx, delta){
     this.time+=delta;
 
@@ -39,6 +39,7 @@ function hero(w, h, x, y, angle, type, scale) {
         this.e.angle=0;
       } else {
         this.e.angle+=20;
+        runtime+=delta;
         speed = speed > maxSpeed ? maxSpeed : speed += .5;
       }
 
@@ -74,12 +75,14 @@ function hero(w, h, x, y, angle, type, scale) {
     // Check if death
     if(currentTile != null){
       let ct=currentTile.entity.type;
-      if(ct == types.SPIKE || ct == types.LWALLSPIKE){
+      if(ct == types.SPIKE || ct == types.LSPIKE || ct == types.RSPIKE|| ct == types.TSPIKE){
         this.kill();
       } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
         console.log("Pressed");
         currentTile.entity.pressed=true;
         currentTile.entity.sx=80;
+      } else if(ct == types.PORTAL) {
+        console.log("DONE");
       }
 
     }
@@ -121,6 +124,7 @@ function hero(w, h, x, y, angle, type, scale) {
       }
     }
     if(showDeaths>0) showDeaths -= delta;
+    if(runtime>.3) this.addDust();
   }
 
   this.kill = function(){
@@ -155,6 +159,12 @@ function hero(w, h, x, y, angle, type, scale) {
       // add an entity for each dead body
       this.hereos.forEach(e => addBody(e, this.e.colArr));
     }
+  }
+
+  this.addDust = function(){
+    // add dust
+    runtime = 0;
+
   }
 
   this.canFall = function(){

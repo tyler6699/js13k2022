@@ -71,8 +71,11 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
         if (r==rows-3 && c==15) type = types.SPIKE;
         if (r==rows-10 && c==8) type = types.TONNE;
         if (r==rows-3 && c==12) type = types.SPIKE;
-        if (r==rows-7 && c==15) type = types.LWALLSPIKE;
+        if (r==rows-7 && c==15) type = types.LSPIKE;
+        if (r==rows-7 && c==8) type = types.RSPIKE;
+        if (r==rows-7 && c==10) type = types.TSPIKE;
         if (r==rows-3 && c==13) type = types.BUTTON;
+        if (r==rows-3 && c==16) type = types.PORTAL;
 
         if(type == types.TONNE)trigger=true;
 

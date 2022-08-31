@@ -153,9 +153,17 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.SPIKE:
         this.sx=48;
         break;
-      case types.LWALLSPIKE:
+      case types.LSPIKE:
         this.sx=48;
         this.angle=270;
+        break;
+      case types.RSPIKE:
+        this.sx=48;
+        this.angle=90;
+        break;
+      case types.TSPIKE:
+        this.sx=48;
+        this.angle=180;
         break;
       case types.TONNE:
         this.sx=48;
@@ -167,6 +175,11 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.FLOOR:
         this.sx=32;
         this.sy=32;
+        this.alpha = .9;
+        break;
+      case types.PORTAL:
+        this.sx=64;
+        this.sy=16;
         this.alpha = .9;
         break;
       case types.AIR:
