@@ -5,8 +5,8 @@ const types = {
   WALL:4,
   SPIKE:5,
   TONNE:6,
-  WALLSPIKE:5,
-  BUTTON:7
+  LWALLSPIKE:7,
+  BUTTON:8
 }
 
 const mobtype = {

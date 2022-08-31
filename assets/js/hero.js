@@ -36,7 +36,12 @@ function hero(w, h, x, y, angle, type, scale) {
 
       if(!left() && !right()){
         speed = speed > 0 ? speed -= .5 : 0;
+        this.e.angle=0;
+        // if(this.e.angle > 0){
+        //   this.e.angle-=200
+        // }
       } else {
+        this.e.angle+=20;
         speed = speed > maxSpeed ? maxSpeed : speed += .5;
       }
 
@@ -72,7 +77,7 @@ function hero(w, h, x, y, angle, type, scale) {
     // Check if death
     if(currentTile != null){
       let ct=currentTile.entity.type;
-      if(ct == types.SPIKE){
+      if(ct == types.SPIKE || ct == types.LWALLSPIKE){
         this.kill();
       } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
         console.log("Pressed");

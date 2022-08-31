@@ -70,8 +70,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
     if(this.active && !this.isFloor()) {
       ctx.save();
       ctx.translate(this.x, this.y);
-      //ctx.rotate(this.angle);
-      ctx.rotate(this.angle*Math.PI/180);
+      //ctx.rotate(this.angle*Math.PI/180);
       ctx.globalAlpha = this.alpha;
 
       img = this.image;
@@ -103,18 +102,11 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         f=0; // float
         z=0; // hover
 
-        // if(this.angle > 0){
-        //   var o=24;
-        //   // 1. Move the canvas [0,0] origin to the shape's center point
-        //   ctx.translate(32, o);
-        //
-        //   // 2 Rotate the canvas by the desired angle (in radians)
-        // ctx.rotate(this.angle*Math.PI/180);
-        //
-        //   // Move the canvas origin back to the top-left corner
-        //   ctx.translate(-32,-o);
-        //   //ctx.translate(-w*1.5*s,-h*1.5*s);
-        // }
+        if(this.angle > 0){
+          ctx.translate(24,24);
+          ctx.rotate(this.angle*Math.PI/180);
+          ctx.translate(-24,-24);
+        }
 
         ctx.drawImage(img, this.sx, this.sy, w, h, hw+z, hh+f, w * s, h * s);
       }
@@ -161,8 +153,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.SPIKE:
         this.sx=48;
         break;
-      case types.WALLSPIKE:
+      case types.LWALLSPIKE:
         this.sx=48;
+        this.angle=270;
         break;
       case types.TONNE:
         this.sx=48;

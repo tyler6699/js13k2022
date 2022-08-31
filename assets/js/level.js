@@ -71,10 +71,14 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
         if (r==rows-3 && c==15) type = types.SPIKE;
         if (r==rows-10 && c==8) type = types.TONNE;
         if (r==rows-3 && c==12) type = types.SPIKE;
+        if (r==rows-7 && c==15) type = types.LWALLSPIKE;
         if (r==rows-3 && c==13) type = types.BUTTON;
 
         if(type == types.TONNE)trigger=true;
 
+        if(type == types.LWALLSPIKE){
+          angle=90;
+        }
 
         tile = new Tile(tileSize, xx, yy, angle, type, false, c, r, scale, trigger, angle);
         this.tiles.push(tile);
