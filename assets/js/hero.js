@@ -10,7 +10,6 @@ function hero(w, h, x, y, angle, type, scale) {
   let maxSpeed=6;
   let maxJumpTime=.5;
   let maxJumpH=14;
-  console.log("Speed:" + maxSpeed + " maxJumpH:"+ maxJumpH);
   let jumpH=0;
   let jumpTime=0;
   let gravity=7;
@@ -34,6 +33,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
     // Controls
     if(this.active){
+
       if(!left() && !right()){
         speed = speed > 0 ? speed -= .5 : 0;
       } else {
@@ -70,8 +70,16 @@ function hero(w, h, x, y, angle, type, scale) {
     if(this.grounded() && coyote != 0 && !jumping) coyote=0;
 
     // Check if death
-    if(currentTile != null && currentTile.entity.type == types.SPIKE){
-      this.kill();
+    if(currentTile != null){
+      let ct=currentTile.entity.type;
+      if(ct == types.SPIKE){
+        this.kill();
+      } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
+        console.log("Pressed");
+        currentTile.entity.pressed=true;
+        currentTile.entity.sx=80;
+      }
+
     }
 
     // Jump
@@ -247,17 +255,19 @@ function hero(w, h, x, y, angle, type, scale) {
       e.forEach(f => drawDead(ctx, f));
     } else if(showDeaths>0) {
       // if we are drawing frames then make the transparent
-      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, showDeaths, scale);
+      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, .5, scale);
     }
 
     // Always draw the last frame of each death
     if(e.constructor === Array){
       let last = e[e.length-1];
-      if(last!=null) drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, last.x, last.y, .6, scale);
+      if(last!=null) drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, last.x, last.y, .7, scale);
     }
   }
 
   function addCoords(x, y, arr) {
-    arr.push({x: x, y: y, d: lastDir})
+    // Only keep 10 heros
+    if(arr.length>10) arr.splice(0,1);
+    arr.push({x: x, y: y, d: lastDir});
   }
 }

@@ -27,6 +27,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.breaks=false;
   this.flip=false;
   this.idle=0;
+  this.pressed=false;
 
   // ATLAS Positions
   this.sx=0;
@@ -102,19 +103,18 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         f=0; // float
         z=0; // hover
 
-
-        if(this.angle > 0){
-          // 1. Move the canvas [0,0] origin to the shape's center point
-          // context.translate( shapeCenterX, shapeCenterY );
-
-          // 2 Rotate the canvas by the desired angle (in radians)
-          // context.rotate( radianAngle );
-
-          // Move the canvas origin back to the top-left corner
-          //  context.translate( -shapeCenterX, -shapeCenterY );
-          ctx.rotate(this.angle*Math.PI/180);
-          ctx.translate(-w*1.5*s,-h*1.5*s);
-        }
+        // if(this.angle > 0){
+        //   var o=24;
+        //   // 1. Move the canvas [0,0] origin to the shape's center point
+        //   ctx.translate(32, o);
+        //
+        //   // 2 Rotate the canvas by the desired angle (in radians)
+        // ctx.rotate(this.angle*Math.PI/180);
+        //
+        //   // Move the canvas origin back to the top-left corner
+        //   ctx.translate(-32,-o);
+        //   //ctx.translate(-w*1.5*s,-h*1.5*s);
+        // }
 
         ctx.drawImage(img, this.sx, this.sy, w, h, hw+z, hh+f, w * s, h * s);
       }
@@ -167,6 +167,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.TONNE:
         this.sx=48;
         this.sy=16;
+        break;
+      case types.BUTTON:
+        this.sx=64;
         break;
       case types.FLOOR:
         this.sx=32;
