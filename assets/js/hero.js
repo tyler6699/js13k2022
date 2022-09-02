@@ -78,7 +78,6 @@ function hero(w, h, x, y, angle, type, scale) {
       if(ct == types.SPIKE || ct == types.LSPIKE || ct == types.RSPIKE|| ct == types.TSPIKE){
         this.kill();
       } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
-        console.log("Pressed");
         currentTile.entity.pressed=true;
         currentTile.entity.sx=80;
       } else if(ct == types.PORTAL) {
@@ -264,10 +263,11 @@ function hero(w, h, x, y, angle, type, scale) {
   function drawDead(ctx, e, i, j) {
     // If the rewind is active show all the frames
     if(e.constructor === Array && showDeaths>0 && i == j){
-      e.forEach(f => drawDead(ctx, f));
+      for (let d=0; d <= e.length-1; d++){
+        drawDead(ctx, e[d], d, e.length-1);
+      }
     } else if(showDeaths>0) {
-      // if we are drawing frames then make the transparent
-      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, .5, scale);
+      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, (i/j)+.05, scale);
     }
 
     // Always draw the last frame of each death
