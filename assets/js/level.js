@@ -36,7 +36,6 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
           hero.kill();
           t.trigger=false;
         }
-
       }
     }
   }
@@ -69,21 +68,19 @@ function level(num, canvasW, canvasH, id, scale, noDoors = false) {
         }
 
         if (r==rows-3 && c==15) type = types.SPIKE;
-        if (r==rows-10 && c==8) type = types.TONNE;
+        if (r==rows-10 && c==5) type = types.TONNE;
         if (r==rows-3 && c==12) type = types.SPIKE;
         if (r==rows-7 && c==15) type = types.LSPIKE;
         if (r==rows-7 && c==8) type = types.RSPIKE;
         if (r==rows-7 && c==10) type = types.TSPIKE;
-        if (r==rows-3 && c==13) type = types.BUTTON;
+        if (r==rows-3 && c==4) type = types.BUTTON;
         if (r==rows-3 && c==16) type = types.PORTAL;
+        if (r==rows-4 && c==5) type = types.DOOR;
+        //if (r==rows-5 && c==5) type = types.DOOR;
 
         if(type == types.TONNE)trigger=true;
 
-        if(type == types.LWALLSPIKE){
-          angle=90;
-        }
-
-        tile = new Tile(tileSize, xx, yy, angle, type, false, c, r, scale, trigger, angle);
+        tile = new Tile(tileSize, xx, yy, angle, type, false, c, r, scale, trigger);
         this.tiles.push(tile);
 
         if(tile.trigger==true){

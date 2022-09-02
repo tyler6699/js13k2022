@@ -4,6 +4,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.hereos = []
   this.active=true;
   this.hp=3;
+  this.particles=[];
   let currentTile=null;
   let jumping=false;
   let speed=0;
@@ -72,7 +73,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
     if(this.grounded() && coyote != 0 && !jumping) coyote=0;
 
-    // Check if death
+    // Check Actions on tiles
     if(currentTile != null){
       let ct=currentTile.entity.type;
       if(ct == types.SPIKE || ct == types.LSPIKE || ct == types.RSPIKE|| ct == types.TSPIKE){
@@ -80,7 +81,9 @@ function hero(w, h, x, y, angle, type, scale) {
       } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
         currentTile.entity.pressed=true;
         currentTile.entity.sx=80;
+        playSound(COINFX,.8);
       } else if(ct == types.PORTAL) {
+        // Play intro for next level
         console.log("DONE");
       }
 
@@ -95,6 +98,10 @@ function hero(w, h, x, y, angle, type, scale) {
     //HP
     for (let i = 1; i <= this.hp; i++){
       drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2, 1, scale);
+    }
+
+    for (let i = 0; i <= this.particles.length-1; i++){
+      this.particles[i].update(ctx,delta);
     }
 
     this.e.update(delta);
@@ -124,9 +131,16 @@ function hero(w, h, x, y, angle, type, scale) {
     }
     if(showDeaths>0) showDeaths -= delta;
     if(runtime>.3) this.addDust();
+
+    // Remove Particles
+    this.particles = this.particles.filter(function (p) {
+      return p.remove == false;
+    });
   }
 
   this.kill = function(){
+    this.bloodSplatter();
+    playSound(DIEFX,1);
     if(this.hp>0){
       this.hp--;
       this.hereos.push(currentHero);
@@ -163,7 +177,6 @@ function hero(w, h, x, y, angle, type, scale) {
   this.addDust = function(){
     // add dust
     runtime = 0;
-
   }
 
   this.canFall = function(){
@@ -254,7 +267,7 @@ function hero(w, h, x, y, angle, type, scale) {
   function addBody(e, arr){
     let body = e[e.length-1];
     if(body!=null){
-      let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale);
+      let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale, false);
       tile.entity.updateHitbox();
       arr.push(tile);
     }
@@ -274,6 +287,15 @@ function hero(w, h, x, y, angle, type, scale) {
     if(e.constructor === Array){
       let last = e[e.length-1];
       if(last!=null) drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, last.x, last.y, .7, scale);
+    }
+  }
+
+  this.bloodSplatter = function(){
+    for(let i=0; i<30;i++){
+      let part=new particle(rndNo(1,25), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, "circle");
+      this.particles.push(part)
+      part=new particle(rndNo(1,8), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, "circle");
+      this.particles.push(part)
     }
   }
 

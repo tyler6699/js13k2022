@@ -113,3 +113,13 @@ function resizeCanvas(){
 
   cart.scale = ratio * scale.scale;
 }
+
+function partDir(p) {
+  var angle = rndNo(0, 360) * Math.PI / 180;
+  var value = rndNo(50, 180);
+  var radius = [-1, 1][rndNo(0, 1)] * value;
+  return {
+    x: p.x + radius * Math.cos(angle),
+    y: p.y + radius * Math.sin(angle)
+  }
+}

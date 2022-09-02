@@ -185,6 +185,10 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.AIR:
         this.sx=144;
         break;
+      case types.DOOR:
+        this.isSolid = true;
+        this.sx=32;
+        break;
      }
   }
 

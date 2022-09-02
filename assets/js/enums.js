@@ -9,7 +9,8 @@ const types = {
   RSPIKE:8,
   TSPIKE:9,
   BUTTON:10,
-  PORTAL:11
+  PORTAL:11,
+  DOOR:12
 }
 
 const mobtype = {
