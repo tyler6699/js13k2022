@@ -20,8 +20,10 @@ function hero(w, h, x, y, angle, type, scale) {
   let prevPos={x: this.e.x, y: this.e.y};
   let currentHero = []
   let showDeaths = 0;
-  let rewindDelay=.1;
+  let maxDelay=.15;
+  let rewindDelay=maxDelay;
   let runtime=0;
+  let respawnTime=0;
 
   this.update = function(ctx, delta){
     this.time+=delta;
@@ -34,7 +36,6 @@ function hero(w, h, x, y, angle, type, scale) {
 
     // Controls
     if(this.active){
-
       if(!left() && !right()){
         speed = speed > 0 ? speed -= .5 : 0;
         this.e.angle=0;
@@ -57,6 +58,15 @@ function hero(w, h, x, y, angle, type, scale) {
         this.e.x += this.gMove(1,0);
         this.e.flip = false;
         if(!right()&&this.grounded()) this.addDust();
+      }
+    } else {
+      if(this.hp==1 && respawnTime > 0){
+        respawnTime-=delta;
+
+        if(respawnTime<=0){
+          this.active=true;
+          this.e.sy=0;
+        };
       }
     }
 
@@ -112,10 +122,10 @@ function hero(w, h, x, y, angle, type, scale) {
     this.e.update(delta);
 
     // Rewind the last death
-    if(one() && this.hereos.length > 0){
+    if(one() && this.active && this.hereos.length > 0){
       showDeaths = .1;
       if(rewindDelay <= 0){
-        rewindDelay=.1;
+        rewindDelay=maxDelay;
         // check if new location would cause collision
         let arr = this.hereos[this.hereos.length-1];
         let body = arr.length == 1 ? arr[0] : arr[arr.length-2];
@@ -156,6 +166,11 @@ function hero(w, h, x, y, angle, type, scale) {
 
       if(this.hp==0){
         this.active=false;
+        this.hereos.splice(this.hereos.length-1,1);
+        this.hp++;
+        this.e.sy=16;
+        respawnTime=.4;
+        speed=0;
       }
     }
   }
