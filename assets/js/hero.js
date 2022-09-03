@@ -3,7 +3,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.e.hp=100;
   this.hereos = []
   this.active=true;
-  this.hp=3;
+  this.hp=2;
   this.particles=[];
   let currentTile=null;
   let jumping=false;
@@ -85,13 +85,13 @@ function hero(w, h, x, y, angle, type, scale) {
       } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
         currentTile.entity.pressed=true;
         currentTile.entity.sx=80;
+        cart.levels[this.e.currentLevel].opendoors=true;
         playSound(COINFX,.8);
       } else if(ct == types.PORTAL) {
         // Play intro for next level
         console.log("DONE");
         this.bloodSplatter(true);
       }
-
     }
 
     // Jump
@@ -101,7 +101,7 @@ function hero(w, h, x, y, angle, type, scale) {
     this.hereos.forEach((e,i) => drawDead(ctx, e, i, this.hereos.length-1));
 
     //HP
-    for (let i = 1; i <= this.hp; i++){
+    for (let i = 1; i < this.hp; i++){
       drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2, 1, scale);
     }
 
@@ -283,9 +283,7 @@ function hero(w, h, x, y, angle, type, scale) {
   function drawDead(ctx, e, i, j) {
     // If the rewind is active show all the frames
     if(e.constructor === Array && showDeaths>0 && i == j){
-      for (let d=0; d <= e.length-1; d++){
-        drawDead(ctx, e[d], d, e.length-1);
-      }
+      e.forEach((d) => drawDead(ctx, d, i, e.length-1));
     } else if(showDeaths>0) {
       drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, (i/j)+.05, scale);
     }

@@ -37,8 +37,9 @@ function Cart() {
   this.genLevel = function(num){
     this.bkcol = ranColor();
     this.levels = []; // Array to get tiles surrounding an entity
+    let doors = [64,0];
     for(i=0;i<1;i++){
-      var lvl = new level(num, canvasW, canvasH, i, this.scale);
+      var lvl = new level(num, canvasW, canvasH, i, this.scale, doors[i]);
       lvl.reset(i, this.scaled);
       this.levels.push(lvl);
     }
