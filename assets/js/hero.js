@@ -38,9 +38,10 @@ function hero(w, h, x, y, angle, type, scale) {
       if(!left() && !right()){
         speed = speed > 0 ? speed -= .5 : 0;
         this.e.angle=0;
+        runtime = 0;
       } else {
         this.e.angle+=20;
-        runtime+=delta;
+        runtime += delta;
         speed = speed > maxSpeed ? maxSpeed : speed += .5;
       }
 
@@ -48,12 +49,14 @@ function hero(w, h, x, y, angle, type, scale) {
         lastDir=LEFT;
         this.e.x -= this.gMove(-1,0);
         this.e.flip = true;
+        if(!left()&&this.grounded()) this.addDust();
       }
 
       if (right()|| (speed > 0 && lastDir==RIGHT)){
         lastDir=RIGHT;
         this.e.x += this.gMove(1,0);
         this.e.flip = false;
+        if(!right()&&this.grounded()) this.addDust();
       }
     }
 
@@ -72,6 +75,7 @@ function hero(w, h, x, y, angle, type, scale) {
     }
 
     if(this.grounded() && coyote != 0 && !jumping) coyote=0;
+    if(!this.grounded()) runtime=0;
 
     // Check Actions on tiles
     if(currentTile != null){
@@ -85,6 +89,7 @@ function hero(w, h, x, y, angle, type, scale) {
       } else if(ct == types.PORTAL) {
         // Play intro for next level
         console.log("DONE");
+        this.bloodSplatter(true);
       }
 
     }
@@ -130,7 +135,7 @@ function hero(w, h, x, y, angle, type, scale) {
       }
     }
     if(showDeaths>0) showDeaths -= delta;
-    if(runtime>.3) this.addDust();
+    if(runtime>.35) this.addDust();
 
     // Remove Particles
     this.particles = this.particles.filter(function (p) {
@@ -139,7 +144,7 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.kill = function(){
-    this.bloodSplatter();
+    this.bloodSplatter(false);
     playSound(DIEFX,1);
     if(this.hp>0){
       this.hp--;
@@ -175,7 +180,9 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.addDust = function(){
-    // add dust
+    for(let i=0;i<rndNo(1,4);i++){
+      this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir))
+    }
     runtime = 0;
   }
 
@@ -290,18 +297,16 @@ function hero(w, h, x, y, angle, type, scale) {
     }
   }
 
-  this.bloodSplatter = function(){
+  this.bloodSplatter = function(rndCol){
     for(let i=0; i<30;i++){
-      let part=new particle(rndNo(1,25), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, "circle");
-      this.particles.push(part)
-      part=new particle(rndNo(1,8), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, "circle");
-      this.particles.push(part)
+      this.particles.push(new particle(rndNo(1,25), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, "circle", rndCol))
+      this.particles.push(new particle(rndNo(1,8), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, rndCol))
     }
   }
 
   function addCoords(x, y, arr) {
     // Only keep 10 heros
-    if(arr.length>10) arr.splice(0,1);
+    if(arr.length>8) arr.splice(0,1);
     arr.push({x: x, y: y, d: lastDir});
   }
 }
