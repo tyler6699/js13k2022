@@ -307,9 +307,9 @@ function hero(w, h, x, y, angle, type, scale) {
   function drawDead(ctx, e, i, j) {
     // If the rewind is active show all the frames
     if(e.constructor === Array && showDeaths>0 && i == j){
-      e.forEach((d) => drawDead(ctx, d, i, e.length-1));
+      e.forEach((d,c) => drawDead(ctx, d, c, e.length-1));
     } else if(showDeaths>0) {
-      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, (i/j)+.05, scale);
+      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, (i/j)+.3, scale);
     }
 
     // Always draw the last frame of each death
