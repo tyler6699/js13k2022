@@ -7,6 +7,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let curTile=null;
   let jumping=false;
   let airTime=0;
+  let idle=0;
   let speed=0;
   let maxSpeed=6;
   let maxJumpTime=.5;
@@ -29,7 +30,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.update = function(ctx, delta){
     this.time+=delta;
-
+    idle+=delta;
     // Add current position to Array
     if(Math.abs(prevPos.x - this.e.x) > 20 || Math.abs(prevPos.y - this.e.y) > 20){
       addCoords(this.e.x, this.e.y, currentHero);
@@ -40,7 +41,7 @@ function hero(w, h, x, y, angle, type, scale) {
     if(this.active){
       if(!left() && !right()){
         speed = speed > 0 ? speed -= .5 : 0;
-        this.e.angle=0;
+        if(idle < 3) this.e.angle=0;
         runtime = 0;
       } else {
         this.e.angle+=20;
@@ -112,6 +113,14 @@ function hero(w, h, x, y, angle, type, scale) {
 
     // Jump
     if (up() || space()) this.jump();
+
+    // idle check
+    if(up()||space()||one()||right()||left()) idle=0;
+    if(idle>3){
+      this.e.angle+=40;
+      this.particles.push(new particle(rndNo(10,30), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
+      if(idle>5)idle=0;
+    }
 
     // draw the dead ones
     ctx.save()
