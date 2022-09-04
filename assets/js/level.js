@@ -26,7 +26,8 @@ function level(num, canvasW, canvasH, id, scale, doorDrop) {
         if(mvd<this.doorDrop){
           d.entity.y+=2;
           mvd+=1;
-        } else {
+        } else if (d.entity.active) {
+          cart.shakeTime=.1;
           d.entity.active = false;
         }
       });

@@ -4,7 +4,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.active=true;
   this.hp=2;
   this.particles=[];
-  let currentTile=null;
+  let curTile=null;
   let jumping=false;
   let speed=0;
   let maxSpeed=6;
@@ -23,6 +23,8 @@ function hero(w, h, x, y, angle, type, scale) {
   let rewindDelay=maxDelay;
   let runtime=0;
   let respawnTime=0;
+  let cenX=0;
+  let cenY=0;
 
   this.update = function(ctx, delta){
     this.time+=delta;
@@ -87,20 +89,24 @@ function hero(w, h, x, y, angle, type, scale) {
     if(!this.grounded()) runtime=0;
 
     // Check Actions on tiles
-    if(currentTile != null){
-      let ct=currentTile.entity.type;
+    if(curTile != null){
+      let ct=curTile.entity.type;
       if(ct == types.SPIKE || ct == types.LSPIKE || ct == types.RSPIKE|| ct == types.TSPIKE){
+        this.bloodSplatter(false,cenX,cenY);
+        this.bloodDrip(curTile.entity);
+        console.log(curTile.entity);
         this.kill();
-      } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
+      } else if(ct == types.BUTTON && !curTile.entity.pressed) {
         cart.shakeTime=.1;
-        currentTile.entity.pressed=true;
-        currentTile.entity.sx=80;
+        curTile.entity.pressed=true;
+        curTile.entity.sx=80;
         cart.levels[this.e.curLevel].opendoors=true;
         playSound(COINFX,.8);
+
       } else if(ct == types.PORTAL) {
         // Play intro for next level
         console.log("DONE");
-        this.bloodSplatter(true);
+        this.bloodSplatter(true,cenX,cenY);
       }
     }
 
@@ -152,6 +158,9 @@ function hero(w, h, x, y, angle, type, scale) {
     this.particles = this.particles.filter(function (p) {
       return p.remove == false;
     });
+
+    cenX = this.e.x-this.e.mhWScaled;
+    cenY = this.e.y-this.e.mhHScaled;
   }
 
   this.reset = function(){
@@ -165,7 +174,6 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.kill = function(){
     cart.shakeTime=.15;
-    this.bloodSplatter(false);
     playSound(DIEFX,1);
     if(this.hp>0){
       this.hp--;
@@ -191,8 +199,8 @@ function hero(w, h, x, y, angle, type, scale) {
     heroRow = Math.floor((this.e.y - this.e.mhHScaled) / scaled);
     heroCol = Math.floor((this.e.x - this.e.mhWScaled) / scaled);
     heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols*heroRow);
-    if(currentTile != null) this.prevTile = currentTile;
-    currentTile = cart.level.tiles[heroTileIndex];
+    if(curTile != null) this.prevTile = curTile;
+    curTile = cart.level.tiles[heroTileIndex];
 
     if(this.e.x != prevPos.x || this.e.y != prevPos.y){
       this.e.colArr = [];
@@ -321,10 +329,16 @@ function hero(w, h, x, y, angle, type, scale) {
     }
   }
 
-  this.bloodSplatter = function(rndCol){
+  this.bloodDrip = function(c){
+    for(let i=1;i<10;i++){
+      this.particles.push(new particle(rndNo(1,3), 0,c.x+20+rndNo(0,20), c.y+25, 0, "bld", false));
+    }
+  }
+
+  this.bloodSplatter = function(rndCol,x,y){
     for(let i=0; i<30;i++){
-      this.particles.push(new particle(rndNo(1,25), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, "circle", rndCol))
-      this.particles.push(new particle(rndNo(1,8), 0, this.e.x-this.e.mhWScaled, this.e.y-this.e.mhHScaled, 0, rndCol))
+      this.particles.push(new particle(rndNo(1,25), 0, x, y, 0, "circle", rndCol));
+      this.particles.push(new particle(rndNo(1,8), 0, x, y, 0, rndCol));
     }
   }
 

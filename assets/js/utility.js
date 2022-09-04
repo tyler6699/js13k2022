@@ -77,7 +77,11 @@ function drawImg(ctx, img, sx, sy, w, h, x, y, alpha, scale, angle=0){
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.translate(x, y);
-  ctx.rotate(angle*Math.PI/180);
+  if(angle > 0){
+    ctx.translate(24,24);
+    ctx.rotate(angle*Math.PI/180);
+    ctx.translate(-24,-24);
+  }
   ctx.drawImage(img, sx, sy, w, h, w/2, h/2, w * scale, h * scale);
   ctx.restore();
 }

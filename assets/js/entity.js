@@ -9,6 +9,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.mhHScaled = (h / -2) * scale;
   this.hWidth = w / 2;
   this.hHeight = h / 2;
+  this.cenX=x-this.mhWScaled;
+  this.cenY=y-this.mhHScaled;
   this.angle = angle;
   this.x = x;
   this.y = y;
@@ -70,7 +72,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
     if(this.active && !this.isFloor()) {
       ctx.save();
       ctx.translate(this.x, this.y);
-      //ctx.rotate(this.angle*Math.PI/180);
       ctx.globalAlpha = this.alpha;
 
       img = this.image;
@@ -115,6 +116,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       }
       ctx.restore();
     }
+
+    this.cenX=this.x-this.mhWScaled;
+    this.cenY=this.y-this.mhHScaled;
   }
 
   this.isHero = function(){
