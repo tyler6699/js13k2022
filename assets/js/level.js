@@ -7,6 +7,7 @@ function level(num, canvasW, canvasH, id, scale, doorDrop) {
   this.active = false;
   this.roomNo = id;
   this.opendoors=false;
+  this.startPos=[40,100];
   let tileSize = 16;
   let levelArray;
   let rows = 13;
@@ -58,6 +59,8 @@ function level(num, canvasW, canvasH, id, scale, doorDrop) {
     this.tiles = [];
     this.dTiles = [];
     this.mvTiles = [];
+    this.opendoors=false;
+    mvd=0;
     let trigger=false;
     let t=0;
     // Main level tiles

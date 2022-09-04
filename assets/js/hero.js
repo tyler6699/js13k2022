@@ -1,6 +1,5 @@
 function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
-  this.e.hp=100;
   this.hereos = []
   this.active=true;
   this.hp=2;
@@ -95,7 +94,7 @@ function hero(w, h, x, y, angle, type, scale) {
       } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
         currentTile.entity.pressed=true;
         currentTile.entity.sx=80;
-        cart.levels[this.e.currentLevel].opendoors=true;
+        cart.levels[this.e.curLevel].opendoors=true;
         playSound(COINFX,.8);
       } else if(ct == types.PORTAL) {
         // Play intro for next level
@@ -110,11 +109,12 @@ function hero(w, h, x, y, angle, type, scale) {
     // draw the dead ones
     this.hereos.forEach((e,i) => drawDead(ctx, e, i, this.hereos.length-1));
 
-    //HP
+    // HP
     for (let i = 1; i < this.hp; i++){
       drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2, 1, scale);
     }
 
+    // Particles
     for (let i = 0; i <= this.particles.length-1; i++){
       this.particles[i].update(ctx,delta);
     }
@@ -153,6 +153,15 @@ function hero(w, h, x, y, angle, type, scale) {
     });
   }
 
+  this.reset = function(){
+    this.hereos = [];
+    this.particles=[];
+    this.hp=2;
+    let lvl=cart.levels[this.e.curLevel];
+    this.e.x=lvl.startPos[0] * scale;
+    this.e.y=lvl.startPos[1] * scale;
+  }
+
   this.kill = function(){
     this.bloodSplatter(false);
     playSound(DIEFX,1);
@@ -160,9 +169,9 @@ function hero(w, h, x, y, angle, type, scale) {
       this.hp--;
       this.hereos.push(currentHero);
       currentHero = [];
-      // TODO: Reset hero to level start point
-      this.e.x= 40 * scale;
-      this.e.y= 100 * scale;
+
+      this.e.x= cart.levels[this.e.curLevel].startPos[0] * scale;
+      this.e.y= cart.levels[this.e.curLevel].startPos[1] * scale;
 
       if(this.hp==0){
         this.active=false;
@@ -179,7 +188,7 @@ function hero(w, h, x, y, angle, type, scale) {
     // Set Hero Current Tile
     heroRow = Math.floor((this.e.y - this.e.mhHScaled) / scaled);
     heroCol = Math.floor((this.e.x - this.e.mhWScaled) / scaled);
-    heroTileIndex = heroCol + (cart.levels[this.e.currentLevel].cols*heroRow);
+    heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols*heroRow);
     if(currentTile != null) this.prevTile = currentTile;
     currentTile = cart.level.tiles[heroTileIndex];
 

@@ -9,10 +9,10 @@ function Cart() {
   var resize=true;
   this.ratio=0;
 
-  console.log("Canvas W: " + canvasW + " Canvas H: " + canvasH + " newWidthToHeight:" + newWidthToHeight);
-  console.log("totalWidth: " + totalWidth + " totalHeight: " + totalHeight );
-  console.log("Width Ratio: " + newWidth + " Height Ratio: " + newHeight);
-  console.log("Width:: " + (newWidth*totalWidth) + " Height:: " + (newHeight*totalHeight));
+  // console.log("Canvas W: " + canvasW + " Canvas H: " + canvasH + " newWidthToHeight:" + newWidthToHeight);
+  // console.log("totalWidth: " + totalWidth + " totalHeight: " + totalHeight );
+  // console.log("Width Ratio: " + newWidth + " Height Ratio: " + newHeight);
+  // console.log("Width:: " + (newWidth*totalWidth) + " Height:: " + (newHeight*totalHeight));
 
   if (canvasW > totalWidth) {
     this.ratio=canvasW / totalWidth;
@@ -23,7 +23,6 @@ function Cart() {
   }
 
   // if the window is 800px and your canvas 600px, apply scale(/*800/600 = */ 1.2)
-
   this.scale = 2;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
@@ -35,7 +34,6 @@ function Cart() {
   this.wait=2;
 
   this.genLevel = function(num){
-    this.bkcol = ranColor();
     this.levels = []; // Array to get tiles surrounding an entity
     let doors = [64,0];
     for(i=0;i<1;i++){
@@ -44,13 +42,13 @@ function Cart() {
       this.levels.push(lvl);
     }
     this.level = this.levels[0];
-    this.hero.e.currentLevel = 0;
+    this.hero.e.curLevel = 0;
   }
 
   this.genLevel(0);
 
   // Changing the number of columns changes the surrounding tiles array.
-  var c = this.levels[this.hero.e.currentLevel].cols;
+  var c = this.levels[this.hero.e.curLevel].cols;
   this.surTiles = [-1,1,c-1,c,c+1,-c-1,-c,-c+1];
 
   // Render & Logic
@@ -80,16 +78,6 @@ function Cart() {
 
     // MOUSE
     mg.canvas.style.cursor='none';
-    // let mx = mousePos.x;
-    // let my = mousePos.y;
-    // let mw = 4;
-    // let mh = 20;
-    // ctx.fillStyle='WHITE'
-    // ctx.globalAlpha=.4;
-    // w=mw*2;
-    // h=mh*2;
-    // ctx.fillRect(mx-mw,my-mh,w,h);
-    // ctx.fillRect(mx-mh,my-mw,h,w);
 
     // TODO: Move to utility
     if(this.introT > 0){
@@ -105,6 +93,12 @@ function Cart() {
         }
       }
       this.introT -= delta*48;
+    }
+
+    if(RELOAD){
+      RELOAD=false;
+      this.levels[this.hero.e.curLevel].reset();
+      this.hero.reset();
     }
   }
 

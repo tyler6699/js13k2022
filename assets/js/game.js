@@ -21,6 +21,7 @@ let processClick = false;
 let holdClick = false;
 let holdClickT = 0;
 let GAMEOVER=false;
+let RELOAD=false;
 let COL1 = "990099";
 let COL2 = "05f2db";
 let WIN = false;
@@ -70,7 +71,7 @@ let mg = {
       mg.keys[e.keyCode] = (e.type == "keydown");
       if(e.keyCode==ONE) shaky = !shaky;
       if(e.keyCode==TWO) cart.bkcol = ranColor();
-      if(e.keyCode==R) GAMEOVER=true;
+      if(e.keyCode==R) RELOAD=true;
     })
     // Mouse Buttons
     window.addEventListener('mousedown', function(e) {
