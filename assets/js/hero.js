@@ -161,7 +161,10 @@ function hero(w, h, x, y, angle, type, scale) {
 
     // Track air time
     if(this.grounded()){
-      if(airTime>.8) this.addDust(true);
+      if(airTime>.8){
+        this.addDust(true);
+        cart.shakeTime=.08;
+      }
       airTime=0;
     } else {
       airTime+=delta;
