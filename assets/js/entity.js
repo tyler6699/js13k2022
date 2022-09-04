@@ -107,7 +107,10 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
           ctx.rotate(this.angle*Math.PI/180);
           ctx.translate(-24,-24);
         }
-
+        if(cart.shakeTime>0){
+          cart.shakeTime-=delta/1000;
+          ctx.translate(cart.shake,cart.shake);
+        }
         ctx.drawImage(img, this.sx, this.sy, w, h, hw+z, hh+f, w * s, h * s);
       }
       ctx.restore();

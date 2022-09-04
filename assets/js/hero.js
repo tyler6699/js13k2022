@@ -92,6 +92,7 @@ function hero(w, h, x, y, angle, type, scale) {
       if(ct == types.SPIKE || ct == types.LSPIKE || ct == types.RSPIKE|| ct == types.TSPIKE){
         this.kill();
       } else if(ct == types.BUTTON && !currentTile.entity.pressed) {
+        cart.shakeTime=.1;
         currentTile.entity.pressed=true;
         currentTile.entity.sx=80;
         cart.levels[this.e.curLevel].opendoors=true;
@@ -163,6 +164,7 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.kill = function(){
+    cart.shakeTime=.15;
     this.bloodSplatter(false);
     playSound(DIEFX,1);
     if(this.hp>0){
