@@ -114,7 +114,10 @@ function hero(w, h, x, y, angle, type, scale) {
     if (up() || space()) this.jump();
 
     // draw the dead ones
+    ctx.save()
+    ctx.translate(cart.cam.x,cart.cam.y);
     this.hereos.forEach((e,i) => drawDead(ctx, e, i, this.hereos.length-1));
+    ctx.restore();
 
     // HP
     for (let i = 1; i < this.hp; i++){

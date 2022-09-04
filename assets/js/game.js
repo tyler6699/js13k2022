@@ -4,7 +4,6 @@
 
 // Reference for new atlas
 // https://twitter.com/CarelessLabs/status/598922902407372800
-
 let canvasW = window.innerWidth;
 let canvasH = window.innerHeight;
 let gameStarted = true;

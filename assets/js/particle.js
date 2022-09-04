@@ -22,7 +22,8 @@ function particle(w, h, x, y, angle, type, win, lastDir=RIGHT) {
 
   this.update = function(ctx, delta) {
     this.time+=delta;
-
+    ctx.save();
+    ctx.translate(cart.cam.x,cart.cam.y);
     if(this.type=="circle"){
       let dir = Math.atan2(this.y-this.endPos.y,this.x-this.endPos.x) + (Math.PI) + (Math.random() - 0.5) * 2;
       if(Math.hypot(this.endPos.x-this.x, this.endPos.y-this.y)>=10){
@@ -68,6 +69,7 @@ function particle(w, h, x, y, angle, type, win, lastDir=RIGHT) {
       if(this.time > 2.5 || this.alpha<=0)this.remove=true;
     }
     ctx.globalAlpha=1;
+    ctx.restore();
   }
 
 }

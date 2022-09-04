@@ -7,6 +7,7 @@ function Cart() {
   var newHeight = canvasW/totalWidth;
   var newWidthToHeight = totalHeight / canvasH;
   var resize=true;
+  this.cam=new Camera();
   this.ratio=0;
 
   // console.log("Canvas W: " + canvasW + " Canvas H: " + canvasH + " newWidthToHeight:" + newWidthToHeight);
