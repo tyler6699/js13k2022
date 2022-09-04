@@ -6,6 +6,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.particles=[];
   let curTile=null;
   let jumping=false;
+  let airTime=0;
   let speed=0;
   let maxSpeed=6;
   let maxJumpTime=.5;
@@ -94,7 +95,6 @@ function hero(w, h, x, y, angle, type, scale) {
       if(ct == types.SPIKE || ct == types.LSPIKE || ct == types.RSPIKE|| ct == types.TSPIKE){
         this.bloodSplatter(false,cenX,cenY);
         this.bloodDrip(curTile.entity);
-        console.log(curTile.entity);
         this.kill();
       } else if(ct == types.BUTTON && !curTile.entity.pressed) {
         cart.shakeTime=.1;
@@ -159,6 +159,13 @@ function hero(w, h, x, y, angle, type, scale) {
       return p.remove == false;
     });
 
+    // Track air time
+    if(this.grounded()){
+      if(airTime>.8) this.addDust(true);
+      airTime=0;
+    } else {
+      airTime+=delta;
+    }
     cenX = this.e.x-this.e.mhWScaled;
     cenY = this.e.y-this.e.mhHScaled;
   }
@@ -213,9 +220,16 @@ function hero(w, h, x, y, angle, type, scale) {
     }
   }
 
-  this.addDust = function(){
-    for(let i=0;i<rndNo(1,4);i++){
-      this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir))
+  this.addDust = function(both=false){
+    if(both){
+      for(let i=0;i<rndNo(5,10);i++){
+        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
+        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
+      }
+    } else {
+      for(let i=0;i<rndNo(1,4);i++){
+        this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
+      }
     }
     runtime = 0;
   }
@@ -331,7 +345,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.bloodDrip = function(c){
     for(let i=1;i<10;i++){
-      this.particles.push(new particle(rndNo(1,3), 0,c.x+20+rndNo(0,20), c.y+25, 0, "bld", false));
+      this.particles.push(new particle(rndNo(1,2), 0,c.x+18+rndNo(0,20), c.y+25+rndNo(1,5), 0, "bld", false));
     }
   }
 
