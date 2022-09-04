@@ -11,6 +11,7 @@ var M = 77;
 var LMB = 0;
 var RMB = 2;
 var SPACE = 32;
+var E = 69;
 var ONE = 49;
 var TWO = 50;
 var THREE = 51;

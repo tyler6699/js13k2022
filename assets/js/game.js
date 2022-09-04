@@ -69,8 +69,6 @@ let mg = {
     })
     window.addEventListener('keyup', function(e) {
       mg.keys[e.keyCode] = (e.type == "keydown");
-      if(e.keyCode==ONE) shaky = !shaky;
-      if(e.keyCode==TWO) cart.bkcol = ranColor();
       if(e.keyCode==R) RELOAD=true;
     })
     // Mouse Buttons
@@ -198,5 +196,5 @@ function map() {
 }
 
 function one() {
-  return mg.keys && mg.keys[ONE];
+  return mg.keys && (mg.keys[ONE]||mg.keys[E]);
 }
