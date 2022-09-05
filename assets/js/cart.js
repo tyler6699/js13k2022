@@ -66,9 +66,6 @@ function Cart() {
     // Render
     renderStarField(TIME);
 
-    // Render background
-    //drawRect(ctx, 80, 120, 0, 0, 16*this.scaled, 10*this.scaled, this.bkcol, .8);
-
     this.level.draw(this.hero, delta);
 
     // Reset mouse click checker

@@ -2,10 +2,10 @@
   "name": "npm",
   "version": "0.1.0",
   "devDependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-uglify-es": "latest",
-    "grunt-contrib-less": "latest",
+    "grunt": "^0.4.5",
     "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-uglify-es": "latest",
     "grunt-contrib-watch": "latest"
   },
   "description": "JS13k Game Jame #11",

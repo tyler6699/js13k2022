@@ -2,7 +2,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
   this.hereos = []
   this.active=true;
-  this.hp=5;
+  this.hp=2;
   this.particles=[];
   let curTile=null;
   let jumping=false;
