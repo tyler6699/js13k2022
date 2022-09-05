@@ -84,6 +84,9 @@ function hero(w, h, x, y, angle, type, scale) {
     // Stop too many wall jumps
     if(wallDelay>0) wallDelay-=delta;
 
+    // Jump
+    if (up() || space()) this.jump();
+
     // Gravity
     if(this.canFall && coyote >= maxCoyote){
       this.e.y += this.gMove(0,1, true, false);
@@ -114,9 +117,6 @@ function hero(w, h, x, y, angle, type, scale) {
         this.bloodSplatter(true,cenX,cenY);
       }
     }
-
-    // Jump
-    if (up() || space()) this.jump();
 
     // idle check
     if(up()||space()||one()||right()||left()) idle=0;
@@ -292,6 +292,8 @@ function hero(w, h, x, y, angle, type, scale) {
     rec = cloneRectanlge(this.e.hb);
     rec.x -= 8;  // Wall Jumping
     rec.w += 16; // Wall Jumping
+    rec.y +=2;
+    rec.h +=4;
     canJump = false;
 
     for (var t = 0; t < this.e.colArr.length; t++) {
