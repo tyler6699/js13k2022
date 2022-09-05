@@ -28,6 +28,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let respawnTime=0;
   let cenX=0;
   let cenY=0;
+  let offScreen=false;
 
   this.update = function(ctx, delta){
     this.time+=delta;
@@ -187,6 +188,12 @@ function hero(w, h, x, y, angle, type, scale) {
     }
     cenX = this.e.x-this.e.mhWScaled;
     cenY = this.e.y-this.e.mhHScaled;
+
+    if(offScreen){
+      offScreen=false;
+      speed=0;
+      this.kill();
+    }
   }
 
   this.reset = function(){
@@ -206,8 +213,8 @@ function hero(w, h, x, y, angle, type, scale) {
       this.hereos.push(currentHero);
       currentHero = [];
 
-      this.e.x= cart.levels[this.e.curLevel].startPos[0] * scale;
-      this.e.y= cart.levels[this.e.curLevel].startPos[1] * scale;
+      this.e.x=cart.levels[this.e.curLevel].startPos[0] * scale;
+      this.e.y=cart.levels[this.e.curLevel].startPos[1] * scale;
 
       if(this.hp==0){
         this.active=false;
@@ -277,14 +284,17 @@ function hero(w, h, x, y, angle, type, scale) {
 
     for (var t = 0; t < this.e.colArr.length; t++) {
       obj = this.e.colArr[t];
-      e = obj.entity;
-      if(obj.isTile()){
-        if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
-          canJump = true;
-          break;
+      if(obj!=null&&obj.entity!=null){
+        e = obj.entity;
+        if(obj.isTile()){
+          if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
+            canJump = true;
+            break;
+          }
         }
       }
     }
+
     return canJump;
   }
 
@@ -298,11 +308,13 @@ function hero(w, h, x, y, angle, type, scale) {
 
     for (var t = 0; t < this.e.colArr.length; t++) {
       obj = this.e.colArr[t];
-      e = obj.entity;
-      if(obj.isTile() && obj.entity.type==types.DEAD){
-        if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
-          canJump = true;
-          break;
+      if(obj!=null&&obj.entity!=null){
+        e = obj.entity;
+        if(obj.isTile() && obj.entity.type==types.DEAD){
+          if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
+            canJump = true;
+            break;
+          }
         }
       }
     }
@@ -333,15 +345,19 @@ function hero(w, h, x, y, angle, type, scale) {
 
       for (var t = 0; t < this.e.colArr.length; t++) {
         obj = this.e.colArr[t];
-        e = obj.entity;
+        if(obj!=null&&obj.entity!=null){
+          e = obj.entity;
 
-        if(obj.isTile()){
-          if(rectColiding(e.hb,rec)){
-            if(obj.active && e.isSolid){
-              canMove = false;
-              break;
+          if(obj.isTile()){
+            if(rectColiding(e.hb,rec)){
+              if(obj.active && e.isSolid){
+                canMove = false;
+                break;
+              }
             }
           }
+        } else {
+          offScreen=true;
         }
       }
       if(canMove){
@@ -352,6 +368,7 @@ function hero(w, h, x, y, angle, type, scale) {
         rec.y -= yy;
       }
     }
+
     return amount;
   }
 
