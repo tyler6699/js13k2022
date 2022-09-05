@@ -1,4 +1,5 @@
 const types = {
+  BLOCK:0,
   FLOOR:1,
   AIR:2,
   HERO:3,

@@ -78,14 +78,11 @@ function level(num, canvasW, canvasH, id, scale, doorDrop) {
 
         // Create a room
         // Will move from code to simple array
-        if(r == 0 || c == 0 || r == 12 || c == this.cols){
-          type = types.AIR;
-        } else if (r==rows-3 && c==5){
-          type = types.BLOCK;
-        } else if (isEdge(r,c,this.cols,rows)){
-          type = types.BLOCK;
-        }
-
+        if(r == 11) type = types.BLOCK;
+        if (r==rows-3 && c==5) type = types.BLOCK;
+        if(c==0)type = types.BLOCK;
+        if(c==1 && r==rows-4)type = types.RSPIKE;
+        if(c==1 && r==rows-5)type = types.RSPIKE;
         if (r==rows-3 && (c>5 && c<16)) type = types.SPIKE;
         if (c==15 && (r<rows-3&&r>rows-8)) type = types.LSPIKE;
         if (c==16 && (r<rows-3&&r>rows-8)) type = types.BLOCK;

@@ -2,7 +2,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
   this.hereos = []
   this.active=true;
-  this.hp=2;
+  this.hp=5;
   this.particles=[];
   let curTile=null;
   let jumping=false;
@@ -14,6 +14,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let maxJumpH=14;
   let jumpH=0;
   let jumpTime=0;
+  let wallDelay=0;
   let gravity=7;
   let maxCoyote=.1;
   let coyote=maxCoyote;
@@ -21,7 +22,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let prevPos={x: this.e.x, y: this.e.y};
   let currentHero = []
   let showDeaths = 0;
-  let maxDelay=.15;
+  let maxDelay=.1;
   let rewindDelay=maxDelay;
   let runtime=0;
   let respawnTime=0;
@@ -76,9 +77,12 @@ function hero(w, h, x, y, angle, type, scale) {
     if(jumpTime <= 0 && this.grounded()){
       jumping=false;
     } else if (jumpTime > 0){
-      this.e.y -= this.gMove(0,-1, false, true)
-      jumpTime-=delta
+      this.e.y -= this.gMove(0,-1, false, true);
+      jumpTime-=delta;
     }
+
+    // Stop too many wall jumps
+    if(wallDelay>0) wallDelay-=delta;
 
     // Gravity
     if(this.canFall && coyote >= maxCoyote){
@@ -254,7 +258,8 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.jump = function(){
-    if(!jumping && coyote <= maxCoyote && this.active){
+    if(!jumping && coyote <= maxCoyote && this.active || (this.wRide()&&wallDelay<=0)){
+      wallDelay=.2;
       coyote=maxCoyote;
       jumping=true;
       jumpTime=maxJumpTime;
@@ -274,6 +279,25 @@ function hero(w, h, x, y, angle, type, scale) {
       obj = this.e.colArr[t];
       e = obj.entity;
       if(obj.isTile()){
+        if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
+          canJump = true;
+          break;
+        }
+      }
+    }
+    return canJump;
+  }
+
+  this.wRide = function(){
+    rec = cloneRectanlge(this.e.hb);
+    rec.x -= 8;  // Wall Jumping
+    rec.w += 16; // Wall Jumping
+    canJump = false;
+
+    for (var t = 0; t < this.e.colArr.length; t++) {
+      obj = this.e.colArr[t];
+      e = obj.entity;
+      if(obj.isTile() && obj.entity.type==types.DEAD){
         if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
           canJump = true;
           break;
@@ -316,11 +340,6 @@ function hero(w, h, x, y, angle, type, scale) {
               break;
             }
           }
-        } else { // MOB
-          if(obj.active && obj.isSolid && rectColiding(obj.hb, rec)){
-            canMove = false;
-            break;
-          }
         }
       }
       if(canMove){
@@ -337,7 +356,7 @@ function hero(w, h, x, y, angle, type, scale) {
   function addBody(e, arr){
     let body = e[e.length-1];
     if(body!=null){
-      let tile = new Tile(16, body.x, body.y, 0, types.BLOCK, false, 0, 0, scale, false);
+      let tile = new Tile(16, body.x, body.y, 0, types.DEAD, false, 0, 0, scale, false);
       tile.entity.updateHitbox();
       arr.push(tile);
     }

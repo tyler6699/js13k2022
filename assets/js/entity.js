@@ -157,6 +157,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.isSolid = true;
         this.sx=16;
         break;
+      case types.DEAD:
+        this.isSolid = true;
       case types.SPIKE:
         this.sx=48;
         break;
