@@ -1,4 +1,4 @@
-function level(num, canvasW, canvasH, id, scale, doorDrop) {
+function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
   STAGE=num;
   this.tiles = [];
   this.triggers = [];
@@ -7,13 +7,13 @@ function level(num, canvasW, canvasH, id, scale, doorDrop) {
   this.active = false;
   this.roomNo = id;
   this.opendoors=false;
-  this.startPos=[40,100];
+  this.startPos=[0,0];
+  this.doorDrop=doorDrop;
   let tileSize = 16;
   let levelArray;
   let rows = 13;
   this.cols = 24;
   let mvd=0;
-  this.doorDrop=doorDrop;
 
   this.draw = function(hero, delta){
     // Remove decor tiles for now
@@ -65,43 +65,32 @@ function level(num, canvasW, canvasH, id, scale, doorDrop) {
     let trigger=false;
     let t=0;
     // Main level tiles
-    // Testing with a box as a level
+    rows=tiles.length;
+    this.cols=tiles[0].length
+
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
+        let t = tiles[r][c];
         trigger=false;
         ts = tileSize * scale;
         xx = c * ts;
         yy = r * ts;
-        var tile;
-        var type = types.AIR;
+
         var angle = 0;
 
-        // Create a room
-        // Will move from code to simple array
-        if(r == 11) type = types.BLOCK;
-        if (r==rows-3 && c==5) type = types.BLOCK;
-        if(c==0)type = types.BLOCK;
-        if(c==1 && r==rows-4)type = types.RSPIKE;
-        if(c==1 && r==rows-5)type = types.RSPIKE;
-        if (r==rows-3 && (c>5 && c<16)) type = types.SPIKE;
-        if (c==15 && (r<rows-3&&r>rows-8)) type = types.LSPIKE;
-        if (c==16 && (r<rows-3&&r>rows-8)) type = types.BLOCK;
-        if (r==rows-3 && c==16) type = types.BLOCK;
-        // if (r==rows-10 && c==5) type = types.TONNE;
-        if (r==rows-3 && c==4) type = types.BUTTON;
-        if (r==rows-5 && c==20) type = types.PORTAL;
-        if (r==rows-4 && c==5) type = types.DOOR;
-        if (r==rows-5 && c==5) type = types.DOOR;
-
-        if(type == types.TONNE)trigger=true;
-
-        tile = new Tile(tileSize, xx, yy, angle, type, false, c, r, scale, trigger);
+        if(t == types.TONNE) trigger=true;
+        if(t == types.HERO){
+          t=types.AIR;
+          this.startPos=[xx,yy];
+        }
+        var tile = new Tile(tileSize, xx, yy, angle, t, false, c, r, scale, trigger);
         this.tiles.push(tile);
 
         if(tile.trigger==true) this.triggers.push(tile);
-        if(type == types.DOOR) this.mvTiles.push(tile);
+        if(t == types.DOOR) this.mvTiles.push(tile);
       }
     }
+
   }
 
   function isAir(t){

@@ -24,7 +24,7 @@ function Cart() {
   }
 
   // if the window is 800px and your canvas 600px, apply scale(/*800/600 = */ 1.2)
-  this.scale = 2;
+  this.scale = 1.8;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
   this.hero = new hero(16, 16, 40 * this.scale, 100 * this.scale, 0, types.HERO, this.scale);
@@ -33,17 +33,36 @@ function Cart() {
   this.shakeTime=0;
   this.reset=false;
   this.wait=2;
+  this.rawlvls=[];
+
+  //Level One
+  this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,1,0,0,0,0,1],
+                    [1,6,0,0,10,0,0,0,0,0,0,0,0,0,0,0,0,5,1,0,0,0,0,1],
+                    [1,6,0,0,10,0,0,0,0,0,0,0,0,0,0,0,0,5,1,0,0,9,0,1],
+                    [1,6,0,8,1,3,3,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]);
 
   this.genLevel = function(num){
     this.levels = []; // Array to get tiles surrounding an entity
+
     let doors = [64,0];
     for(i=0;i<1;i++){
-      var lvl = new level(num, canvasW, canvasH, i, this.scale, doors[i]);
+      var lvl = new level(i+1, canvasW, canvasH, i, this.scale, doors[i], this.rawlvls[i]);
       lvl.reset(i, this.scaled);
       this.levels.push(lvl);
     }
     this.level = this.levels[0];
     this.hero.e.curLevel = 0;
+    this.hero.e.x=this.level.startPos[0];
+    this.hero.e.y=this.level.startPos[1];
   }
 
   this.genLevel(0);

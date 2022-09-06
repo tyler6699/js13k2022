@@ -201,11 +201,12 @@ function hero(w, h, x, y, angle, type, scale) {
     this.particles=[];
     this.hp=2;
     let lvl=cart.levels[this.e.curLevel];
-    this.e.x=lvl.startPos[0] * scale;
-    this.e.y=lvl.startPos[1] * scale;
+    this.e.x=lvl.startPos[0];
+    this.e.y=lvl.startPos[1];
   }
 
   this.kill = function(){
+    console.log("KILL");
     cart.shakeTime=.15;
     playSound(DIEFX,1);
     if(this.hp>0){
@@ -213,8 +214,8 @@ function hero(w, h, x, y, angle, type, scale) {
       this.hereos.push(currentHero);
       currentHero = [];
 
-      this.e.x=cart.levels[this.e.curLevel].startPos[0] * scale;
-      this.e.y=cart.levels[this.e.curLevel].startPos[1] * scale;
+      this.e.x=cart.levels[this.e.curLevel].startPos[0];
+      this.e.y=cart.levels[this.e.curLevel].startPos[1];
 
       if(this.hp==0){
         this.active=false;

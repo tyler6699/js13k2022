@@ -69,7 +69,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
     this.idle+=delta;
     this.updateHitbox();
 
-    if(this.active && !this.isFloor()) {
+    if(this.active) {
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.globalAlpha = this.alpha;
@@ -107,9 +107,10 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         z=0; // hover
 
         if(this.angle > 0){
-          ctx.translate(24,24);
+          let z=22;
+          ctx.translate(z,z);
           ctx.rotate(this.angle*Math.PI/180);
-          ctx.translate(-24,-24);
+          ctx.translate(-z,-z);
         }
 
         ctx.drawImage(img, this.sx, this.sy, w, h, hw+z, hh+f, w * s, h * s);
@@ -132,10 +133,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.setT = function(t){
     this.type = t;
     this.setType();
-  }
-
-  this.isFloor = function(){
-    return this.type == types.FLOOR;
   }
 
   this.setType = function(){
