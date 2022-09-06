@@ -219,7 +219,7 @@ write_map=()=>{
       d.M[d.m[i][1]][d.m[i][0]]=d.m[i][2];
     }
   }
-  map_array.innerHTML="this.levels.push([["+d.M.join("],\n[")+"]]);";
+  map_array.innerHTML="this.rawlvls.push([["+d.M.join("],\n[")+"]]);";
   download.href="data:text;base64,"+btoa(d.M.map(u=>u.join("")).join("\n"));
 }
 </script>

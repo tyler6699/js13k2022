@@ -9,9 +9,11 @@ function hero(w, h, x, y, angle, type, scale) {
   let airTime=0;
   let idle=0;
   let speed=0;
-  let maxSpeed=6;
+  // HERO PARAMS
+  let maxSpeed=5;
   let maxJumpTime=.5;
-  let maxJumpH=14;
+  let maxJumpH=13;
+  //
   let jumpH=0;
   let jumpTime=0;
   let wallDelay=0;
@@ -193,6 +195,7 @@ function hero(w, h, x, y, angle, type, scale) {
       offScreen=false;
       speed=0;
       this.kill();
+      if(this.hp>1)this.hp++;
     }
   }
 
@@ -279,8 +282,6 @@ function hero(w, h, x, y, angle, type, scale) {
   this.grounded = function(){
     rec = cloneRectanlge(this.e.hb);
     rec.y += 2;
-    //rec.x -= 8;  // Wall Jumping
-    //rec.w += 16; // Wall Jumping
     canJump = false;
 
     for (var t = 0; t < this.e.colArr.length; t++) {
@@ -357,7 +358,7 @@ function hero(w, h, x, y, angle, type, scale) {
               }
             }
           }
-        } else {
+        } else if(this.e.y>500) {
           offScreen=true;
         }
       }
