@@ -33,7 +33,6 @@ function Cart() {
   this.wait=2;
   this.rawlvls=[];
 
-let a=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   //Level One
   this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -44,7 +43,7 @@ let a=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
-  [1,6,2,0,10,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
+  [1,6,2,0,10,0,9,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
   [1,6,0,0,10,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,9,0,0,1],
   [1,6,0,8,1,3,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,0,1],
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]);
@@ -78,14 +77,15 @@ this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   this.genLevel = function(num){
     this.levels = []; // Array to get tiles surrounding an entity
 
-    let doors = [64,0];
+    let doors = [64,30];
     for(i=0; i<this.rawlvls.length; i++){
       var lvl = new level(i+1, canvasW, canvasH, i, this.scale, doors[i], this.rawlvls[i]);
       lvl.reset(i, this.scaled);
       this.levels.push(lvl);
     }
-    this.level = this.levels[2];
-    this.hero.e.curLevel = 2;
+    // TODO Function this
+    this.level = this.levels[0];
+    this.hero.e.curLevel = 0;
     this.hero.e.x=this.level.startPos[0];
     this.hero.e.y=this.level.startPos[1];
   }
@@ -144,6 +144,14 @@ this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       this.hero.reset();
     }
 
+    if(this.hero.doneTime<=0 && this.hero.changeLevel){
+      console.log(this.hero.doneTime + " " + this.hero.changeLevel);
+      this.hero.e.curLevel += 1;
+      console.log("Load level: " + this.hero.e.curLevel)
+      this.level = this.levels[this.hero.e.curLevel];
+      this.hero.changeLevel=false;
+      this.hero.reset();
+    }
     // Follow hero
     this.cam.x = lerp(-this.hero.e.x + (totalWidth/2)-20,this.cam.x ,.8);
     this.cam.y = lerp(-this.hero.e.y + (totalHeight/2)-80,this.cam.y ,.8);

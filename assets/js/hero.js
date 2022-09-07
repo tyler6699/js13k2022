@@ -31,6 +31,9 @@ function hero(w, h, x, y, angle, type, scale) {
   let cenX=0;
   let cenY=0;
   let offScreen=false;
+  this.doneTime=0;
+  this.done=false;
+  this.changeLevel=false;
 
   this.update = function(ctx, delta){
     this.time+=delta;
@@ -116,9 +119,19 @@ function hero(w, h, x, y, angle, type, scale) {
 
       } else if(ct == types.PORTAL) {
         // Play intro for next level
-        console.log("DONE");
         this.bloodSplatter(true,cenX,cenY);
+        // Count down to level change
+        if(!this.done){
+          this.doneTime=1;
+          this.done=true;
+        }
       }
+    }
+
+    // Win check
+    if(this.doneTime>0){
+      this.doneTime-=delta;
+      this.changeLevel=true;
     }
 
     // idle check
@@ -183,6 +196,7 @@ function hero(w, h, x, y, angle, type, scale) {
       if(airTime>.8){
         this.addDust(true);
         cart.shakeTime=.08;
+        playSound(SHOOT,.4);
       }
       airTime=0;
     } else {
@@ -200,6 +214,8 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.reset = function(){
+    this.doneTime=0;
+    this.done=false;
     this.hereos = [];
     this.particles=[];
     this.hp=2;
