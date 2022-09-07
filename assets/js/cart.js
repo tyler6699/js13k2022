@@ -102,6 +102,7 @@ this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       resize=false;
       ctx.scale(this.ratio,this.ratio);
     }
+
     // Screen shake
     this.shake = shaky ? Math.cos(TIME) : 0;
 
