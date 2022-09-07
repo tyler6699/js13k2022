@@ -6,7 +6,7 @@
 // https://twitter.com/CarelessLabs/status/598922902407372800
 let canvasW = window.innerWidth;
 let canvasH = window.innerHeight;
-let gameStarted = true;
+let gameStarted = false;
 let delta = 0.0;
 let prevDelta = Date.now();
 let currentDelta = Date.now();
@@ -31,10 +31,6 @@ let shaky = true;
 let cart = new Cart();
 let v = speechSynthesis.getVoices();
 let talk = true;
-
-// TODO move this after menu screen is no longer skipped
-audioCtx = new AudioContext()
-// Audio
 let start=false;
 
 // Called by body onload on index page
@@ -60,8 +56,12 @@ let mg = {
     this.frameNo = 0;
     this.interval = setInterval(updateGameArea, 20);
 
+    // Generate intro screen
+    cart.genLevel(0);
+
     // Keyboard
     window.addEventListener('keydown', function(e) {
+      start=true;
       e.preventDefault();
       mg.keys = (mg.keys || []);
       mg.keys[e.keyCode] = (e.type == "keydown");
@@ -69,34 +69,6 @@ let mg = {
     window.addEventListener('keyup', function(e) {
       mg.keys[e.keyCode] = (e.type == "keydown");
       if(e.keyCode==R) RELOAD=true;
-    })
-    // Mouse Buttons
-    window.addEventListener('mousedown', function(e) {
-      e.preventDefault();
-      mg.keys = (mg.keys || []);
-      mg.keys[e.button] = true;
-      holdClick = true;
-    })
-    window.addEventListener('mouseup', function(e) {
-      e.preventDefault();
-      mg.keys = (mg.keys || []);
-      mg.keys[e.button] = false;
-      holdClick = false;
-      holdClickT = 0;
-      processClick = true;
-      if(!start && TIME>2000) start=true;
-      setclicks();
-    })
-    //window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('mousemove', function(e) {
-      e.preventDefault();
-      let r = mg.canvas.getBoundingClientRect();
-      mousePos.set((e.clientX - r.left) / (r.right - r.left) * canvasW,
-                   (e.clientY - r.top) / (r.bottom - r.top) * canvasH);
-      row = Math.floor(mousePos.y / this.scaled);
-      col = Math.floor(mousePos.x / this.scaled);
-
-      setclicks();
     })
     // Disable right click context menu
     this.canvas.oncontextmenu = function(e) {
@@ -111,15 +83,9 @@ let mg = {
   }
 }
 
-function setclicks(){
-  clickedAt.set(mousePos.x, mousePos.y);
-}
-
 function updateGameArea() {
   if(GAMEOVER){
     TIME=0;
-    let h = cart.hero;
-    h.e.hp=100;
     GAMEOVER=false;
     WIN=false;
     STAGE=0;
@@ -128,7 +94,7 @@ function updateGameArea() {
     cart.genLevel(STAGE);
   }
 
-  if(start && TIME>2000){
+  if(start){
     if(cart.hero != null)cart.hero.e.active=true;
     gameStarted=true;
     if(audioCtx == null) audioCtx = new AudioContext();
@@ -144,14 +110,15 @@ function updateGameArea() {
     // intro Screen
     mg.clear();
     ctx = mg.context;
+    cart.update(delta, TIME, true);
     ctx.save();
-    drawBox(ctx,0.1,"#"+COL1,0,0,canvasW,canvasH)
-
+    drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
     txt = TIME>2000 ? "[ CLICK TO START ]" : "[ LOADING ]";
-    writeTxt(ctx, 1, "italic 50px Arial","WHITE",txt, 380, 720);
+
+    writeTxt(ctx, 1, "italic 30px Arial","WHITE",txt, 250, 270);
     z=TIME/1600;
-    writeTxt(ctx, 1, "italic 60px Arial","WHITE","Death Counts", 50+Math.cos(z)*40, 150+Math.sin(z)*20);
-    writeTxt(ctx, 1, "italic 30px Arial","WHITE","Die to live!", 50+Math.cos(z)*70, 230+Math.sin(z)*20);
+    writeTxt(ctx, 1, "italic 40px Arial","WHITE","Soul Jumper", 250+Math.cos(z)*40, 150+Math.sin(z)*20);
+    ctx.restore();
   } else {
     mg.clear();
     cart.update(delta / 1e3, TIME);
