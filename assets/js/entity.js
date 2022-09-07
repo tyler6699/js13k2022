@@ -107,7 +107,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         z=0; // hover
 
         if(this.angle > 0){
-          let z=22;
+          let z=24;
           ctx.translate(z,z);
           ctx.rotate(this.angle*Math.PI/180);
           ctx.translate(-z,-z);

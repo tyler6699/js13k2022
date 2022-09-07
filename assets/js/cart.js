@@ -3,12 +3,10 @@ function Cart() {
   var totalWidth = 800;
   var totalHeight = 600;
   var widthToHeight = 4 / 3;
-  var newWidth = canvasW/totalWidth;
-  var newHeight = canvasW/totalWidth;
   var newWidthToHeight = totalHeight / canvasH;
   var resize=true;
   this.cam=new Camera();
-  this.ratio=0;
+  this.ratio=1;
 
   // console.log("Canvas W: " + canvasW + " Canvas H: " + canvasH + " newWidthToHeight:" + newWidthToHeight);
   // console.log("totalWidth: " + totalWidth + " totalHeight: " + totalHeight );
@@ -19,12 +17,12 @@ function Cart() {
     this.ratio=canvasW / totalWidth;
     console.log("Wider: " + this.ratio);
   } else {
-    this.ratio=canvasW / totalWidth;
+    this.ratio=canvasH / totalHeight;
     console.log("High Screen: " + this.ratio);
   }
 
   // if the window is 800px and your canvas 600px, apply scale(/*800/600 = */ 1.2)
-  this.scale = 1.8;
+  this.scale = 2;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
   this.hero = new hero(16, 16, 40 * this.scale, 100 * this.scale, 0, types.HERO, this.scale);
@@ -66,19 +64,16 @@ this.rawlvls.push([
 [1,1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,0,0,0,0,0,1],
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]);
 
-this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]);
+this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],
+[0,0,2,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0],
+[1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,1],
+[1,0,0,0,0,1,1,1,1,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1],
+[1,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1],
+[1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1]]);
 
   this.genLevel = function(num){
     this.levels = []; // Array to get tiles surrounding an entity
@@ -113,7 +108,7 @@ this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     this.hero.setCurrentTile(this.scaled);
 
     // Render
-    renderStarField(TIME);
+    // renderStarField(TIME);
 
     this.level.draw(this.hero, delta);
 
@@ -147,6 +142,10 @@ this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       this.levels[this.hero.e.curLevel].reset();
       this.hero.reset();
     }
+
+    // Follow hero
+    this.cam.x = lerp(-this.hero.e.x + (totalWidth/2)-20,this.cam.x ,.8);
+    this.cam.y = lerp(-this.hero.e.y + (totalHeight/2)-80,this.cam.y ,.8);
   }
 
 }

@@ -59,7 +59,7 @@ function vec2(x,y){
 function renderStarField(time){
   ctx.fillStyle='#FFF';
   for(let i=2e3;i--;){
-    x = (Math.sin(i)*1e9-time/2e3*(i+1e3)/50)%(mg.canvas.width+9)-9;
+    x = (Math.sin(i)*1e9-time/2e3*(i+1e3)/50)%(canvasW+9)-9;
     y = i*9%canvasW;
     s = i%5;
     ctx.fillRect(x,y,s,s);
@@ -96,26 +96,26 @@ function drawRect(ctx, ox, oy, x, y, w, h, col, alpha){
 }
 
 function resizeCanvas(){
-  // Needs to handle screens smaller than 800x600
-  let totalWidth = 1216; // Tiles are 16x16 scaled up by 4 with 19 columns
-  let totalHeight = 832; // 13 Rows
-
-  canvasW = window.innerWidth;
-  canvasH = window.innerHeight;
-
-  let widthToHeight = 4 / 3;
-  let newWidthToHeight = canvasW / canvasH;
-  let ratio=0;
-
-  if (newWidthToHeight > widthToHeight) {
-    canvasW = canvasH * widthToHeight;
-    ratio=canvasW / totalWidth;
-  } else {
-    canvasH = canvasW / widthToHeight;
-    ratio=canvasH / totalHeight;
-  }
-
-  cart.scale = ratio * scale.scale;
+  // // Needs to handle screens smaller than 800x600
+  // let totalWidth = 1216; // Tiles are 16x16 scaled up by 4 with 19 columns
+  // let totalHeight = 832; // 13 Rows
+  //
+  // canvasW = window.innerWidth;
+  // canvasH = window.innerHeight;
+  //
+  // let widthToHeight = 4 / 3;
+  // let newWidthToHeight = canvasW / canvasH;
+  // let ratio=0;
+  //
+  // if (newWidthToHeight > widthToHeight) {
+  //   canvasW = canvasH * widthToHeight;
+  //   ratio=canvasW / totalWidth;
+  // } else {
+  //   canvasH = canvasW / widthToHeight;
+  //   ratio=canvasH / totalHeight;
+  // }
+  //
+  // cart.scale = ratio * scale.scale;
 }
 
 function partDir(p) {
@@ -126,4 +126,8 @@ function partDir(p) {
     x: p.x + radius * Math.cos(angle),
     y: p.y + radius * Math.sin(angle)
   }
+}
+
+function lerp (start, end, amt){
+  return (1-amt)*start+amt*end
 }

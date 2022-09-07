@@ -107,6 +107,7 @@ let mg = {
     clearInterval(this.interval);
   },
   clear: function() {
+    this.context.setTransform(1, 0, 0, 1, 0, 0);
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 }
@@ -146,6 +147,7 @@ function updateGameArea() {
     ctx = mg.context;
     ctx.save();
     drawBox(ctx,0.1,"#"+COL1,0,0,canvasW,canvasH)
+
     txt = TIME>2000 ? "[ CLICK TO START ]" : "[ LOADING ]";
     writeTxt(ctx, 1, "italic 50px Arial","WHITE",txt, 380, 720);
     z=TIME/1600;
