@@ -129,11 +129,11 @@ function updateGameArea() {
     ctx.restore();
 
     cart.hero.time+=delta;
-    if(rndNo(1,100)>97){
+    if(rndNo(1,100)>95){
       cart.hero.bloodSplatter(false,rndNo(20,700),rndNo(20,500));
       let rt = menuBlocks[rndNo(0,menuBlocks.length-1)];
       for(let i=1;i<5;i++){
-        cart.hero.particles.push(new particle(rndNo(1,2), 0,rt.entity.x+18+rndNo(0,20), +25+rt.entity.y, 0, "bld", false));
+        cart.hero.particles.push(new particle(rndNo(1,2), 0,rt.entity.x+18+rndNo(0,20), 15+rt.entity.y, 0, "bld", false));
       }
     }
     for (let i = 0; i <= cart.hero.particles.length-1; i++){
