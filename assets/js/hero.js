@@ -71,19 +71,6 @@ function hero(w, h, x, y, angle, type, scale) {
         this.e.flip = false;
         if(!right()&&this.grounded()) this.addDust();
       }
-    } else {
-      if(respawnTime > 0){
-        respawnTime-=delta;
-
-        if(respawnTime<=0){
-          this.active=true;
-          this.active=true;
-          this.e.x=cart.levels[this.e.curLevel].startPos[0];
-          this.e.y=cart.levels[this.e.curLevel].startPos[1];
-          this.e.sy=0;
-        };
-      }
-
     }
 
     if(jumpTime <= 0 && this.grounded()){
@@ -116,6 +103,7 @@ function hero(w, h, x, y, angle, type, scale) {
       if(curTile != null){
         let ct=curTile.entity.type;
         if(curTile.entity.kills){
+          console.log("kill");
           this.bloodSplatter(false,cenX,cenY);
           this.bloodDrip(curTile.entity);
           this.kill();
@@ -137,6 +125,15 @@ function hero(w, h, x, y, angle, type, scale) {
         }
       }
     }
+
+    if(respawnTime > 0){
+      respawnTime-=delta;
+    } else if(respawnTime<=0 && !this.active){
+      this.e.x=cart.levels[this.e.curLevel].startPos[0];
+      this.e.y=cart.levels[this.e.curLevel].startPos[1];
+      this.active=true;
+      this.e.sy=0;
+    };
 
     // Win check
     if(this.doneTime>0){
@@ -238,6 +235,7 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.kill = function(){
+    console.log("Active: "+ this.active + " Kill");
     if(this.active){
       cart.shakeTime=.15;
       playSound(DIEFX,1);
