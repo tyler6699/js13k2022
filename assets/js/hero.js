@@ -225,7 +225,6 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.kill = function(){
-    console.log("KILL");
     cart.shakeTime=.15;
     playSound(DIEFX,1);
     if(this.hp>0){

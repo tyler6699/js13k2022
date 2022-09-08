@@ -32,6 +32,7 @@ let cart = new Cart();
 let v = speechSynthesis.getVoices();
 let talk = true;
 let start=false;
+let menuBlocks=[];
 
 // Called by body onload on index page
 function startGame() {
@@ -58,6 +59,9 @@ let mg = {
 
     // Generate intro screen
     cart.genLevel(0);
+    cart.levels[0].tiles.forEach((t) => {
+      if(t.entity.type>0) menuBlocks.push(t);
+    });
 
     // Keyboard
     window.addEventListener('keydown', function(e) {
@@ -114,11 +118,30 @@ function updateGameArea() {
     ctx.save();
     drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
     txt = TIME>2000 ? "[ CLICK TO START ]" : "[ LOADING ]";
-
     writeTxt(ctx, 1, "italic 30px Arial","WHITE",txt, 250, 270);
     z=TIME/1600;
     writeTxt(ctx, 1, "italic 40px Arial","WHITE","Soul Jumper", 250+Math.cos(z)*40, 150+Math.sin(z)*20);
     ctx.restore();
+
+    ctx.save();
+    ctx.translate(80,120+Math.cos(TIME/250)*40);
+    ctx.drawImage(atlas, 0, 0, 16, 16, 32, hh+f, 32, 32);
+    ctx.restore();
+
+    cart.hero.time+=delta;
+    if(rndNo(1,100)>97){
+      cart.hero.bloodSplatter(false,rndNo(20,700),rndNo(20,500));
+      let rt = menuBlocks[rndNo(0,menuBlocks.length-1)];
+      for(let i=1;i<5;i++){
+        cart.hero.particles.push(new particle(rndNo(1,2), 0,rt.entity.x+18+rndNo(0,20), +25+rt.entity.y, 0, "bld", false));
+      }
+    }
+    for (let i = 0; i <= cart.hero.particles.length-1; i++){
+      cart.hero.particles[i].update(ctx,delta/1000);
+    }
+    cart.hero.particles = cart.hero.particles.filter(function (p) {
+      return p.remove == false;
+    });
   } else {
     mg.clear();
     cart.update(delta / 1e3, TIME);
