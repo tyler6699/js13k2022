@@ -18,6 +18,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.colour = colour;
   this.image = atlas;
   this.animated = false;
+  this.spin=false;
   this.alpha = 1;
   this.currentTile=0;
   this.colArr = [];
@@ -30,6 +31,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.flip=false;
   this.idle=0;
   this.pressed=false;
+  this.kills=false;
 
   // ATLAS Positions
   this.sx=0;
@@ -106,9 +108,10 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         f=0; // float
         z=0; // hover
 
-        if(this.angle > 0){
+        if(this.angle > 0 || this.spin){
           let z=24;
           ctx.translate(z,z);
+          this.angle=this.spin?this.angle+=8+rndNo(0,5):this.angle;
           ctx.rotate(this.angle*Math.PI/180);
           ctx.translate(-z,-z);
         }
@@ -155,22 +158,27 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.isSolid = true;
       case types.SPIKE:
         this.sx=48;
+        this.kills=true;
         break;
       case types.LSPIKE:
         this.sx=48;
         this.angle=270;
+        this.kills=true;
         break;
       case types.RSPIKE:
         this.sx=48;
         this.angle=90;
+        this.kills=true;
         break;
       case types.TSPIKE:
         this.sx=48;
         this.angle=180;
+        this.kills=true;
         break;
       case types.DROPY:
         this.sx=48;
         this.sy=16;
+        this.kills=true;
         break;
       case types.BUTTON:
         this.sx=64;
@@ -197,14 +205,25 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sy=16;
         break;
       case types.PILR:
-        this.sx=32;
+        this.sx=16;
         this.sy=16;
+        this.flip=true;
         break;
       case types.SPIN:
         this.sx=80;
         this.sy=16;
+        this.spin=true;
+        this.kills=true;
         break;
       case types.WALL:
+        this.sy=32;
+        break;
+      case types.PILLE:
+        this.sx=32;
+        this.sy=32;
+        break;
+      case types.PILRE:
+        this.sx=16;
         this.sy=32;
         break;
      }

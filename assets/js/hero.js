@@ -31,6 +31,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let cenX=0;
   let cenY=0;
   let offScreen=false;
+
   this.doneTime=0;
   this.done=false;
   this.changeLevel=false;
@@ -70,14 +71,18 @@ function hero(w, h, x, y, angle, type, scale) {
         if(!right()&&this.grounded()) this.addDust();
       }
     } else {
-      if(this.hp==1 && respawnTime > 0){
+      if(respawnTime > 0){
         respawnTime-=delta;
 
         if(respawnTime<=0){
           this.active=true;
+          this.active=true;
+          this.e.x=cart.levels[this.e.curLevel].startPos[0];
+          this.e.y=cart.levels[this.e.curLevel].startPos[1];
           this.e.sy=0;
         };
       }
+
     }
 
     if(jumpTime <= 0 && this.grounded()){
@@ -94,8 +99,10 @@ function hero(w, h, x, y, angle, type, scale) {
     if (up() || space()) this.jump();
 
     // Gravity
-    if(this.canFall && coyote >= maxCoyote){
+    if(this.canFall && coyote >= maxCoyote && this.active){
       this.e.y += this.gMove(0,1, true, false);
+    } else if (!this.active && respawnTime>0){
+      this.e.y += this.gMove(0,1, false, false);
     } else if(!this.grounded()){
       coyote += delta;
     }
@@ -104,26 +111,28 @@ function hero(w, h, x, y, angle, type, scale) {
     if(!this.grounded()) runtime=0;
 
     // Check Actions on tiles
-    if(curTile != null){
-      let ct=curTile.entity.type;
-      if(ct == types.SPIKE || ct == types.LSPIKE || ct == types.RSPIKE|| ct == types.TSPIKE){
-        this.bloodSplatter(false,cenX,cenY);
-        this.bloodDrip(curTile.entity);
-        this.kill();
-      } else if(ct == types.BUTTON && !curTile.entity.pressed) {
-        cart.shakeTime=.1;
-        curTile.entity.pressed=true;
-        curTile.entity.sx=80;
-        cart.levels[this.e.curLevel].opendoors=true;
-        playSound(COINFX,.8);
+    if(this.active){
+      if(curTile != null){
+        let ct=curTile.entity.type;
+        if(curTile.entity.kills){
+          this.bloodSplatter(false,cenX,cenY);
+          this.bloodDrip(curTile.entity);
+          this.kill();
+        } else if(ct == types.BUTTON && !curTile.entity.pressed) {
+          cart.shakeTime=.1;
+          curTile.entity.pressed=true;
+          curTile.entity.sx=80;
+          cart.levels[this.e.curLevel].opendoors=true;
+          playSound(COINFX,.8);
 
-      } else if(ct == types.PORTAL) {
-        // Play intro for next level
-        this.bloodSplatter(true,cenX,cenY);
-        // Count down to level change
-        if(!this.done){
-          this.doneTime=1;
-          this.done=true;
+        } else if(ct == types.PORTAL) {
+          // Play intro for next level
+          this.bloodSplatter(true,cenX,cenY);
+          // Count down to level change
+          if(!this.done){
+            this.doneTime=1;
+            this.done=true;
+          }
         }
       }
     }
@@ -225,23 +234,20 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.kill = function(){
-    cart.shakeTime=.15;
-    playSound(DIEFX,1);
-    if(this.hp>0){
+    if(this.active){
+      cart.shakeTime=.15;
+      playSound(DIEFX,1);
       this.hp--;
       this.hereos.push(currentHero);
       currentHero = [];
-
-      this.e.x=cart.levels[this.e.curLevel].startPos[0];
-      this.e.y=cart.levels[this.e.curLevel].startPos[1];
+      this.active=false;
+      respawnTime=.5;
+      speed=0;
+      this.e.sy=16;
 
       if(this.hp==0){
-        this.active=false;
         this.hereos.splice(this.hereos.length-1,1);
         this.hp++;
-        this.e.sy=16;
-        respawnTime=.4;
-        speed=0;
       }
     }
   }

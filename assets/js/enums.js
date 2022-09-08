@@ -14,6 +14,8 @@ const types = {
   PILR:12,
   SPIN:13,
   WALL:14,
+  PILRE:15,
+  PILLE:16
 }
 
 const mobtype = {

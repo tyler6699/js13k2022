@@ -56,23 +56,6 @@ function vec2(x,y){
   }
 }
 
-function renderStarField(time){
-  ctx.fillStyle='#FFF';
-  for(let i=2e3;i--;){
-    x = (Math.sin(i)*1e9-time/2e3*(i+1e3)/50)%(canvasW+9)-9;
-    y = i*9%canvasW;
-    s = i%5;
-    ctx.fillRect(x,y,s,s);
-  }
-}
-
-function warp(t) {
-  for(i=200;i--;
-    ctx.fillRect(canvasW/2+i*Math.sin(i)*Z, 423+i*Math.cos(i*9)*Z,Z,Z))
-    ctx.fillStyle="rgba(255,255,255," + (i+.1) + ")",
-    Z=2*Math.tan(i/9+t/3)
-}
-
 function drawImg(ctx, img, sx, sy, w, h, x, y, alpha, scale, angle=0){
   ctx.save();
   ctx.globalAlpha = alpha;
