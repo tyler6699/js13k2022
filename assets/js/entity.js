@@ -147,9 +147,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sx=0;
         this.sy=0;
         break;
-      case types.WALL:
-        this.sy=16;
-        break;
       case types.BLOCK:
         this.isSolid = true;
         this.sx=16;
@@ -171,7 +168,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sx=48;
         this.angle=180;
         break;
-      case types.TONNE:
+      case types.DROPY:
         this.sx=48;
         this.sy=16;
         break;
@@ -194,6 +191,21 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.DOOR:
         this.isSolid = true;
         this.sx=32;
+        break;
+      case types.PILL:
+        this.sx=16;
+        this.sy=16;
+        break;
+      case types.PILR:
+        this.sx=32;
+        this.sy=16;
+        break;
+      case types.SPIN:
+        this.sx=80;
+        this.sy=16;
+        break;
+      case types.WALL:
+        this.sy=32;
         break;
      }
   }

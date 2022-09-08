@@ -38,14 +38,14 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
       if(!t.trigger) return;
       let mid=t.entity.x+(t.entity.hWidth*scale);
 
-      if(t.entity.type==types.TONNE){
+      if(t.entity.type==types.DROPY){
         let hx=hero.e.x;
         let hx2=hero.e.x+(hero.e.width*scale);
         let tx=t.entity.x;
         let tx2=t.entity.x+(t.entity.width*scale);
 
         if( (hx > tx && hx < tx2) || (hx2 > tx && hx2 < tx2)){
-           if(hero.e.y - hero.e.height > t.entity.y) t.entity.y+=30;
+           if(hero.e.y - hero.e.height > t.entity.y) t.entity.y+=15;
         }
 
         if(rectColiding(hero.e.hb, t.entity.hb)){
@@ -78,7 +78,7 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
 
         var angle = 0;
 
-        if(t == types.TONNE) trigger=true;
+        if(t == types.DROPY) trigger=true;
         if(t == types.HERO){
           t=types.AIR;
           this.startPos=[xx,yy];
