@@ -32,6 +32,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.idle=0;
   this.pressed=false;
   this.kills=false;
+  this.trapactive=false;
 
   // ATLAS Positions
   this.sx=0;
@@ -219,8 +220,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sy=32;
         break;
       case types.PILLE:
-        this.sx=32;
+        this.sx=16;
         this.sy=32;
+        this.flip=true;
         break;
       case types.PILRE:
         this.sx=16;

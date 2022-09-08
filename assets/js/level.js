@@ -39,18 +39,28 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
       let mid=t.entity.x+(t.entity.hWidth*scale);
 
       if(t.entity.type==types.DROPY){
-        let hx=hero.e.x;
-        let hx2=hero.e.x+(hero.e.width*scale);
-        let tx=t.entity.x;
-        let tx2=t.entity.x+(t.entity.width*scale);
+        if(!t.entity.trapactive){
+          let hx=hero.e.x;
+          let hx2=hero.e.x+(hero.e.width*scale);
+          let tx=t.entity.x;
+          let tx2=t.entity.x+(t.entity.width*scale);
 
-        if( (hx > tx && hx < tx2) || (hx2 > tx && hx2 < tx2)){
-           if(hero.e.y - hero.e.height > t.entity.y) t.entity.y+=15;
+          if( (hx > tx && hx < tx2) || (hx2 > tx && hx2 < tx2)){
+             if(hero.e.y - hero.e.height > t.entity.y) t.entity.trapactive=true;
+          }
+        } else {
+          t.entity.y+=15
         }
 
         if(rectColiding(hero.e.hb, t.entity.hb)){
+          hero.bloodSplatter(false,hero.e.x,hero.e.y);
           hero.kill();
           t.trigger=false;
+          t.entity.active=false;
+          t.entity.kills=false;
+        } else if (t.entity.y > 1000){
+          t.trigger=false;
+          t.entity.active=false;
         }
       }
     });

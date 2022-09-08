@@ -31,6 +31,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let cenX=0;
   let cenY=0;
   let offScreen=false;
+  let blockRewind=false;
 
   this.doneTime=0;
   this.done=false;
@@ -180,6 +181,7 @@ function hero(w, h, x, y, angle, type, scale) {
         rec = new rectanlge(body.x, body.y, this.e.hb.w, this.e.hb.h);
 
         if(!rectColiding(this.e.hb,rec) || !this.active){
+          blockRewind=false;
           this.hereos[this.hereos.length-1].pop();
 
           if(this.hereos[this.hereos.length-1].length == 0 ){
@@ -187,6 +189,8 @@ function hero(w, h, x, y, angle, type, scale) {
             this.hp++;
             this.active=true;
           }
+        } else {
+          blockRewind=true;
         }
       } else {
         rewindDelay -= delta;
@@ -409,7 +413,8 @@ function hero(w, h, x, y, angle, type, scale) {
     if(e.constructor === Array && showDeaths>0 && i == j){
       e.forEach((d,c) => drawDead(ctx, d, c, e.length-1));
     } else if(showDeaths>0) {
-      drawImg(ctx, this.e.image, 0, 16, this.e.width, this.e.height, e.x, e.y, (i/j)+.3, scale);
+      let dx=blockRewind?32:0;
+      drawImg(ctx, this.e.image, dx, 16, this.e.width, this.e.height, e.x, e.y, (i/j)+.3, scale);
     }
 
     // Always draw the last frame of each death
