@@ -139,9 +139,6 @@ function updateGameArea() {
     writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 40, 180);
     txt = songLoaded ? "[ ANY KEY TO START ]" : "[ LOADING ]";
     writeTxt(ctx, 1, "italic 20px Verdana","WHITE",txt, 40, 220);
-    //String.fromCharCode(57614)
-    //writeTxt(ctx, 1, "100px serif","WHITE",String.fromCharCode(8986), 400, 220);
-
     ctx.restore();
 
     ctx.save();
@@ -176,11 +173,16 @@ function updateGameArea() {
     let lvl=cart.hero.e.curLevel;
     if(cart.tips){
       if(lvl==0){
-        writeTxt(ctx, 1, font,"WHITE","Jump the gap and press the button and reach the portal!", 200, 150);
+        writeTxt(ctx, 1, font,"WHITE","Jump the gap and run over the button and reach the portal!", 200, 150);
       } else if(lvl==1){
-        writeTxt(ctx, 1, font,"WHITE","Dying creates a new plaform!", 200, 100);
-        writeTxt(ctx, 1, font,"WHITE","Rewind the ghost to previous posisions with [E]", 200, 120);
-        writeTxt(ctx, 1, font,"WHITE","Regain the soul by rewinding fully.", 200, 120);
+        writeTxt(ctx, 1, font,"WHITE","Dont fear the reaper! Dying creates a soul plaform!", 280, 80);
+        writeTxt(ctx, 1, font,"WHITE","Rewind your soul to previous positions with [E]", 280, 100);
+      } else if(lvl==2){
+        writeTxt(ctx, 1, font,"WHITE","You can wall jump off your soul!", 200, 150);
+        writeTxt(ctx, 1, font,"WHITE","Avoid spikes and clear high ledges", 200, 170);
+      } else if(lvl==3){
+        writeTxt(ctx, 1, font,"WHITE","Regain your soul by rewinding fully, Hold [E]", 280, 120);
+        writeTxt(ctx, 1, font,"WHITE","Allowing you to re-use your soul.", 280, 140);
       }
     }
 
