@@ -117,8 +117,10 @@ function hero(w, h, x, y, angle, type, scale) {
         } else if(ct == types.PORTAL) {
           // Play intro for next level
           this.bloodSplatter(true,cenX,cenY);
+
           // Count down to level change
           if(!this.done){
+            playSound(PORTALFX,.6);
             this.doneTime=1;
             this.done=true;
           }
@@ -267,7 +269,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
       // Add surrounding tiles
       cart.surTiles.forEach(e => this.e.colArr.push(cart.level.tiles[heroTileIndex+e]));
-      
+
       // add an entity for each dead body
       this.hereos.forEach(e => addBody(e, this.e.colArr));
     }
