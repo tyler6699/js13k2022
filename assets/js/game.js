@@ -33,6 +33,11 @@ let v = speechSynthesis.getVoices();
 let talk = true;
 let start=false;
 let menuBlocks=[];
+let music=true;
+let pause=false;
+
+// Load the music player
+genAudio();
 
 // Called by body onload on index page
 function startGame() {
@@ -73,6 +78,7 @@ let mg = {
     window.addEventListener('keyup', function(e) {
       mg.keys[e.keyCode] = (e.type == "keydown");
       if(e.keyCode==R) RELOAD=true;
+      if(e.keyCode==M) pause=!pause;
     })
     // Disable right click context menu
     this.canvas.oncontextmenu = function(e) {
@@ -118,18 +124,18 @@ function updateGameArea() {
     ctx.save();
     drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
     txt = TIME>2000 ? "[ CLICK TO START ]" : "[ LOADING ]";
-    writeTxt(ctx, 1, "italic 30px Arial","WHITE",txt, 250, 270);
+    writeTxt(ctx, 1, "italic 20px Arial","WHITE",txt, 400, 270);
     z=TIME/1600;
-    writeTxt(ctx, 1, "italic 40px Arial","WHITE","Soul Jumper", 250+Math.cos(z)*40, 150+Math.sin(z)*20);
+    writeTxt(ctx, 1, "italic 30px Arial","WHITE","Soul Jumper", 350+Math.cos(z)*40, 150+Math.sin(z)*20);
     ctx.restore();
 
     ctx.save();
-    ctx.translate(80,120+Math.cos(TIME/250)*40);
+    ctx.translate(40,180+Math.cos(TIME/250)*40);
     ctx.drawImage(atlas, 0, 0, 16, 16, 32, hh+f, 32, 32);
     ctx.restore();
 
     cart.hero.time+=delta;
-    if(rndNo(1,100)>95){
+    if(rndNo(1,100)>97){
       cart.hero.bloodSplatter(false,rndNo(20,700),rndNo(20,500));
       let rt = menuBlocks[rndNo(0,menuBlocks.length-1)];
       for(let i=1;i<5;i++){
@@ -145,6 +151,18 @@ function updateGameArea() {
   } else {
     mg.clear();
     cart.update(delta / 1e3, TIME);
+
+    // Music
+    if(pause){
+      audio.pause();
+      music=true;
+    }
+
+    if(music && songLoaded && !pause){
+      audio.play();
+      audio.loop=true;
+      music=false;
+    }
   }
 }
 

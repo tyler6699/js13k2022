@@ -103,7 +103,6 @@ function hero(w, h, x, y, angle, type, scale) {
       if(curTile != null){
         let ct=curTile.entity.type;
         if(curTile.entity.kills){
-          console.log("kill");
           this.bloodSplatter(false,cenX,cenY);
           this.bloodDrip(curTile.entity);
           this.kill();
@@ -235,7 +234,6 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.kill = function(){
-    console.log("Active: "+ this.active + " Kill");
     if(this.active){
       cart.shakeTime=.15;
       playSound(DIEFX,1);

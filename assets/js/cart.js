@@ -136,9 +136,6 @@ this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 
     this.hero.setCurrentTile(this.scaled);
 
-    // Render
-    // renderStarField(TIME);
-
     this.level.draw(this.hero, delta);
 
     // HERO
@@ -147,22 +144,6 @@ this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 
       // MOUSE
       mg.canvas.style.cursor='none';
-
-      // TODO: Move to utility
-      if(this.introT > 0){
-        for(i = 0;i <= canvasW/33;i++){
-          for(j = 0;j <= canvasH/33;j++){
-            ctx.save();
-            ctx.translate(i*32, j*32);
-            col = i%2==0&&j%2==0 ? "#000" : "#FFF";
-            ctx.fillStyle = col;
-            ctx.globalAlpha = .5;
-            ctx.fillRect(this.introT/-2, this.introT/-2, this.introT, this.introT);
-            ctx.restore();
-          }
-        }
-        this.introT -= delta*48;
-      }
 
       if(RELOAD){
         RELOAD=false;
