@@ -227,6 +227,10 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sy=32;
         this.flip=true;
         break;
+      case types.PILRE:
+        this.sx=16;
+        this.sy=32;
+        break;
       case types.FALL:
         this.sx=64;
         this.sy=16;

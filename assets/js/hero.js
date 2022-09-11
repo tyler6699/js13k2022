@@ -157,7 +157,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
     // HP
     for (let i = 1; i < this.hp; i++){
-      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2, 1, scale);
+      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2+40, 1, scale);
     }
 
     // Particles

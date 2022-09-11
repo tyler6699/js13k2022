@@ -79,6 +79,7 @@ let mg = {
       mg.keys[e.keyCode] = (e.type == "keydown");
       if(e.keyCode==R) RELOAD=true;
       if(e.keyCode==M) pause=!pause;
+      if(e.keyCode==T) cart.tips=!cart.tips;
     })
     // Disable right click context menu
     this.canvas.oncontextmenu = function(e) {
@@ -167,8 +168,14 @@ function updateGameArea() {
     cart.update(delta / 1e3, TIME);
     let font = "15px Verdana";
     writeTxt(ctx, 1, font,"WHITE","Music: " + !pause, 700, 20);
-    writeTxt(ctx, 1, font,"WHITE","Lives: " + cart.hero.hp, 700, 40);
-    writeTxt(ctx, 1, font,"RED","Deaths: " + cart.hero.deaths, 700, 60);
+    writeTxt(ctx, 1, font,"WHITE","Tips: " + (cart.tips), 700, 40);
+    writeTxt(ctx, 1, font,"WHITE","Lives: " + cart.hero.hp, 10, 40);
+    writeTxt(ctx, 1, font,"RED","Deaths: " + cart.hero.deaths, 10, 60);
+    writeTxt(ctx, 1, font,"WHITE","Level: " + (cart.hero.e.curLevel+1), 10, 20);
+
+    if(cart.hero.e.curLevel==0 && cart.tips){
+      writeTxt(ctx, 1, font,"WHITE","Jump the gap and press the button and reach the portal!", 200, 150);
+    }
     // Music
     if(pause){
       audio.pause();

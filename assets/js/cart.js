@@ -7,6 +7,7 @@ function Cart() {
   var resize=true;
   this.cam=new Camera();
   this.ratio=1;
+  this.tips=true;
 
   // console.log("Canvas W: " + canvasW + " Canvas H: " + canvasH + " newWidthToHeight:" + newWidthToHeight);
   // console.log("totalWidth: " + totalWidth + " totalHeight: " + totalHeight );
@@ -32,6 +33,22 @@ function Cart() {
   this.reset=false;
   this.wait=2;
   this.rawlvls=[];
+
+
+  this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,1],
+  [1,14,0,0,0,0,0,0,0,0,0,0,0,8,0,10,0,0,0,0,0,9,0,1],
+  [1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,14,1],
+  [0,0,11,12,0,14,6,0,0,0,0,0,5,14,11,12,0,0,0,0,1,1,1,1],
+  [0,0,11,12,0,14,6,3,3,3,3,3,5,14,11,12,0,0,0,0,0,11,12,0],
+  [0,0,11,12,0,0,0,1,1,1,1,1,0,0,11,12,0,0,0,0,0,15,16,0],
+  [0,0,15,16,0,0,0,0,0,0,0,0,0,0,15,16,0,0,0,0,0,0,0,0]]);
+
 
   this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -112,7 +129,7 @@ this.rawlvls.push([
   this.genLevel = function(num){
     this.levels = []; // Array to get tiles surrounding an entity
 
-    let doors = [64,30];
+    let doors = [130,30];
     for(i=0; i<this.rawlvls.length; i++){
       var lvl = new level(i+1, canvasW, canvasH, i, this.scale, doors[i], this.rawlvls[i]);
       lvl.reset(i, this.scaled);
