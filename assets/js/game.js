@@ -126,22 +126,22 @@ function updateGameArea() {
     drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
 
     z=TIME/1600;
-    writeTxt(ctx, 1, "30px Verdana","WHITE","SOUL JUMPER", 350+Math.cos(z)*40, 100+Math.sin(z)*20);
+    writeTxt(ctx, 1, "30px Verdana","WHITE","SOUL JUMPER", 400+Math.cos(z)*40, 100+Math.sin(z)*20);
     // Instructions
     let font="20px Verdana";
-    writeTxt(ctx, 1, font,"WHITE","[A][D] or [  ][  ] Left / Right", 40, 40);
-    writeSum(ctx, 1, font,"WHITE","2190", 145, 40);
-    writeSum(ctx, 1, font,"WHITE","2192", 180, 40);
-    writeSum(ctx, 1, font,"WHITE","2191", 180, 70);
-    writeTxt(ctx, 1, font,"WHITE","[W] [Space] [  ] Jump", 40, 70);
-    writeTxt(ctx, 1, font,"WHITE","[R] Restart Level", 40, 100);
-    writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 40, 130);
-    txt = songLoaded ? "[ ANY KEY TO START ]" : "[ LOADING ]";
-    writeTxt(ctx, 1, "20px Verdana","WHITE",txt, 40, 160);
+    writeTxt(ctx, 1, font,"WHITE","===== CONTROLS ======", 50, 40);
+    writeTxt(ctx, 1, font,"WHITE","[A][D] or [  ][  ] Left / Right", 50, 70);
+    writeSum(ctx, 1, font,"WHITE","2190", 155, 70);
+    writeSum(ctx, 1, font,"WHITE","2192", 190, 70);
+    writeSum(ctx, 1, font,"WHITE","2191", 190, 100);
+    writeTxt(ctx, 1, font,"WHITE","[W] [Space] [  ] Jump", 50, 100);
+    writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 50, 130);
+    txt = songLoaded ? "=== ANY KEY TO START === " : "====== LOADING ======";
+    writeTxt(ctx, 1, "20px Verdana","WHITE",txt, 50, 160);
     ctx.restore();
 
     ctx.save();
-    ctx.translate(0,225);
+    ctx.translate(100,225);
     ctx.drawImage(atlas, 0, 0, 16, 16, 32, hh+f, 32, 32);
     ctx.restore();
 
@@ -165,6 +165,7 @@ function updateGameArea() {
     let font = "15px Verdana";
     writeTxt(ctx, 1, font,"WHITE","[M] Music: " + !pause, 650, 20);
     writeTxt(ctx, 1, font,"WHITE","[T] Tips: " + (cart.tips), 650, 40);
+    writeTxt(ctx, 1, font,"WHITE","[R] Reset Level", 650, 60);
     writeTxt(ctx, 1, font,"WHITE","Lives: " + cart.hero.hp, 10, 40);
     writeTxt(ctx, 1, font,"RED","Deaths: " + cart.hero.deaths, 10, 60);
     writeTxt(ctx, 1, font,"WHITE","Level: " + (cart.hero.e.curLevel+1), 10, 20);
