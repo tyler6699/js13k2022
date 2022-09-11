@@ -162,6 +162,7 @@ this.rawlvls.push([
         this.hero.e.curLevel += 1;
         this.level = this.levels[this.hero.e.curLevel];
         this.hero.changeLevel=false;
+        speak("Level " + (this.hero.e.curLevel+1));
         this.hero.reset();
       }
       // Follow hero

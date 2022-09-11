@@ -138,6 +138,9 @@ function updateGameArea() {
     writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 40, 180);
     txt = songLoaded ? "[ ANY KEY TO START ]" : "[ LOADING ]";
     writeTxt(ctx, 1, "italic 20px Verdana","WHITE",txt, 40, 220);
+    //String.fromCharCode(57614)
+    //writeTxt(ctx, 1, "100px serif","WHITE",String.fromCharCode(8986), 400, 220);
+
     ctx.restore();
 
     ctx.save();
