@@ -173,9 +173,17 @@ function updateGameArea() {
     writeTxt(ctx, 1, font,"RED","Deaths: " + cart.hero.deaths, 10, 60);
     writeTxt(ctx, 1, font,"WHITE","Level: " + (cart.hero.e.curLevel+1), 10, 20);
 
-    if(cart.hero.e.curLevel==0 && cart.tips){
-      writeTxt(ctx, 1, font,"WHITE","Jump the gap and press the button and reach the portal!", 200, 150);
+    let lvl=cart.hero.e.curLevel;
+    if(cart.tips){
+      if(lvl==0){
+        writeTxt(ctx, 1, font,"WHITE","Jump the gap and press the button and reach the portal!", 200, 150);
+      } else if(lvl==1){
+        writeTxt(ctx, 1, font,"WHITE","Dying creates a new plaform!", 200, 100);
+        writeTxt(ctx, 1, font,"WHITE","Rewind the ghost to previous posisions with [E]", 200, 120);
+        writeTxt(ctx, 1, font,"WHITE","Regain the soul by rewinding fully.", 200, 120);
+      }
     }
+
     // Music
     if(pause){
       audio.pause();

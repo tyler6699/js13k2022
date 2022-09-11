@@ -267,7 +267,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
       // Add surrounding tiles
       cart.surTiles.forEach(e => this.e.colArr.push(cart.level.tiles[heroTileIndex+e]));
-
+      
       // add an entity for each dead body
       this.hereos.forEach(e => addBody(e, this.e.colArr));
     }
@@ -403,7 +403,6 @@ function hero(w, h, x, y, angle, type, scale) {
         rec.y -= yy;
       }
     }
-
     return amount;
   }
 
