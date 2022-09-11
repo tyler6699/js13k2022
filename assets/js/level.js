@@ -34,6 +34,7 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
     }
 
     // Triggered things
+    // TODO Clean up
     this.triggers.forEach((t, i) => {
       if(!t.trigger) return;
       let mid=t.entity.x+(t.entity.hWidth*scale);

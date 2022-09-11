@@ -317,6 +317,10 @@ function hero(w, h, x, y, angle, type, scale) {
         e = obj.entity;
         if(obj.isTile()){
           if(rectColiding(e.hb,rec) && obj.active && e.isSolid && rec.y > this.e.y){
+            if(e.falls && !e.fall){
+              e.fallTime=.2;
+              e.fall=true;
+            }
             canJump = true;
             break;
           }
