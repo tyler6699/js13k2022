@@ -123,14 +123,25 @@ function updateGameArea() {
     cart.update(delta, TIME, true);
     ctx.save();
     drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
-    txt = TIME>2000 ? "[ CLICK TO START ]" : "[ LOADING ]";
-    writeTxt(ctx, 1, "italic 20px Arial","WHITE",txt, 400, 270);
+
     z=TIME/1600;
-    writeTxt(ctx, 1, "italic 30px Arial","WHITE","Soul Jumper", 350+Math.cos(z)*40, 150+Math.sin(z)*20);
+    writeTxt(ctx, 1, "italic 30px Verdana","WHITE","Soul Jumper", 350+Math.cos(z)*40, 150+Math.sin(z)*20);
+    // Instructions
+    let font="20px Verdana";
+    writeTxt(ctx, 1, font,"WHITE","[M] Toggle Music", 40, 60);
+    writeTxt(ctx, 1, font,"WHITE","[R] Restart Level", 40, 90);
+    writeTxt(ctx, 1, font,"WHITE","[A][D] or [  ][  ] Left / Right", 40, 120);
+    writeSum(ctx, 1, font,"WHITE","2190", 145, 120);
+    writeSum(ctx, 1, font,"WHITE","2192", 180, 120);
+    writeTxt(ctx, 1, font,"WHITE","[W] [Space] [  ] Jump", 40, 150);
+    writeSum(ctx, 1, font,"WHITE","2191", 180, 150);
+    writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 40, 180);
+    txt = songLoaded ? "[ ANY KEY TO START ]" : "[ LOADING ]";
+    writeTxt(ctx, 1, "italic 20px Verdana","WHITE",txt, 40, 220);
     ctx.restore();
 
     ctx.save();
-    ctx.translate(40,180+Math.cos(TIME/250)*40);
+    ctx.translate(0,225);
     ctx.drawImage(atlas, 0, 0, 16, 16, 32, hh+f, 32, 32);
     ctx.restore();
 
@@ -151,7 +162,10 @@ function updateGameArea() {
   } else {
     mg.clear();
     cart.update(delta / 1e3, TIME);
-
+    let font = "15px Verdana";
+    writeTxt(ctx, 1, font,"WHITE","Music: " + !pause, 700, 20);
+    writeTxt(ctx, 1, font,"WHITE","Lives: " + cart.hero.hp, 700, 40);
+    writeTxt(ctx, 1, font,"RED","Deaths: " + cart.hero.deaths, 700, 60);
     // Music
     if(pause){
       audio.pause();
@@ -172,6 +186,13 @@ function drawBox(ctx,a,colour,x,y,w,h) {
   ctx.fillRect(x, y, w, h);
 }
 
+function writeSum(ctx,a,font,colour,num,x,y){
+  var hex = eval('"\\u' + num+'"');
+  ctx.globalAlpha = a;
+  ctx.font = font;
+  ctx.fillStyle = colour;
+  ctx.fillText(hex, x, y);
+}
 function writeTxt(ctx,a,font,colour,txt,x,y) {
   ctx.globalAlpha = a;
   ctx.font = font;

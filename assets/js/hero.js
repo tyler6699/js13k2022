@@ -32,6 +32,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let cenY=0;
   let offScreen=false;
   let blockRewind=false;
+  this.deaths=0;
 
   this.doneTime=0;
   this.done=false;
@@ -167,7 +168,7 @@ function hero(w, h, x, y, angle, type, scale) {
     this.e.update(delta);
 
     // Rewind the last death
-    if(one() && this.active && this.hereos.length > 0){
+    if((one() || this.trapped()) && this.active && this.hereos.length > 0){
       showDeaths = .1;
       if(rewindDelay <= 0){
         rewindDelay=maxDelay;
@@ -176,7 +177,7 @@ function hero(w, h, x, y, angle, type, scale) {
         let body = arr.length == 1 ? arr[0] : arr[arr.length-2];
         rec = new rectanlge(body.x, body.y, this.e.hb.w, this.e.hb.h);
 
-        if(!rectColiding(this.e.hb,rec) || !this.active){
+        if(!rectColiding(this.e.hb,rec) || !this.active || this.trapped()){
           blockRewind=false;
           this.hereos[this.hereos.length-1].pop();
 
@@ -235,6 +236,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.kill = function(){
     if(this.active){
+      this.deaths++;
       cart.shakeTime=.15;
       playSound(DIEFX,1);
       this.hp--;
@@ -287,6 +289,10 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.canFall = function(){
      return this.gMove(0,1, false, false, true) > 0;
+  }
+
+  this.trapped = function(){
+     return this.gMove(0,0, false, false, false, true) == 0;
   }
 
   this.jump = function(){
@@ -344,7 +350,7 @@ function hero(w, h, x, y, angle, type, scale) {
     return canJump;
   }
 
-  this.gMove = function(xx,yy, grav=false, jump=false, fall=false){
+  this.gMove = function(xx,yy, grav=false, jump=false, fall=false,trap=false){
     this.e.idle=0;
 
     var spd = grav ? gravity : speed;
@@ -355,6 +361,8 @@ function hero(w, h, x, y, angle, type, scale) {
     } else if(fall){
       spd=1;
     }
+
+    if(trap)spd=1;
 
     rec = cloneRectanlge(this.e.hb);
     rec.x += xx * spd;
