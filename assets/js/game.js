@@ -126,19 +126,18 @@ function updateGameArea() {
     drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
 
     z=TIME/1600;
-    writeTxt(ctx, 1, "italic 30px Verdana","WHITE","Soul Jumper", 350+Math.cos(z)*40, 150+Math.sin(z)*20);
+    writeTxt(ctx, 1, "30px Verdana","WHITE","SOUL JUMPER", 350+Math.cos(z)*40, 100+Math.sin(z)*20);
     // Instructions
     let font="20px Verdana";
-    writeTxt(ctx, 1, font,"WHITE","[M] Toggle Music", 40, 60);
-    writeTxt(ctx, 1, font,"WHITE","[R] Restart Level", 40, 90);
-    writeTxt(ctx, 1, font,"WHITE","[A][D] or [  ][  ] Left / Right", 40, 120);
-    writeSum(ctx, 1, font,"WHITE","2190", 145, 120);
-    writeSum(ctx, 1, font,"WHITE","2192", 180, 120);
-    writeTxt(ctx, 1, font,"WHITE","[W] [Space] [  ] Jump", 40, 150);
-    writeSum(ctx, 1, font,"WHITE","2191", 180, 150);
-    writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 40, 180);
+    writeTxt(ctx, 1, font,"WHITE","[A][D] or [  ][  ] Left / Right", 40, 40);
+    writeSum(ctx, 1, font,"WHITE","2190", 145, 40);
+    writeSum(ctx, 1, font,"WHITE","2192", 180, 40);
+    writeSum(ctx, 1, font,"WHITE","2191", 180, 70);
+    writeTxt(ctx, 1, font,"WHITE","[W] [Space] [  ] Jump", 40, 70);
+    writeTxt(ctx, 1, font,"WHITE","[R] Restart Level", 40, 100);
+    writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 40, 130);
     txt = songLoaded ? "[ ANY KEY TO START ]" : "[ LOADING ]";
-    writeTxt(ctx, 1, "italic 20px Verdana","WHITE",txt, 40, 220);
+    writeTxt(ctx, 1, "20px Verdana","WHITE",txt, 40, 160);
     ctx.restore();
 
     ctx.save();
@@ -164,8 +163,8 @@ function updateGameArea() {
     mg.clear();
     cart.update(delta / 1e3, TIME);
     let font = "15px Verdana";
-    writeTxt(ctx, 1, font,"WHITE","Music: " + !pause, 700, 20);
-    writeTxt(ctx, 1, font,"WHITE","Tips: " + (cart.tips), 700, 40);
+    writeTxt(ctx, 1, font,"WHITE","[M] Music: " + !pause, 650, 20);
+    writeTxt(ctx, 1, font,"WHITE","[T] Tips: " + (cart.tips), 650, 40);
     writeTxt(ctx, 1, font,"WHITE","Lives: " + cart.hero.hp, 10, 40);
     writeTxt(ctx, 1, font,"RED","Deaths: " + cart.hero.deaths, 10, 60);
     writeTxt(ctx, 1, font,"WHITE","Level: " + (cart.hero.e.curLevel+1), 10, 20);
@@ -173,16 +172,20 @@ function updateGameArea() {
     let lvl=cart.hero.e.curLevel;
     if(cart.tips){
       if(lvl==0){
-        writeTxt(ctx, 1, font,"WHITE","Jump the gap and run over the button and reach the portal!", 200, 150);
+        writeTxt(ctx, 1, font,"WHITE","Jump the gap and run over the button to reach the portal!", 200, 120);
       } else if(lvl==1){
-        writeTxt(ctx, 1, font,"WHITE","Dont fear the reaper! Dying creates a soul plaform!", 280, 80);
-        writeTxt(ctx, 1, font,"WHITE","Rewind your soul to previous positions with [E]", 280, 100);
+        writeTxt(ctx, 1, font,"WHITE","Dont fear the reaper! Dying creates a soul plaform!", 260, 80);
+        writeTxt(ctx, 1, font,"WHITE","Rewind your soul to previous positions with [E]", 260, 100);
       } else if(lvl==2){
-        writeTxt(ctx, 1, font,"WHITE","You can wall jump off your soul!", 200, 150);
-        writeTxt(ctx, 1, font,"WHITE","Avoid spikes and clear high ledges", 200, 170);
+        writeTxt(ctx, 1, font,"WHITE","You can wall jump off your soul!", 240, 120);
+        writeTxt(ctx, 1, font,"WHITE","Avoid spikes and clear high ledges", 240, 140);
       } else if(lvl==3){
-        writeTxt(ctx, 1, font,"WHITE","Regain your soul by rewinding fully, Hold [E]", 280, 120);
-        writeTxt(ctx, 1, font,"WHITE","Allowing you to re-use your soul.", 280, 140);
+        writeTxt(ctx, 1, font,"WHITE","Hit the button then reclaim your soul, Hold [E]", 280, 120);
+        writeTxt(ctx, 1, font,"WHITE","Re-use your soul on the second set of spike!", 280, 140);
+      } else if(lvl==4){
+        writeTxt(ctx, 1, font,"WHITE","Run!!!!", 280, 120);
+      } else if(lvl==5){
+        writeTxt(ctx, 1, font,"WHITE","Run!!!!", 280, 120);
       }
     }
 
