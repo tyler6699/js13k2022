@@ -16,12 +16,12 @@ function ranColor() {
   return c;
 }
 
-var voiceSelect = "Google UK English Female";
+let voices = speechSynthesis.getVoices();
 function speak(t) {
 	let s = new SpeechSynthesisUtterance();
 	s.text = t;
-  s.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect; })[0];
-	speechSynthesis.speak(s);
+  s.voice = speechSynthesis.getVoices().filter(function(voice) {return voice.name == "Google UK English Female"; })[0];
+  speechSynthesis.speak(s);
 }
 
 function rndNo(min, max) {

@@ -29,7 +29,6 @@ let atlas = new Image();
 atlas.src = "atlas.png";
 let shaky = true;
 let cart = new Cart();
-let v = speechSynthesis.getVoices();
 let talk = true;
 let start=false;
 let menuBlocks=[];
@@ -162,6 +161,7 @@ function updateGameArea() {
   } else {
     mg.clear();
     cart.update(delta / 1e3, TIME);
+    drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
     let font = "15px Verdana";
     writeTxt(ctx, 1, font,"WHITE","[M] Music: " + !pause, 650, 20);
     writeTxt(ctx, 1, font,"WHITE","[T] Tips: " + (cart.tips), 650, 40);

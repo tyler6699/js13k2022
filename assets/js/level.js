@@ -94,6 +94,9 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
           t=types.AIR;
           this.startPos=[xx,yy];
         }
+        if(t == types.AIR && rndNo(0,100)>95){
+          t=types.BRICK;
+        }
         var tile = new Tile(tileSize, xx, yy, angle, t, false, c, r, scale, trigger);
         this.tiles.push(tile);
 
