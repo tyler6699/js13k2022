@@ -16,7 +16,8 @@ const types = {
   WALL:14,
   PILRE:15,
   PILLE:16,
-  FALL:17
+  FALL:17,
+  BRICK:18
 }
 
 const mobtype = {

@@ -117,12 +117,4 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
     return r > 2 && r<11 && c>1 && c<17;
   }
 
-  this.addAir = function(t){
-    this.tiles[t].entity.setT(types.AIR);
-  }
-
-  this.addWall = function(t){
-    this.tiles[t].entity.setT(types.WALL);
-  }
-
 }

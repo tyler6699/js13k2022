@@ -196,6 +196,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sx=64;
         this.sy=16;
         this.alpha = .9;
+        this.spin=true;
         break;
       case types.AIR:
         this.sx=144;
@@ -222,6 +223,10 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.WALL:
         this.sy=32;
         break;
+      case types.BRICK:
+          this.sx=32;
+          this.sy=32;
+          break;
       case types.PILLE:
         this.sx=16;
         this.sy=32;
@@ -232,8 +237,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sy=32;
         break;
       case types.FALL:
-        this.sx=64;
-        this.sy=16;
+        this.sx=48;
+        this.sy=32;
         this.isSolid=true;
         this.falls=true;
         break;
