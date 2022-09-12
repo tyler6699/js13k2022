@@ -32,8 +32,8 @@ function hero(w, h, x, y, angle, type, scale) {
   let cenY=0;
   let offScreen=false;
   let blockRewind=false;
+  let checkPos=null;
   this.deaths=0;
-
   this.doneTime=0;
   this.done=false;
   this.changeLevel=false;
@@ -124,6 +124,12 @@ function hero(w, h, x, y, angle, type, scale) {
             this.doneTime=1;
             this.done=true;
           }
+        } else if(ct == types.CHK && curTile.e.chk){
+          curTile.e.chk=false;
+          checkPos=[];
+          checkPos[0]=curTile.e.x;
+          checkPos[1]=curTile.e.y-16;
+          playSound(PORTALFX,.2);
         }
       }
     }
@@ -131,8 +137,14 @@ function hero(w, h, x, y, angle, type, scale) {
     if(respawnTime > 0){
       respawnTime-=delta;
     } else if(respawnTime<=0 && !this.active){
-      this.e.x=cart.levels[this.e.curLevel].startPos[0];
-      this.e.y=cart.levels[this.e.curLevel].startPos[1];
+      if(checkPos!=null){
+        this.e.x=checkPos[0];
+        this.e.y=checkPos[1];
+      } else {
+        this.e.x=cart.levels[this.e.curLevel].startPos[0];
+        this.e.y=cart.levels[this.e.curLevel].startPos[1];
+      }
+
       this.active=true;
       this.e.sy=0;
     };
@@ -231,6 +243,7 @@ function hero(w, h, x, y, angle, type, scale) {
     this.hereos = [];
     this.particles=[];
     this.hp=2;
+    checkPos=null;
     let lvl=cart.levels[this.e.curLevel];
     this.e.x=lvl.startPos[0];
     this.e.y=lvl.startPos[1];

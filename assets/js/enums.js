@@ -17,7 +17,8 @@ const types = {
   PILRE:15,
   PILLE:16,
   FALL:17,
-  BRICK:18
+  BRICK:18,
+  CHK:19
 }
 
 const mobtype = {
