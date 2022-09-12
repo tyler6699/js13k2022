@@ -175,18 +175,20 @@ function updateGameArea() {
       if(lvl==0){
         writeTxt(ctx, 1, font,"WHITE","Jump the gap and run over the button to reach the portal!", 200, 120);
       } else if(lvl==1){
-        writeTxt(ctx, 1, font,"WHITE","Dont fear the reaper! Dying creates a soul plaform!", 260, 80);
+        writeTxt(ctx, 1, font,"WHITE","Dont fear the reaper! Dying creates a soul platform!", 260, 80);
         writeTxt(ctx, 1, font,"WHITE","Rewind your soul to previous positions with [E]", 260, 100);
       } else if(lvl==2){
         writeTxt(ctx, 1, font,"WHITE","You can wall jump off your soul!", 240, 120);
         writeTxt(ctx, 1, font,"WHITE","Avoid spikes and clear high ledges", 240, 140);
       } else if(lvl==3){
         writeTxt(ctx, 1, font,"WHITE","Hit the button then reclaim your soul, Hold [E]", 280, 120);
-        writeTxt(ctx, 1, font,"WHITE","Re-use your soul on the second set of spike!", 280, 140);
+        writeTxt(ctx, 1, font,"WHITE","Re-use your soul on the second set of spikes!", 280, 140);
       } else if(lvl==4){
-        writeTxt(ctx, 1, font,"WHITE","Run!!!!", 280, 120);
+        writeTxt(ctx, 1, font,"WHITE","Run!!", 280, 120);
       } else if(lvl==5){
-        writeTxt(ctx, 1, font,"WHITE","Run!!!!", 280, 120);
+        writeTxt(ctx, 1, font,"WHITE","Dont Stop!!", 280, 120);
+      } else if(lvl==6){
+        writeTxt(ctx, 1, font,"WHITE","Check points allow you to reclaim your soul and move on!", 280, 120);
       }
     }
 

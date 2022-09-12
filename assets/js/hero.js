@@ -126,6 +126,7 @@ function hero(w, h, x, y, angle, type, scale) {
           }
         } else if(ct == types.CHK && curTile.e.chk){
           curTile.e.chk=false;
+          curTile.e.sx=80;
           checkPos=[];
           checkPos[0]=curTile.e.x;
           checkPos[1]=curTile.e.y-16;
