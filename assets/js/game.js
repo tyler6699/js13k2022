@@ -186,8 +186,6 @@ function updateGameArea() {
       } else if(lvl==4){
         writeTxt(ctx, 1, font,"WHITE","Run!!", 280, 120);
       } else if(lvl==5){
-        writeTxt(ctx, 1, font,"WHITE","Dont Stop!!", 280, 120);
-      } else if(lvl==6){
         writeTxt(ctx, 1, font,"WHITE","Check points allow you to reclaim your soul and move on!", 280, 120);
       }
     }
