@@ -135,8 +135,10 @@ function updateGameArea() {
     writeSum(ctx, 1, font,"WHITE","2191", 190, 100);
     writeTxt(ctx, 1, font,"WHITE","[W] [Space] [  ] Jump", 50, 100);
     writeTxt(ctx, 1, font,"WHITE","[E] Rewind Ghost", 50, 130);
+    writeTxt(ctx, 1, font,"WHITE","Code: @Carelesslabs", 50, 160);
+    writeTxt(ctx, 1, font,"WHITE","Music: @AdamTheWilliams", 50, 190);
     txt = songLoaded ? "=== ANY KEY TO START === " : "====== LOADING ======";
-    writeTxt(ctx, 1, "20px Verdana","WHITE",txt, 50, 160);
+    writeTxt(ctx, 1, "20px Verdana","WHITE",txt, 50, 215);
     ctx.restore();
 
     ctx.save();
@@ -175,18 +177,21 @@ function updateGameArea() {
       if(lvl==0){
         writeTxt(ctx, 1, font,"WHITE","Jump the gap and run over the button to reach the portal!", 200, 120);
       } else if(lvl==1){
-        writeTxt(ctx, 1, font,"WHITE","Dont fear the reaper! Dying creates a soul platform!", 260, 80);
-        writeTxt(ctx, 1, font,"WHITE","Rewind your soul to previous positions with [E]", 260, 100);
+        writeTxt(ctx, 1, font,"WHITE","Dont fear the reaper! Dying creates a soul platform!", 230, 80);
+        writeTxt(ctx, 1, font,"WHITE","Rewind your soul to previous positions with [E]", 230, 100);
       } else if(lvl==2){
-        writeTxt(ctx, 1, font,"WHITE","You can wall jump off your soul!", 240, 120);
-        writeTxt(ctx, 1, font,"WHITE","Avoid spikes and clear high ledges", 240, 140);
+        writeTxt(ctx, 1, font,"WHITE","You can wall jump off your soul!", 240, 80);
+        writeTxt(ctx, 1, font,"WHITE","Avoid spikes and clear high ledges", 240, 100);
       } else if(lvl==3){
-        writeTxt(ctx, 1, font,"WHITE","Hit the button then reclaim your soul, Hold [E]", 280, 120);
-        writeTxt(ctx, 1, font,"WHITE","Re-use your soul on the second set of spikes!", 280, 140);
+        writeTxt(ctx, 1, font,"WHITE","Hit the button then reclaim your soul, Hold [E]", 230, 80);
+        writeTxt(ctx, 1, font,"WHITE","Re-use your soul on the second set of spikes!", 230, 100);
       } else if(lvl==4){
         writeTxt(ctx, 1, font,"WHITE","Run!!", 280, 120);
       } else if(lvl==5){
-        writeTxt(ctx, 1, font,"WHITE","Check points allow you to reclaim your soul and move on!", 280, 120);
+        writeTxt(ctx, 1, font,"WHITE","Check points allow you to reclaim your soul and move on!", 230, 100);
+      } else if(lvl==10){
+        font = "30px Verdana";
+        writeTxt(ctx, 1, font,"WHITE","Soul Jumper Completed!", 230, 100);
       }
     }
 

@@ -170,11 +170,6 @@ function hero(w, h, x, y, angle, type, scale) {
     this.hereos.forEach((e,i) => drawDead(ctx, e, i, this.hereos.length-1));
     ctx.restore();
 
-    // HP
-    for (let i = 1; i < this.hp; i++){
-      drawImg(ctx, this.e.image, 0, 0, this.e.width, this.e.height, (this.e.width*2)*i, this.e.height*2+40, 1, scale);
-    }
-
     // Particles
     for (let i = 0; i <= this.particles.length-1; i++){
       this.particles[i].update(ctx,delta);
