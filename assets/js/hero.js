@@ -17,7 +17,6 @@ function hero(w, h, x, y, angle, type, scale) {
   let gravity=7;
   let lastDir = RIGHT;
   let prevPos={x: this.e.x, y: this.e.y};
-  let currentHero = []
   let runtime=0;
   let respawnTime=0;
   let cenX=0;
@@ -31,15 +30,9 @@ function hero(w, h, x, y, angle, type, scale) {
   this.update = function(ctx, delta){
     this.time+=delta;
     idle+=delta;
-    // Add current position to Array
-    if(Math.abs(prevPos.x - this.e.x) > 20 || Math.abs(prevPos.y - this.e.y) > 20){
-      addCoords(this.e.x, this.e.y, currentHero);
-      prevPos={x: this.e.x, y: this.e.y};
-    }
-
     // Controls
     if(this.active){
-      if(!left() && !right()){
+      if(!left() && !right() && !up() && !down()){
         speed = speed > 0 ? speed -= .5 : 0;
         runtime = 0;
       } else {
@@ -47,15 +40,21 @@ function hero(w, h, x, y, angle, type, scale) {
         speed = speed > maxSpeed ? maxSpeed : speed += .5;
       }
 
-      if (left()|| (speed > 0 && lastDir==LEFT)){
-        lastDir=LEFT;
+      if (up()){
+        this.e.y -= this.gMove(0,1);
+      }
+
+      if (down()){
+        this.e.y += this.gMove(0,-1);
+      }
+
+      if (left()){
         this.e.x -= this.gMove(-1,0);
         this.e.flip = true;
         if(!left()) this.addDust();
       }
 
-      if (right()|| (speed > 0 && lastDir==RIGHT)){
-        lastDir=RIGHT;
+      if (right()){
         this.e.x += this.gMove(1,0);
         this.e.flip = false;
         if(!right()) this.addDust();
@@ -65,9 +64,7 @@ function hero(w, h, x, y, angle, type, scale) {
     // idle check
     if(up()||space()||one()||right()||left()) idle=0;
     if(idle>3){
-      this.e.angle+=40;
-      this.particles.push(new particle(rndNo(10,30), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
-      if(idle>5)idle=0;
+
     }
 
     // Particles
@@ -104,7 +101,6 @@ function hero(w, h, x, y, angle, type, scale) {
       cart.shakeTime=.15;
       playSound(DIEFX,1);
       this.hp--;
-      currentHero = [];
       this.active=false;
       respawnTime=.5;
       speed=0;
@@ -160,8 +156,6 @@ function hero(w, h, x, y, angle, type, scale) {
       spd=1;
     }
 
-    if(trap)spd=1;
-
     rec = cloneRectanlge(this.e.hb);
     rec.x += xx * spd;
     rec.y += yy * spd;
@@ -200,9 +194,4 @@ function hero(w, h, x, y, angle, type, scale) {
     return amount;
   }
 
-  function addCoords(x, y, arr) {
-    // Only keep 10 heros
-    if(arr.length>8) arr.splice(0,1);
-    arr.push({x: x, y: y, d: lastDir});
-  }
 }

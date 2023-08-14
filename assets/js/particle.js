@@ -55,19 +55,8 @@ function particle(w, h, x, y, angle, type, win, lastDir=RIGHT) {
       if(this.alpha>.1)this.alpha-=.01;
       this.w+=.1;
       if(this.time > .5)this.remove=true;
-
-    } else if(this.type=="bld"){
-      ctx.beginPath();
-      ctx.globalAlpha=this.alpha;
-      for(let i=0;i<=this.no;i++){
-        ctx.arc(this.x, this.y+i, this.w, 0, 6.283185307179586);
-        ctx.fillStyle = this.colour;
-        ctx.fill();
-      }
-      if(rndNo(1,10) > 8) this.no++;
-      this.alpha-=.01;;
-      if(this.time > 2.5 || this.alpha<=0)this.remove=true;
     }
+    
     ctx.globalAlpha=1;
     ctx.restore();
   }

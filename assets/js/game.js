@@ -27,7 +27,6 @@ let shaky = true;
 let cart = new Cart();
 let talk = true;
 let start=false;
-let menuBlocks=[];
 let music=true;
 let pause=false;
 
@@ -59,9 +58,6 @@ let mg = {
 
     // Generate intro screen
     cart.genLevel(0);
-    cart.levels[0].tiles.forEach((t) => {
-      if(t.entity.type>0) menuBlocks.push(t);
-    });
 
     // Keyboard
     window.addEventListener('keydown', function(e) {
