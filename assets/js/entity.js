@@ -32,7 +32,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.idle=0;
   this.pressed=false;
   this.kills=false;
-  this.trapactive=false;
   this.falls=false;
   this.fallTime=0;
   this.fall=false;
@@ -159,94 +158,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.isSolid = true;
         this.sx=16;
         break;
-      case types.DEAD:
-        this.isSolid = true;
-      case types.SPIKE:
-        this.sx=48;
-        this.kills=true;
-        break;
-      case types.LSPIKE:
-        this.sx=48;
-        this.angle=270;
-        this.kills=true;
-        break;
-      case types.RSPIKE:
-        this.sx=48;
-        this.angle=90;
-        this.kills=true;
-        break;
-      case types.TSPIKE:
-        this.sx=48;
-        this.angle=180;
-        this.kills=true;
-        break;
-      case types.DROPY:
-        this.sx=48;
-        this.sy=16;
-        this.kills=true;
-        break;
-      case types.BUTTON:
-        this.sx=64;
-        break;
-      case types.FLOOR:
-        this.sx=32;
-        this.sy=32;
-        this.alpha = .9;
-        break;
-      case types.PORTAL:
-        this.sx=64;
-        this.sy=16;
-        this.alpha = .9;
-        this.spin=true;
-        break;
       case types.AIR:
         this.sx=144;
-        break;
-      case types.DOOR:
-        this.isSolid = true;
-        this.sx=32;
-        break;
-      case types.PILL:
-        this.sx=16;
-        this.sy=16;
-        break;
-      case types.PILR:
-        this.sx=16;
-        this.sy=16;
-        this.flip=true;
-        break;
-      case types.SPIN:
-        this.sx=80;
-        this.sy=16;
-        this.spin=true;
-        this.kills=true;
-        break;
-      case types.WALL:
-        this.sy=32;
-        break;
-      case types.BRICK:
-        this.sy=32;
-        this.sx=32;
-        break;
-      case types.PILLE:
-        this.sx=16;
-        this.sy=32;
-        this.flip=true;
-        break;
-      case types.PILRE:
-        this.sx=16;
-        this.sy=32;
-        break;
-      case types.FALL:
-        this.sx=48;
-        this.sy=32;
-        this.isSolid=true;
-        this.falls=true;
-        break;
-      case types.CHK:
-        this.sx=64;
-        this.sy=32;
-        this.chk=true;
         break;
      }
   }

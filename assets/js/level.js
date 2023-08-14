@@ -89,7 +89,6 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
 
         var angle = 0;
 
-        if(t == types.DROPY) trigger=true;
         if(t == types.HERO){
           t=types.AIR;
           this.startPos=[xx,yy];
@@ -97,7 +96,7 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
         if(t == types.AIR && rndNo(0,100)>95){
           t=types.BRICK;
         }
-        var tile = new Tile(tileSize, xx, yy, angle, t, false, c, r, scale, trigger);
+        var tile = new Tile(tileSize, xx, yy, angle, t, false, c, r, scale);
         this.tiles.push(tile);
 
         if(tile.trigger==true) this.triggers.push(tile);

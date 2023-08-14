@@ -16,14 +16,6 @@ function ranColor() {
   return c;
 }
 
-let voices = speechSynthesis.getVoices();
-function speak(t) {
-	let s = new SpeechSynthesisUtterance();
-	s.text = t;
-  s.voice = speechSynthesis.getVoices().filter(function(voice) {return voice.name == "Google UK English Female"; })[0];
-  speechSynthesis.speak(s);
-}
-
 function rndNo(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
