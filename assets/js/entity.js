@@ -18,7 +18,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.colour = colour;
   this.image = atlas;
   this.animated = false;
-  this.spin=false;
   this.alpha = 1;
   this.currentTile=0;
   this.colArr = [];
@@ -29,7 +28,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.hp=this.maxHP;
   this.flip=false;
   this.idle=0;
-  this.fall=false;
   this.chk=false;
 
   // ATLAS Positions
@@ -107,10 +105,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         f=0; // float
         z=0; // hover
 
-        if(this.angle > 0 || this.spin){
+        if(this.angle > 0){
           let z=24;
           ctx.translate(z,z);
-          this.angle=this.spin?this.angle+=8+rndNo(0,5):this.angle;
           ctx.rotate(this.angle*Math.PI/180);
           ctx.translate(-z,-z);
         }
