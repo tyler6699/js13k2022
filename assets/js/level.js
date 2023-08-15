@@ -43,13 +43,4 @@ function level(num, canvasW, canvasH, scale) {
       return t == types.AIR;
   }
 
-  function isEdge(r,c,col,row){
-    return (c == 1) || (c == col-2) || (r==1 && c == 1) || (r==1 && c == col-2) || (r==1 && c > 1 && c < col-2) ||
-           (r==row-2 && c == col-2) || (r==row-2 && c == 1) || (r==row-2 && c > 1 && c < col-2);
-  }
-
-  function inBounds(r,c){
-    return r > 2 && r<11 && c>1 && c<17;
-  }
-
 }

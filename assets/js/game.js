@@ -25,7 +25,6 @@ let atlas = new Image();
 atlas.src = "atlas.png";
 let shaky = true;
 let cart = new Cart();
-let talk = true;
 let start=false;
 let music=true;
 let pause=false;
@@ -99,7 +98,7 @@ function updateGameArea() {
   if(start){
     if(cart.hero != null)cart.hero.e.active=true;
     gameStarted=true;
-    //if(audioCtx == null) audioCtx = new AudioContext();
+    if(audioCtx == null) audioCtx = new AudioContext();
   }
 
   // Delta
@@ -136,16 +135,16 @@ function updateGameArea() {
     let lvl=cart.hero.e.curLevel;
 
     // Music
-    // if(pause){
-    //   audio.pause();
-    //   music=true;
-    // }
-    //
-    // if(music && songLoaded && !pause){
-    //   audio.play();
-    //   audio.loop=true;
-    //   music=false;
-    // }
+    if(pause){
+      audio.pause();
+      music=true;
+    }
+
+    if(music && songLoaded && !pause){
+      audio.play();
+      audio.loop=true;
+      music=false;
+    }
   }
 }
 

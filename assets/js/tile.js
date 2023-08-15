@@ -9,13 +9,6 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
     this.entity.update(delta);
   }
 
-  this.change = function(){
-    if (this.entity.type >= Object.values(types).length){
-      this.entity.type = 0;
-    }
-    this.entity.setType();
-  }
-
   this.isTile = function(){
     return true;
   }
