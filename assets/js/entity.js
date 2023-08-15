@@ -5,12 +5,12 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.height = h;
   this.mhWidth = w / -2;
   this.mhHeight = h / -2;
-  this.mhWScaled = (w / -2) * scale;
-  this.mhHScaled = (h / -2) * scale;
+  this.mhWScld = (w / -2) * scale;
+  this.mhHScld = (h / -2) * scale;
   this.hWidth = w / 2;
   this.hHeight = h / 2;
-  this.cenX=x-this.mhWScaled;
-  this.cenY=y-this.mhHScaled;
+  this.cenX=x-this.mhWScld;
+  this.cenY=y-this.mhHScld;
   this.angle = angle;
   this.x = x;
   this.y = y;
@@ -27,13 +27,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.time=0;
   this.maxHP=maxHP;
   this.hp=this.maxHP;
-  this.breaks=false;
   this.flip=false;
   this.idle=0;
-  this.pressed=false;
-  this.kills=false;
-  this.falls=false;
-  this.fallTime=0;
   this.fall=false;
   this.chk=false;
 
@@ -125,8 +120,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       ctx.restore();
     }
 
-    this.cenX=this.x-this.mhWScaled;
-    this.cenY=this.y-this.mhHScaled;
+    this.cenX=this.x-this.mhWScld;
+    this.cenY=this.y-this.mhHScld;
   }
 
   this.isHero = function(){
@@ -155,7 +150,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sy=0;
         break;
       case types.BLOCK:
-        this.isSolid = true;
+        this.isSolid = false;
         this.sx=16;
         break;
       case types.AIR:

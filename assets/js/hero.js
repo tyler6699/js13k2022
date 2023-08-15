@@ -4,17 +4,11 @@ function hero(w, h, x, y, angle, type, scale) {
   this.hp=2;
   this.particles=[];
   let curTile=null;
-  let jumping=false;
   let airTime=0;
   let idle=0;
   let speed=0;
   // HERO PARAMS
   let maxSpeed=5;
-  let maxJumpTime=.5;
-  let maxJumpH=13;
-  let jumpH=0;
-  let jumpTime=0;
-  let gravity=7;
   let lastDir = RIGHT;
   let prevPos={x: this.e.x, y: this.e.y};
   let runtime=0;
@@ -23,7 +17,6 @@ function hero(w, h, x, y, angle, type, scale) {
   let cenY=0;
   let offScreen=false;
   this.deaths=0;
-  this.doneTime=0;
   this.done=false;
   this.changeLevel=false;
 
@@ -81,12 +74,11 @@ function hero(w, h, x, y, angle, type, scale) {
       return p.remove == false;
     });
 
-    cenX = this.e.x-this.e.mhWScaled;
-    cenY = this.e.y-this.e.mhHScaled;
+    cenX = this.e.x-this.e.mhWScld;
+    cenY = this.e.y-this.e.mhHScld;
   }
 
   this.reset = function(){
-    this.doneTime=0;
     this.done=false;
     this.particles=[];
     this.hp=2;
@@ -112,8 +104,8 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.setCurrentTile = function(scaled){
     // Set Hero Current Tile
-    heroRow = Math.floor((this.e.y - this.e.mhHScaled) / scaled);
-    heroCol = Math.floor((this.e.x - this.e.mhWScaled) / scaled);
+    heroRow = Math.floor((this.e.y - this.e.mhHScld) / scaled);
+    heroCol = Math.floor((this.e.x - this.e.mhWScld) / scaled);
     heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols*heroRow);
     if(curTile != null) this.prevTile = curTile;
     curTile = cart.level.tiles[heroTileIndex];
@@ -129,12 +121,12 @@ function hero(w, h, x, y, angle, type, scale) {
   this.addDust = function(both=false){
     if(both){
       for(let i=0;i<rndNo(5,10);i++){
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
+        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
+        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
       }
     } else {
       for(let i=0;i<rndNo(1,4);i++){
-        this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScaled, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
+        this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
       }
     }
     runtime = 0;
@@ -144,18 +136,10 @@ function hero(w, h, x, y, angle, type, scale) {
     // Jump Code
   }
 
-  this.gMove = function(xx,yy, grav=false, jump=false, fall=false,trap=false){
+  this.gMove = function(xx,yy, grav=false, jump=false){
     this.e.idle=0;
 
-    var spd = grav ? gravity : speed;
-    if(jump){
-      jumpH-=.3;
-      jumpH = jumpH > 0 ? jumpH : 0;
-      spd=jumpH;
-    } else if(fall){
-      spd=1;
-    }
-
+    var spd = speed;
     rec = cloneRectanlge(this.e.hb);
     rec.x += xx * spd;
     rec.y += yy * spd;

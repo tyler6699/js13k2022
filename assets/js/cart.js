@@ -29,23 +29,14 @@ function Cart() {
   this.shakeTime=0;
   this.reset=false;
   this.wait=2;
-  this.rawlvls=[];
-
-  this.rawlvls=[]
-
-// Test Level
-this.rawlvls.push([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]);
-
 
   this.genLevel = function(num){
     this.levels = []; // Array to get tiles surrounding an entity
 
-    let doors = [130,130,130];
-    for(i=0; i<this.rawlvls.length; i++){
-      var lvl = new level(i+1, canvasW, canvasH, i, this.scale, doors[i], this.rawlvls[i]);
-      lvl.reset(i, this.scaled);
-      this.levels.push(lvl);
-    }
+    var lvl = new level(1, canvasW, canvasH, this.scale);
+    lvl.reset(1, this.scaled);
+    this.levels.push(lvl);
+
     // TODO Function this
     this.level = this.levels[0];
     this.hero.e.curLevel = 0;

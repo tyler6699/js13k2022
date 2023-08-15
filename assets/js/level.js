@@ -1,4 +1,4 @@
-function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
+function level(num, canvasW, canvasH, scale) {
   STAGE=num;
   this.tiles = [];
   this.active = false;
@@ -16,18 +16,16 @@ function level(num, canvasW, canvasH, id, scale, doorDrop, tiles) {
   this.reset = function(id, scaled){
     this.tiles = [];
     this.dTiles = [];
-    this.mvTiles = [];
-    this.opendoors=false;
     mvd=0;
     let trigger=false;
     let t=0;
     // Main level tiles
-    rows=tiles.length;
-    this.cols=tiles[0].length
+    rows=5;
+    this.cols=5;
 
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
-        let t = tiles[r][c];
+        let t = 1;
         ts = tileSize * scale;
         xx = c * ts;
         yy = r * ts;
