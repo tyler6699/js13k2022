@@ -111,7 +111,6 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
           ctx.rotate(this.angle*Math.PI/180);
           ctx.translate(-z,-z);
         }
-
         ctx.drawImage(img, this.sx, this.sy, w, h, hw+z, hh+f, w * s, h * s);
       }
       ctx.restore();
@@ -146,9 +145,14 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
         this.sx=0;
         this.sy=0;
         break;
-      case types.BLOCK:
-        this.isSolid = false;
+      case types.GRASS:
         this.sx=16;
+        break;
+      case types.BRDE:
+        this.sx=32;
+        break;
+      case types.WTR:
+        this.sx=48;
         break;
       case types.AIR:
         this.sx=144;

@@ -18,7 +18,6 @@ let processClick = false;
 let GAMEOVER=false;
 let RELOAD=false;
 let COL1 = "990099";
-let COL2 = "05f2db";
 let WIN = false;
 let STAGE=1;
 let atlas = new Image();
