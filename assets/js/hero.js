@@ -8,7 +8,7 @@ function hero(w, h, x, y, angle, type, scale) {
   let idle=0;
   let speed=0;
   // HERO PARAMS
-  let maxSpeed=5;
+  let maxSpeed=3;
   let lastDir = RIGHT;
   let prevPos={x: this.e.x, y: this.e.y};
   let runtime=0;

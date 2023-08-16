@@ -1,46 +1,51 @@
 function level(num, canvasW, canvasH, scale) {
-  STAGE=num;
+  STAGE = num;
   this.tiles = [];
   this.active = false;
-  this.startPos=[0,0];
-  let tileSize = 16;
-  let levelArray;
-  let rows = 13;
-  this.cols = 24;
-  let mvd=0;
+  this.startPos = [0, 0];
 
-  this.draw = function(hero, delta){
+  // Isometric tileSize - Width remains the same, but height is half
+  let tileWidth = 16;
+  let tileHeight = 8;
+
+  let levelArray;
+  let mvd = 0;
+
+  this.draw = function(hero, delta) {
     this.tiles.forEach(e => e.update(delta));
   }
 
-  this.reset = function(id, scaled){
+  this.reset = function(id, scaled) {
     this.tiles = [];
     this.dTiles = [];
-    mvd=0;
-    let trigger=false;
-    let t=0;
+    mvd = 0;
+    let trigger = false;
+    let t = 0;
+
     // Main level tiles
-    rows=5;
-    this.cols=5;
+    let rows = 30;
+    this.cols = 30;
 
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
         let t = 1;
-        ts = tileSize * scale;
-        xx = c * ts;
-        yy = r * ts;
+
+        if(rndNo(0,100)>90){ t=types.AIR }
+        if(rndNo(0,100)>70){ t=types.BRDE }
+        if(rndNo(0,100)>60){ t=types.WTR }
+
+        // Adjust the xx and yy calculation for isometric positioning
+        xx = (c - r) * tileWidth;
+        yy = (c + r) * tileHeight;
 
         var angle = 0;
-
-        var tile = new Tile(tileSize, xx, yy, angle, t, false, c, r, scale);
+        var tile = new Tile(tileWidth, xx, yy, angle, t, false, c, r, scale);
         this.tiles.push(tile);
       }
     }
-
   }
 
-  function isAir(t){
-      return t == types.AIR;
+  function isAir(t) {
+    return t == types.AIR;
   }
-
 }
