@@ -1,9 +1,11 @@
+colz=40;
+
 function level(num, canvasW, canvasH, scale) {
   STAGE = num;
   this.tiles = [];
   this.active = false;
   this.startPos = [0, 0];
-  this.cols = 30;
+  this.cols = colz;
 
   // Isometric tileSize - Width remains the same, but height is half
   let tileWidth = 16;
@@ -26,20 +28,25 @@ function level(num, canvasW, canvasH, scale) {
     let maxWater = rndNo(2,5);
     let water=0;
     // Main level tiles
-    let rows = 30;
+    let rows = colz;
 
     // Main Loop
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
         let t = 1;
 
-        //if(rndNo(0,100)>90){ t=types.AIR }
-        // if(rndNo(0,100)>90){ t=types.BRDE }
-        if(rndNo(0,100)>99 && water<maxWater){
-          t=types.WTR;
-          water++;
+        if(r < 4||c<4||c>colz-4||r>colz-4){
+          t=types.SEA;
+        } else if ((r < 6||c<6||c>colz-6||r>colz-6) && rndNo(0,100)>50) {
+          t=types.SEA;
+        } else {
+          //if(rndNo(0,100)>90){ t=types.AIR }
+          // if(rndNo(0,100)>90){ t=types.BRDE }
+          if(rndNo(0,100)>99 && water<maxWater){
+            t=types.WTR;
+            water++;
+          }
         }
-
         // Adjust the xx and yy calculation for isometric positioning
         xx = (c - r) * tileWidth;
         yy = (c + r) * tileHeight;
@@ -58,9 +65,9 @@ function level(num, canvasW, canvasH, scale) {
         let tile = this.tiles[i];
 
         if (isWater(tile.entity.type)) {
-            for (let r = 0; r < rndNo(3,5); r++) {
+            for (let r = 0; r < rndNo(3,8); r++) {
                 for (let col = 0; col < rndNo(3,5); col++) {
-                    let pos = getTilePos(tile.row +r, tile.column+col, 30);
+                    let pos = getTilePos(tile.row +r, tile.column+col, colz);
 
                     if (isValidPos(pos, maxTiles)) {
                         changes.push(pos);
@@ -71,8 +78,10 @@ function level(num, canvasW, canvasH, scale) {
     }
 
     changes.forEach(pos => {
+      if(rndNo(0,100)>20){
         this.tiles[pos].entity.type = 4;
         this.tiles[pos].entity.setType();
+      }
     });
   }
 

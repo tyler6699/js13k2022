@@ -154,6 +154,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.WTR:
         this.sx=48;
         break;
+      case types.SEA:
+        this.sx=48;
+        break;
       case types.AIR:
         this.sx=144;
         break;
