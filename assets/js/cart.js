@@ -48,7 +48,6 @@ function Cart() {
 
   // Changing the number of columns changes the surrounding tiles array.
   var c = this.levels[this.hero.e.curLevel].cols;
-  this.surTiles = [-1,1,c-1,c,c+1,-c-1,-c,-c+1];
 
   // Render & Logic
   this.update = function(delta, time, intro=false) {

@@ -102,21 +102,86 @@ function hero(w, h, x, y, angle, type, scale) {
     }
   }
 
-  this.setCurrentTile = function(scaled){
-    // Set Hero Current Tile
-    heroRow = Math.floor((this.e.y - this.e.mhHScld) / scaled);
-    heroCol = Math.floor((this.e.x - this.e.mhWScld) / scaled);
-    heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols*heroRow);
-    if(curTile != null) this.prevTile = curTile;
-    curTile = cart.level.tiles[heroTileIndex];
 
-    if(this.e.x != prevPos.x || this.e.y != prevPos.y){
-      this.e.colArr = [];
+  this.setCurrentTile = function(scaled) {
+      // Convert hero's Cartesian position to grid position
+      const gridX = Math.floor(this.e.x / scaled);
+      const gridY = Math.floor(this.e.y / scaled * 2.2);
 
-      // Add surrounding tiles
-      cart.surTiles.forEach(e => this.e.colArr.push(cart.level.tiles[heroTileIndex+e]));
-    }
+      // Convert this grid position to isometric grid position based on your setup
+      const isoGridRow = gridY - gridX;
+      const isoGridCol = gridX + gridY;
+
+      heroRow = Math.floor(isoGridRow);
+      heroCol = Math.floor(isoGridCol);
+
+      heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols * heroRow);
+
+      curTile = cart.level.tiles[heroTileIndex];
+
+      if(curTile){
+          console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y);
+          curTile.entity.type = 2
+          curTile.entity.setType();
+      }
   }
+
+  // this.setCurrentTile = function(scaled) {
+  //     // Convert hero's Cartesian position to grid position
+  //     const gridX = Math.floor(this.e.x / scaled);
+  //     const gridY = Math.floor(this.e.y / scaled);
+  //
+  //     // Convert this grid position to isometric grid position based on your setup
+  //     const isoGridRow = gridX + gridY;
+  //     const isoGridCol = gridY - gridX;
+  //
+  //     heroRow = Math.floor(isoGridRow);
+  //     heroCol = Math.floor(isoGridCol);
+  //
+  //     heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols * heroRow);
+  //
+  //     if (curTile != null) this.prevTile = curTile;
+  //     curTile = cart.level.tiles[heroTileIndex];
+  //
+  //     if(curTile){
+  //       console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y);
+  //       //curTile.entity.type = 0;
+  //       //curTile.entity.setType();
+  //     }
+  //
+  // }
+
+
+  // this.setCurrentTile = function(scaled) {
+  //     // // 1. Convert hero's Cartesian position to grid position
+  //     // const gridX = Math.floor(this.e.x / scaled);
+  //     // const gridY = Math.floor(this.e.y / scaled);
+  //     //
+  //     // // 2. Convert this grid position to isometric grid position
+  //     // const isoGridX = gridX - gridY;
+  //     // const isoGridY = (gridX + gridY) / 2;
+  //     //
+  //     // heroRow = Math.floor(isoGridY);
+  //     // heroCol = Math.floor(isoGridX);
+  //     //
+  //     // heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols * heroRow);
+  //     //
+  //     // curTile = cart.level.tiles[heroTileIndex];
+  //     // console.log(heroTileIndex);
+  //     // if(curTile){
+  //     //   curTile.entity.type = 0;
+  //     //   curTile.entity.setType();
+  //     // }
+  // }
+
+  // this.setCurrentTile = function(scaled){
+  //   // Set Hero Current Tile
+  //   heroRow = Math.floor((this.e.y - this.e.mhHScld) / scaled);
+  //   heroCol = Math.floor((this.e.x - this.e.mhWScld) / scaled);
+  //   heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols*heroRow);
+  //   if(curTile != null) this.prevTile = curTile;
+  //   curTile = cart.level.tiles[heroTileIndex];
+  // }
 
   this.addDust = function(both=false){
     if(both){
