@@ -105,8 +105,8 @@ function hero(w, h, x, y, angle, type, scale) {
 
   this.setCurrentTile = function(scaled) {
       // Convert hero's Cartesian position to grid position
-      const gridX = Math.floor(this.e.cenX / scaled);
-      const gridY = Math.floor((this.e.y+this.e.height*1.5) / scaled * 2);
+      const gridX = (this.e.x) / scaled;
+      const gridY = (this.e.y+this.e.height*1.5) / scaled * 2;
 
       // Convert this grid position to isometric grid position based on your setup
       const isoGridRow = gridY - gridX;
