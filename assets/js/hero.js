@@ -121,8 +121,8 @@ function hero(w, h, x, y, angle, type, scale) {
 
       if(curTile){
         // console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y);
-        //curTile.entity.type = 2
-        //curTile.entity.setType();
+        curTile.entity.type = 3;
+        curTile.entity.setType();
       }
   }
 
