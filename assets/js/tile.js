@@ -38,7 +38,7 @@ function getElevationOffset(c, r, maxCols, maxRows) {
     const centerX = maxCols / 2;
     const centerY = maxRows / 2;
     const radiusOfInfluence = Math.min(maxCols, maxRows) / 3; // Change this to set the size of the central raised area
-    const maxElevation = 10;  // The amount the center tiles will be elevated
+    const maxElevation = 12;  // The amount the center tiles will be elevated
 
     const dist = Math.sqrt((c - centerX) * (c - centerX) + (r - centerY) * (r - centerY));
 

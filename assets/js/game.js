@@ -55,7 +55,7 @@ let mg = {
     this.interval = setInterval(updateGameArea, 20);
 
     // Generate intro screen
-    cart.genLevel(0);
+    // cart.genLevel(0);
 
     // Keyboard
     window.addEventListener('keydown', function(e) {

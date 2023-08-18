@@ -6,6 +6,7 @@ function level(num, canvasW, canvasH, scale) {
   this.active = false;
   this.startPos = [0, 0];
   this.cols = colz;
+  this.rotate=false;
 
   // Isometric tileSize - Width remains the same, but height is half
   let tileWidth = 16;
@@ -16,6 +17,12 @@ function level(num, canvasW, canvasH, scale) {
 
   this.draw = function(hero, delta) {
     this.tiles.forEach(e => e.update(delta));
+
+    if(this.rotate){
+      rotateMap90Degrees(cart);
+      // printMap(cart);
+      this.rotate=false;
+    }
   }
 
   this.reset = function(id, scaled) {
@@ -85,6 +92,54 @@ function level(num, canvasW, canvasH, scale) {
     });
   }
 
+  function printMap(cart) {
+      let size = colz;
+      let mapRepresentation = "";
+
+      for (let i = 0; i < size; i++) {
+          for (let j = 0; j < size; j++) {
+              let tile = cart.level.tiles[i * size + j];
+              mapRepresentation += tile.entity.type + " ";
+          }
+          mapRepresentation += "\n";
+      }
+      console.log(mapRepresentation);
+  }
+
+    function swapTileTypes(tileA, tileB) {
+        let tempType = tileA.entity.type;
+        tileA.entity.type = tileB.entity.type;
+        tileB.entity.type = tempType;
+        tileA.entity.setType();
+        tileB.entity.setType();
+    }
+
+    function rotateMap90Degrees(cart) {
+      let size = colz;
+
+      // Step 1: Transpose the matrix
+      for (let i = 0; i < size; i++) {
+          for (let j = i + 1; j < size; j++) {
+              // Swap tile[i][j] and tile[j][i]
+              let tileA = cart.level.tiles[i * size + j];
+              let tileB = cart.level.tiles[j * size + i];
+
+              swapTileTypes(tileA, tileB);
+          }
+      }
+
+      // Step 2: Reverse each row
+      for (let i = 0; i < size; i++) {
+          for (let j = 0; j < size / 2; j++) {
+              // Swap tile[i][j] and tile[i][size-j-1]
+              let tileA = cart.level.tiles[i * size + j];
+              let tileB = cart.level.tiles[i * size + (size - j - 1)];
+
+              swapTileTypes(tileA, tileB);
+          }
+      }
+  }
+
   function isValidPos(pos, max) {
       return pos >= 0 && pos < max;
   }
@@ -100,4 +155,5 @@ function level(num, canvasW, canvasH, scale) {
   function isWater(t) {
     return t == types.WTR;
   }
+
 }
