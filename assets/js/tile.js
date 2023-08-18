@@ -43,7 +43,7 @@ function getElevationOffset(c, r, maxCols, maxRows) {
     const dist = Math.sqrt((c - centerX) * (c - centerX) + (r - centerY) * (r - centerY));
 
     if (dist < radiusOfInfluence) {
-        return -maxElevation; // Elevate the tiles within the radius of influence
+        return 0; //-maxElevation; // Elevate the tiles within the radius of influence
     }
     return 0; // No elevation for tiles outside of the radius
 }
