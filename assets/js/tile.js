@@ -1,39 +1,39 @@
 function Tile(size, x, y, angle, type, solid, column, row, scale) {
-  // Calculate offset for the tile's y-position
-  this.elevation = getElevationOffset(column, row, colz, colz);
-  y += this.elevation;
-  this.noDrop=y;
-  this.drop = getCurveOffset(column, row, colz, colz);
-  this.dropping=true;
+  // Add some height to the map
+  y += getElevationOffset(column, row, colz, colz)
 
-  this.entity = new entity(size, size, x, y, angle, type, "", scale, 0, 0);
-  this.entity.y=this.entity.y+this.drop;
+  // Drop height for intro (Tiles fall from the sky)
+  this.drop = getCurveOffset(column, row, colz, colz);
+  this.e = new entity(size, size, x, y, angle, type, "", scale, 0, 0);
   this.column = column;
   this.row = row;
   this.active = true;
-  this.e=this.entity;
+  if(type==types.GRASS) this.e.y -= 4;
+  // if(type==types.WTR) this.e.y +=4;
+  if(type==types.SND) this.e.y +=2;
 
+  // SEA
   this.oscillationSpeed = 0.5;  // How fast it moves up and down.
   this.oscillationAmount = 5;  // How much it moves up and down.
-  this.initialY = y;            // Store the initial Y position to use it as a reference.
+  this.initialY = this.e.y;            // Store the initial Y position to use it as a reference.
+
+  // Set new height to drop from.
+  this.e.y=this.e.y+this.drop;
 
   this.update = function(delta) {
-    if(this.dropping && this.entity.y < this.noDrop){
-      this.entity.y = lerp(this.entity.y,this.noDrop ,.06);
-    } else {
-      this.dropping = false;
-    }
+    this.e.y = lerp(this.e.y,this.initialY,.08);
 
-  if (this.entity.type == types.SEA) {
+    if (this.e.type == types.SEA) {
       // Get the current time in seconds
       let currentTime = Date.now() * 0.001;
 
       // Calculate the new Y based on a sine wave.
       let offsetY = Math.sin(currentTime * this.oscillationSpeed + this.column) * this.oscillationAmount;
-      this.entity.y = this.initialY + offsetY;
+      this.e.offsetY=0;
+      this.e.y = this.initialY + offsetY;
     }
 
-    this.entity.update(delta);
+    this.e.update(delta);
   }
 
   this.isTile = function(){

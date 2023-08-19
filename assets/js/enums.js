@@ -4,7 +4,8 @@ const types = {
   HERO:2,
   BRDE:3,
   WTR:4,
-  SEA:5
+  SEA:5,
+  SND:6
 }
 
 const mobtype = {

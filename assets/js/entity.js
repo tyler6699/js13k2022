@@ -29,6 +29,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.flip=false;
   this.idle=0;
   this.chk=false;
+  this.offsetY=0;
 
   // ATLAS Positions
   this.sx=0;
@@ -160,6 +161,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.AIR:
         this.sx=144;
         break;
+      case types.SND:
+          this.sy=16;
+          break;
      }
   }
 

@@ -120,23 +120,23 @@ function hero(w, h, x, y, angle, type, scale) {
       curTile = cart.level.tiles[heroTileIndex];
 
       if(curTile){
-        //console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y);
+        console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y + " Type: " + curTile.e.type + " num:" + heroTileIndex);
         //curTile.entity.type = 3;
         //curTile.entity.setType();
       }
   }
 
   this.addDust = function(both=false){
-    if(both){
-      for(let i=0;i<rndNo(5,10);i++){
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
-      }
-    } else {
-      for(let i=0;i<rndNo(1,4);i++){
-        this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
-      }
-    }
+    // if(both){
+    //   for(let i=0;i<rndNo(5,10);i++){
+    //     this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
+    //     this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
+    //   }
+    // } else {
+    //   for(let i=0;i<rndNo(1,4);i++){
+    //     this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
+    //   }
+    // }
     runtime = 0;
   }
 

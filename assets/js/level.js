@@ -40,12 +40,14 @@ function level(num, canvasW, canvasH, scale) {
     // Main Loop
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
-        let t = 1;
+        let t = 1; // GRASS
 
         if(r < 4||c<4||c>colz-4||r>colz-4){
           t=types.SEA;
         } else if ((r < 6||c<6||c>colz-6||r>colz-6) && rndNo(0,100)>50) {
           t=types.SEA;
+        } else if ((r < 8||c<8||c>colz-8||r>colz-8) && rndNo(0,100)>40) {
+          t=types.SND;
         } else {
           //if(rndNo(0,100)>90){ t=types.AIR }
           // if(rndNo(0,100)>90){ t=types.BRDE }
@@ -71,7 +73,7 @@ function level(num, canvasW, canvasH, scale) {
     for (let i = 0; i < maxTiles; i++) {
         let tile = this.tiles[i];
 
-        if (isWater(tile.entity.type)) {
+        if (isWater(tile.e.type)) {
             for (let r = 0; r < rndNo(3,8); r++) {
                 for (let col = 0; col < rndNo(3,5); col++) {
                     let pos = getTilePos(tile.row +r, tile.column+col, colz);
@@ -86,10 +88,14 @@ function level(num, canvasW, canvasH, scale) {
 
     changes.forEach(pos => {
       if(rndNo(0,100)>20){
-        this.tiles[pos].entity.type = 4;
-        this.tiles[pos].entity.setType();
+        if(this.tiles[pos].e.type != types.WTR){
+          this.tiles[pos].e.type = types.WTR;
+          this.tiles[pos].e.setType();
+          this.tiles[pos].initialY +=4;
+        }
       }
     });
+
   }
 
   function printMap(cart) {
