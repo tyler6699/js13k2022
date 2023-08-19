@@ -4,7 +4,7 @@ function level(num, canvasW, canvasH, scale) {
   STAGE = num;
   this.tiles = [];
   this.active = false;
-  this.startPos = [0, 0];
+  this.startPos = [0, 260];
   this.cols = colz;
   this.rotate=false;
 
@@ -15,8 +15,8 @@ function level(num, canvasW, canvasH, scale) {
   let levelArray;
   let mvd = 0;
 
-  this.draw = function(hero, delta) {
-    this.tiles.forEach(e => e.update(delta));
+  this.draw = function(hero, delta, intro) {
+    this.tiles.forEach(e => e.update(delta, intro));
 
     if(this.rotate){
       rotateMap90Degrees(cart);

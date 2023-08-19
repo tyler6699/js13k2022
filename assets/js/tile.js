@@ -2,8 +2,12 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
   // Calculate offset for the tile's y-position
   this.elevation = getElevationOffset(column, row, colz, colz);
   y += this.elevation;
+  this.noDrop=y;
+  this.drop = getCurveOffset(column, row, colz, colz);
+  this.dropping=true;
 
   this.entity = new entity(size, size, x, y, angle, type, "", scale, 0, 0);
+  this.entity.y=this.entity.y+this.drop;
   this.column = column;
   this.row = row;
   this.active = true;
@@ -14,6 +18,11 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
   this.initialY = y;            // Store the initial Y position to use it as a reference.
 
   this.update = function(delta) {
+    if(this.dropping && this.entity.y < this.noDrop){
+      this.entity.y = lerp(this.entity.y,this.noDrop ,.06);
+    } else {
+      this.dropping = false;
+    }
 
   if (this.entity.type == types.SEA) {
       // Get the current time in seconds
@@ -21,7 +30,6 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
 
       // Calculate the new Y based on a sine wave.
       let offsetY = Math.sin(currentTime * this.oscillationSpeed + this.column) * this.oscillationAmount;
-
       this.entity.y = this.initialY + offsetY;
     }
 
@@ -32,6 +40,21 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
     return true;
   }
 
+}
+
+function getCurveOffset(c, r, maxCols, maxRows) {
+    const centerX = maxCols / 2;
+    const centerY = maxRows / 2;
+
+    // Parameters that determine the height and width of the bell curve
+    const height = 500;  // This determines how much the center tiles will be elevated
+    const width = Math.min(maxCols, maxRows) / 3;
+
+    const distSq = (c - centerX) * (c - centerX) + (r - centerY) * (r - centerY);
+    const elevation = height * Math.exp(-distSq / (2 * width * width));
+
+    // Since we want the center to be higher and the edges to be lower, subtract the elevation value
+    return -elevation;
 }
 
 function getElevationOffset(c, r, maxCols, maxRows) {

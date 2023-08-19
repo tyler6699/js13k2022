@@ -121,7 +121,7 @@ function updateGameArea() {
     ctx.save();
   } else {
     mg.clear();
-    cart.update(delta / 1e3, TIME);
+    cart.update(delta, TIME, false);
     //drawBox(ctx,0.1,"#"+COL1,0,0,800,600)
     let font = "15px Verdana";
     writeTxt(ctx, 1, font,"WHITE","[M] Music: " + !pause, 650, 20);

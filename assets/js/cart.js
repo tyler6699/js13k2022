@@ -7,6 +7,7 @@ function Cart() {
   this.cam=new Camera();
   this.ratio=1;
   this.tips=true;
+  this.time=0;
 
   // console.log("Canvas W: " + canvasW + " Canvas H: " + canvasH + " newWidthToHeight:" + newWidthToHeight);
   // console.log("totalWidth: " + totalWidth + " totalHeight: " + totalHeight );
@@ -23,7 +24,7 @@ function Cart() {
   this.scale = 2;
   this.cube = 16; // width of tiles
   this.scaled = this.scale*this.cube;
-  this.hero = new hero(16, 16, 40 * this.scale, 100 * this.scale, 0, types.HERO, this.scale);
+  this.hero = new hero(16, 16, 0, 0, 0, types.HERO, this.scale);
   this.introT=0;
   this.shake=0;
   this.shakeTime=0;
@@ -51,6 +52,7 @@ function Cart() {
 
   // Render & Logic
   this.update = function(delta, time, intro=false) {
+    this.time=time;
     if(resize){
       resize=false;
       ctx.scale(this.ratio,this.ratio);
@@ -59,19 +61,19 @@ function Cart() {
     // Screen shake
     this.shake = shaky ? Math.cos(TIME) : 0;
     this.hero.setCurrentTile(this.scaled);
-    this.level.draw(this.hero, delta);
 
     // HERO
     if(!intro){
+      this.level.draw(this.hero, delta);
       this.hero.update(ctx, delta);
 
       // MOUSE
       mg.canvas.style.cursor='none';
-
-      // Follow hero
-      this.cam.x = lerp(-this.hero.e.x + (totalWidth/2)-20,this.cam.x ,.8);
-      this.cam.y = lerp(-this.hero.e.y + (totalHeight/2)-80,this.cam.y ,.8);
     }
+
+    // Follow hero
+    this.cam.x = lerp(-this.hero.e.x + (totalWidth/2)-20,this.cam.x ,.8);
+    this.cam.y = lerp(-this.hero.e.y + (totalHeight/2)-80,this.cam.y ,.8);
   }
 
 }
