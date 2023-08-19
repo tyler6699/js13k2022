@@ -36,7 +36,7 @@ function level(num, canvasW, canvasH, scale) {
     let water=0;
     // Main level tiles
     let rows = colz;
-
+    let tileID=0;
     // Main Loop
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
@@ -61,8 +61,9 @@ function level(num, canvasW, canvasH, scale) {
         yy = (c + r) * tileHeight;
 
         var angle = 0;
-        var tile = new Tile(tileWidth, xx, yy, angle, t, false, c, r, scale);
+        var tile = new Tile(tileID,tileWidth, xx, yy, angle, t, false, c, r, scale);
         this.tiles.push(tile);
+        tileID++;
       }
     }
 

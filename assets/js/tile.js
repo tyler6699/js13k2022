@@ -1,6 +1,8 @@
-function Tile(size, x, y, angle, type, solid, column, row, scale) {
+function Tile(id, size, x, y, angle, type, solid, column, row, scale) {
+  this.id = id;
   // Add some height to the map
-  y += getElevationOffset(column, row, colz, colz)
+  this.up=getElevationOffset(column, row, colz, colz);
+  y += this.up;
 
   // Drop height for intro (Tiles fall from the sky)
   this.drop = getCurveOffset(column, row, colz, colz);
