@@ -127,17 +127,17 @@ function hero(w, h, x, y, angle, type, scale) {
   }
 
   this.addDust = function(both=false){
-    if(both){
-      for(let i=0;i<rndNo(5,10);i++){
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
-      }
-    } else {
-      for(let i=0;i<rndNo(1,4);i++){
-        this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
-      }
-    }
-    runtime = 0;
+    // if(both){
+    //   for(let i=0;i<rndNo(5,10);i++){
+    //     this.particles.push(new particle(rndNo(2,5), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
+    //     this.particles.push(new particle(rndNo(5,7), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
+    //   }
+    // } else {
+    //   for(let i=0;i<rndNo(1,4);i++){
+    //     this.particles.push(new particle(rndNo(1,8), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
+    //   }
+    // }
+    // runtime = 0;
   }
 
   this.jump = function(){

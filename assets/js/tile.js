@@ -5,35 +5,32 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
   this.noDrop=y;
   this.drop = getCurveOffset(column, row, colz, colz);
   this.dropping=true;
-
-  this.entity = new entity(size, size, x, y, angle, type, "", scale, 0, 0);
-  this.entity.y=this.entity.y+this.drop;
+  this.e = new entity(size, size, x, y, angle, type, "", scale, 0, 0);
   this.column = column;
   this.row = row;
   this.active = true;
-  this.e=this.entity;
 
   this.oscillationSpeed = 0.5;  // How fast it moves up and down.
   this.oscillationAmount = 5;  // How much it moves up and down.
   this.initialY = y;            // Store the initial Y position to use it as a reference.
 
   this.update = function(delta) {
-    if(this.dropping && this.entity.y < this.noDrop){
-      this.entity.y = lerp(this.entity.y,this.noDrop ,.06);
+    if(this.dropping && this.e.y < this.noDrop){
+      this.e.y = lerp(this.e.y,this.noDrop ,.06);
     } else {
       this.dropping = false;
+      this.e.y=this.noDrop;
     }
 
-  if (this.entity.type == types.SEA) {
+    if (this.e.type == types.SEA) {
       // Get the current time in seconds
       let currentTime = Date.now() * 0.001;
 
       // Calculate the new Y based on a sine wave.
       let offsetY = Math.sin(currentTime * this.oscillationSpeed + this.column) * this.oscillationAmount;
-      this.entity.y = this.initialY + offsetY;
+      this.e.y = this.initialY + offsetY;
     }
-
-    this.entity.update(delta);
+    this.e.update(delta);
   }
 
   this.isTile = function(){

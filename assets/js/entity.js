@@ -160,6 +160,9 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
       case types.AIR:
         this.sx=144;
         break;
+      case types.SND:
+        this.sy=16;
+        break;
      }
   }
 
