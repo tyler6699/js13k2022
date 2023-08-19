@@ -120,7 +120,7 @@ function hero(w, h, x, y, angle, type, scale) {
       curTile = cart.level.tiles[heroTileIndex];
 
       if(curTile){
-        console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y + " Type: " + curTile.e.type + " num:" + heroTileIndex);
+        //console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y + " Type: " + curTile.e.type + " num:" + heroTileIndex);
         //curTile.entity.type = 3;
         //curTile.entity.setType();
       }

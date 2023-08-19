@@ -88,10 +88,13 @@ function level(num, canvasW, canvasH, scale) {
 
     changes.forEach(pos => {
       if(rndNo(0,100)>20){
+        // If we change a tile after its created then the initialY has to be updated
+        // This is becuase the initialY is set up when the tile is created and the tile will always
+        // Lerp back to its original Y, if you change the Y only it will fall back into place.
         if(this.tiles[pos].e.type != types.WTR){
           this.tiles[pos].e.type = types.WTR;
           this.tiles[pos].e.setType();
-          this.tiles[pos].initialY +=4;
+          this.tiles[pos].initialY +=6;
         }
       }
     });
@@ -112,13 +115,13 @@ function level(num, canvasW, canvasH, scale) {
       console.log(mapRepresentation);
   }
 
-    function swapTileTypes(tileA, tileB) {
-        let tempType = tileA.entity.type;
-        tileA.entity.type = tileB.entity.type;
-        tileB.entity.type = tempType;
-        tileA.entity.setType();
-        tileB.entity.setType();
-    }
+  function swapTileTypes(tileA, tileB) {
+      let tempType = tileA.e.type;
+      tileA.e.type = tileB.e.type;
+      tileB.e.type = tempType;
+      tileA.e.setType();
+      tileB.e.setType();
+  }
 
     function rotateMap90Degrees(cart) {
       let size = colz;

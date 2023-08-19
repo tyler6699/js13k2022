@@ -9,6 +9,7 @@ function Tile(size, x, y, angle, type, solid, column, row, scale) {
   this.row = row;
   this.active = true;
   if(type==types.GRASS) this.e.y -= 4;
+  // Water is generated after the entities are made.
   // if(type==types.WTR) this.e.y +=4;
   if(type==types.SND) this.e.y +=2;
 
