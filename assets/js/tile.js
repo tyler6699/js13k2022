@@ -7,6 +7,11 @@ function Tile(id, size, x, y, angle, type, solid, column, row, scale) {
   // Drop height for intro (Tiles fall from the sky)
   this.drop = getCurveOffset(column, row, colz, colz);
   this.e = new entity(size, size, x, y, angle, type, "", scale, 0, 0);
+  // Make grass dark
+  if(this.up>=0&&type==types.GRASS){
+    this.e.sx=16;
+    this.e.sy=16;
+  }
   this.column = column;
   this.row = row;
   this.active = true;

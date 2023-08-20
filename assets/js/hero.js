@@ -20,11 +20,12 @@ function hero(w, h, x, y, angle, type, scale) {
   this.deaths=0;
   this.done=false;
   this.changeLevel=false;
+  this.moved=false;
 
   this.update = function(ctx, delta){
     this.time+=delta;
     idle+=delta;
-
+    this.moved=false;
     // Controls
     if(this.active){
       if(!left() && !right() && !up() && !down()){
@@ -35,20 +36,26 @@ function hero(w, h, x, y, angle, type, scale) {
         speed = speed > maxSpeed ? maxSpeed : speed += .5;
       }
 
-      if (up()){this.e.y -= this.gMove(0,1);}
+      if (up()){
+        this.e.y -= this.gMove(0,1);
+        this.moved=true;
+      }
 
-      if (down()){this.e.y += this.gMove(0,-1);}
+      if (down()){
+        this.e.y += this.gMove(0,-1);
+        this.moved=true;
+      }
 
       if (left()){
         this.e.x -= this.gMove(-1,0);
         this.e.flip = true;
-        if(!left()) this.addDust();
+        this.moved=true;
       }
 
       if (right()){
         this.e.x += this.gMove(1,0);
         this.e.flip = false;
-        if(!right()) this.addDust();
+        this.moved=true;
       }
     }
 
@@ -68,9 +75,9 @@ function hero(w, h, x, y, angle, type, scale) {
     if(runtime>.35) this.addDust();
 
     // Remove Particles
-    this.particles = this.particles.filter(function (p) {
-      return p.remove == false;
-    });
+    // this.particles = this.particles.filter(function (p) {
+    //   return p.remove == false;
+    // });
 
     // Do I need these?
     cenX = this.e.x-this.e.mhWScld;
@@ -103,6 +110,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
 
   this.setCurrentTile = function(scaled) {
+    if(this.moved){
       prevTile=curTile;
       // Convert hero's Cartesian position to grid position
       const gridX = (this.e.x) / scaled;
@@ -123,9 +131,10 @@ function hero(w, h, x, y, angle, type, scale) {
       if (curTile && prevTile && curTile.id !== prevTile.id) {
           // Changed Tiles
           if (prevTile.up !== curTile.up) {
-              this.e.y += curTile.up - prevTile.up;
+              this.e.y += .5* (curTile.up - prevTile.up);
           }
       }
+    }
   }
 
   this.addDust = function(both=false){
