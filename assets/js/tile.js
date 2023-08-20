@@ -23,9 +23,9 @@ function Tile(id, size, x, y, angle, type, solid, column, row, scale) {
   if(type==types.SND) this.e.y +=2;
 
   // SEA
-  this.oscillationSpeed = 0.5;  // How fast it moves up and down.
-  this.oscillationAmount = 5;  // How much it moves up and down.
-  this.initialY = this.e.y;            // Store the initial Y position to use it as a reference.
+  this.oscillationSpeed = 0.8;  // How fast it moves up and down.
+  this.oscillationAmount = 7;  // How much it moves up and down.
+  this.initialY = this.e.y;    // Store the initial Y position to use it as a reference.
 
   // Set new height to drop from.
   this.e.y=this.e.y+this.drop;

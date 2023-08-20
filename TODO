@@ -1,0 +1,42 @@
+------------------------------------------------------------------------------------
+TODO List
+------------------------------------------------------------------------------------
+UI
+  - Intro screen
+  - Inventory's (Weapon, axe, hammer)
+  - Player UI (stats)
+
+General
+  - Collisions
+  - Create a castle where bad guys come out of
+  - Give the castle HP and you have to defeat it
+  - Destroy trees and stones to stop the caste from getting resources
+  - While trees and rocks are available the mobs keep spawning
+  - Beating a level creates a bridge over to a new island
+  - Shadows
+
+HERO
+  - Walking in water makes you sink and you move very slowly, you die in the sea
+  - Walk, attack, idle animations
+  - New character pixel art
+  - Add HP, Strength, Agility, Swords, Arrows
+  - Jumping
+
+Sounds
+  - Walk
+  - Attack
+  - Hit
+  - Break tree
+  - Break rock
+  - Songs (Normal and attacking / boss fight)
+
+Particles
+  - Blood spray on hits
+  - Dust or foot prints
+  - hitting the caste
+
+Enemies
+  - Slimes
+  - Knights
+  - Archers
+  - Boss?
