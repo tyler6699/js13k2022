@@ -70,7 +70,8 @@ function hero(w, h, x, y, angle, type, scale) {
       this.particles[i].update(ctx,delta);
     }
 
-    this.e.update(delta);
+    // Hero Draw
+    //this.e.update(delta);
 
     if(runtime>.35) this.addDust();
 

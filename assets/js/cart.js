@@ -46,7 +46,7 @@ function Cart() {
   }
 
   this.genLevel(0);
-
+  this.level.objs.push(this.hero.e);
   // Changing the number of columns changes the surrounding tiles array.
   var c = this.levels[this.hero.e.curLevel].cols;
 
