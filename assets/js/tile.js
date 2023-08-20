@@ -68,13 +68,42 @@ function getCurveOffset(c, r, maxCols, maxRows) {
 function getElevationOffset(c, r, maxCols, maxRows) {
     const centerX = maxCols / 2;
     const centerY = maxRows / 2;
-    const radiusOfInfluence = Math.min(maxCols, maxRows) / 3; // Change this to set the size of the central raised area
-    const maxElevation = 12;  // The amount the center tiles will be elevated
 
-    const dist = Math.sqrt((c - centerX) * (c - centerX) + (r - centerY) * (r - centerY));
+    // Define the size of the central raised areas
+    const innerRadiusOfInfluence = Math.min(maxCols, maxRows) / 4;
+    const outerRadiusOfInfluence = Math.min(maxCols, maxRows) / 3;
 
-    if (dist < radiusOfInfluence) {
-        return -maxElevation; // Elevate the tiles within the radius of influence
+    // Define the elevation amounts
+    const maxInnerElevation = 24; 
+    const maxOuterElevation = 12;
+
+    // Add randomness to the tile's position
+    const randomOffset = (Math.random() - 0.5) * 2; // range [-1, 1]
+    const perturbedC = c + randomOffset;
+    const perturbedR = r + randomOffset;
+
+    const dist = Math.sqrt((perturbedC - centerX) * (perturbedC - centerX) + (perturbedR - centerY) * (perturbedR - centerY));
+
+    // Elevate the tiles based on which radius of influence they fall into
+    if (dist < innerRadiusOfInfluence) {
+        return -maxInnerElevation;
+    } else if (dist < outerRadiusOfInfluence) {
+        return -maxOuterElevation;
     }
-    return 0; // No elevation for tiles outside of the radius
+    return 0; // No elevation for tiles outside of both radii
 }
+
+
+// function getElevationOffset(c, r, maxCols, maxRows) {
+//     const centerX = maxCols / 2;
+//     const centerY = maxRows / 2;
+//     const radiusOfInfluence = Math.min(maxCols, maxRows) / 3; // Change this to set the size of the central raised area
+//     const maxElevation = 12;  // The amount the center tiles will be elevated
+//
+//     const dist = Math.sqrt((c - centerX) * (c - centerX) + (r - centerY) * (r - centerY));
+//
+//     if (dist < radiusOfInfluence) {
+//         return -maxElevation; // Elevate the tiles within the radius of influence
+//     }
+//     return 0; // No elevation for tiles outside of the radius
+// }
