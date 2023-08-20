@@ -5,7 +5,9 @@ const types = {
   BRDE:3,
   WTR:4,
   SEA:5,
-  SND:6
+  SND:6,
+  TREE:7,
+  RCK:8
 }
 
 const mobtype = {

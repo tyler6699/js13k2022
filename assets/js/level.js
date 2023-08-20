@@ -3,6 +3,7 @@ colz=40;
 function level(num, canvasW, canvasH, scale) {
   STAGE = num;
   this.tiles = [];
+  this.objs = [];
   this.active = false;
   this.startPos = [0, 260];
   this.cols = colz;
@@ -17,6 +18,7 @@ function level(num, canvasW, canvasH, scale) {
 
   this.draw = function(hero, delta, intro) {
     this.tiles.forEach(e => e.update(delta, intro));
+    this.objs.forEach(e => e.update(delta, intro));
 
     if(this.rotate){
       rotateMap90Degrees(cart);
@@ -37,7 +39,8 @@ function level(num, canvasW, canvasH, scale) {
     // Main level tiles
     let rows = colz;
     let tileID=0;
-    // Main Loop
+
+    // Generate Island
     for (r = 0; r < rows; r++) {
       for (c = 0; c < this.cols; c++) {
         let t = 1; // GRASS
@@ -46,7 +49,7 @@ function level(num, canvasW, canvasH, scale) {
           t=types.SEA;
         } else if ((r < 6||c<6||c>colz-6||r>colz-6) && rndNo(0,100)>50) {
           t=types.SEA;
-        } else if ((r < 8||c<8||c>colz-8||r>colz-8) && rndNo(0,100)>40) {
+        } else if ((r < 8||c<8||c>colz-8||r>colz-8) && rndNo(0,100)>20) {
           t=types.SND;
         } else {
           //if(rndNo(0,100)>90){ t=types.AIR }
@@ -68,38 +71,45 @@ function level(num, canvasW, canvasH, scale) {
     }
 
     // Expand Water Areas
-    let changes = [];
-    let maxTiles = this.tiles.length;
+    const changes = [];
 
-    for (let i = 0; i < maxTiles; i++) {
-        let tile = this.tiles[i];
-
+    this.tiles.forEach((tile, i) => {
         if (isWater(tile.e.type)) {
-            for (let r = 0; r < rndNo(3,8); r++) {
-                for (let col = 0; col < rndNo(3,5); col++) {
-                    let pos = getTilePos(tile.row +r, tile.column+col, colz);
-
-                    if (isValidPos(pos, maxTiles)) {
-                        changes.push(pos);
-                    }
-                }
-            }
+            Array.from({ length: rndNo(3, 8) }, (_, r) => r).forEach(r => {
+                Array.from({ length: rndNo(3, 5) }, (_, col) => col).forEach(col => {
+                    let pos = getTilePos(tile.row + r, tile.column + col, colz);
+                    if (isValidPos(pos, this.tiles.length)) changes.push(pos);
+                });
+            });
         }
-    }
-
-    changes.forEach(pos => {
-      if(rndNo(0,100)>20){
-        // If we change a tile after its created then the initialY has to be updated
-        // This is becuase the initialY is set up when the tile is created and the tile will always
-        // Lerp back to its original Y, if you change the Y only it will fall back into place.
-        if(this.tiles[pos].e.type != types.WTR){
-          this.tiles[pos].e.type = types.WTR;
-          this.tiles[pos].e.setType();
-          this.tiles[pos].initialY +=6;
-        }
-      }
     });
 
+    changes.forEach(pos => {
+        if (rndNo(0, 100) > 20 && this.tiles[pos].e.type != types.WTR) {
+            this.tiles[pos].e.type = types.WTR;
+            this.tiles[pos].e.setType();
+            this.tiles[pos].initialY += 6;
+        }
+    });
+
+    // Add decor
+    maxTrees=10;
+    trees=0;
+    maxRocks=5;
+    rocks=0;
+    this.tiles.forEach(t => {
+      if(t.e.type==types.GRASS && rndNo(0,100) > 98 && (trees<maxTrees)){
+        obj = new entity(16, 23, t.e.x, t.e.y-t.drop-10-30, 0, types.TREE, "", scale, false, 0);
+        obj.parent=t;
+        this.objs.push(obj);
+        trees++;
+      } else if(t.e.type==types.GRASS && rndNo(0,100) > 98 && (rocks<maxRocks)) {
+        obj = new entity(16, 16, t.e.x, t.e.y-t.drop-10, 0, types.ROCK, "", scale, false, 0);
+        obj.parent=t;
+        this.objs.push(obj);
+        rocks++;
+      }
+    });
   }
 
   function printMap(cart) {
@@ -124,31 +134,33 @@ function level(num, canvasW, canvasH, scale) {
       tileB.e.setType();
   }
 
-    function rotateMap90Degrees(cart) {
-      let size = colz;
+  function rotateMap90Degrees(cart) {
+    // todo loop through objects and update their X & Y based on the parent
 
-      // Step 1: Transpose the matrix
-      for (let i = 0; i < size; i++) {
-          for (let j = i + 1; j < size; j++) {
-              // Swap tile[i][j] and tile[j][i]
-              let tileA = cart.level.tiles[i * size + j];
-              let tileB = cart.level.tiles[j * size + i];
+    let size = colz;
 
-              swapTileTypes(tileA, tileB);
-          }
-      }
+    // Step 1: Transpose the matrix
+    for (let i = 0; i < size; i++) {
+        for (let j = i + 1; j < size; j++) {
+            // Swap tile[i][j] and tile[j][i]
+            let tileA = cart.level.tiles[i * size + j];
+            let tileB = cart.level.tiles[j * size + i];
 
-      // Step 2: Reverse each row
-      for (let i = 0; i < size; i++) {
-          for (let j = 0; j < size / 2; j++) {
-              // Swap tile[i][j] and tile[i][size-j-1]
-              let tileA = cart.level.tiles[i * size + j];
-              let tileB = cart.level.tiles[i * size + (size - j - 1)];
+            swapTileTypes(tileA, tileB);
+        }
+    }
 
-              swapTileTypes(tileA, tileB);
-          }
-      }
-  }
+    // Step 2: Reverse each row
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size / 2; j++) {
+            // Swap tile[i][j] and tile[i][size-j-1]
+            let tileA = cart.level.tiles[i * size + j];
+            let tileB = cart.level.tiles[i * size + (size - j - 1)];
+
+            swapTileTypes(tileA, tileB);
+        }
+    }
+}
 
   function isValidPos(pos, max) {
       return pos >= 0 && pos < max;
