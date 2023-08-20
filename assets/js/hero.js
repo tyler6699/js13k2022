@@ -4,6 +4,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.hp=2;
   this.particles=[];
   let curTile=null;
+  let prevTile=null;
   let airTime=0;
   let idle=0;
   let speed=0;
@@ -23,6 +24,7 @@ function hero(w, h, x, y, angle, type, scale) {
   this.update = function(ctx, delta){
     this.time+=delta;
     idle+=delta;
+
     // Controls
     if(this.active){
       if(!left() && !right() && !up() && !down()){
@@ -33,13 +35,9 @@ function hero(w, h, x, y, angle, type, scale) {
         speed = speed > maxSpeed ? maxSpeed : speed += .5;
       }
 
-      if (up()){
-        this.e.y -= this.gMove(0,1);
-      }
+      if (up()){this.e.y -= this.gMove(0,1);}
 
-      if (down()){
-        this.e.y += this.gMove(0,-1);
-      }
+      if (down()){this.e.y += this.gMove(0,-1);}
 
       if (left()){
         this.e.x -= this.gMove(-1,0);
@@ -74,6 +72,7 @@ function hero(w, h, x, y, angle, type, scale) {
       return p.remove == false;
     });
 
+    // Do I need these?
     cenX = this.e.x-this.e.mhWScld;
     cenY = this.e.y-this.e.mhHScld;
   }
@@ -104,6 +103,7 @@ function hero(w, h, x, y, angle, type, scale) {
 
 
   this.setCurrentTile = function(scaled) {
+      prevTile=curTile;
       // Convert hero's Cartesian position to grid position
       const gridX = (this.e.x) / scaled;
       const gridY = (this.e.y+this.e.height*1.5) / scaled * 2;
@@ -119,24 +119,16 @@ function hero(w, h, x, y, angle, type, scale) {
 
       curTile = cart.level.tiles[heroTileIndex];
 
-      if(curTile){
-        //console.log("Current tile ROW: " + curTile.row + " COL: " + curTile.column + " hero x: " + this.e.x + " hero Y: " + this.e.y);
-        //curTile.entity.type = 3;
-        //curTile.entity.setType();
+      // Deal with the elevation
+      if (curTile && prevTile && curTile.id !== prevTile.id) {
+          // Changed Tiles
+          if (prevTile.up !== curTile.up) {
+              this.e.y += curTile.up - prevTile.up;
+          }
       }
   }
 
   this.addDust = function(both=false){
-    if(both){
-      for(let i=0;i<rndNo(5,10);i++){
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, RIGHT));
-        this.particles.push(new particle(rndNo(5,10), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, LEFT));
-      }
-    } else {
-      for(let i=0;i<rndNo(1,4);i++){
-        this.particles.push(new particle(rndNo(1,15), 0, this.e.x-this.e.mhWScld, this.e.y+this.e.height*2.2-rndNo(1,5), 0, "dust", false, lastDir));
-      }
-    }
     runtime = 0;
   }
 
