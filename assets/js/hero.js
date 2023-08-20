@@ -127,7 +127,7 @@ function hero(w, h, x, y, angle, type, scale) {
       heroTileIndex = heroCol + (cart.levels[this.e.curLevel].cols * heroRow);
 
       curTile = cart.level.tiles[heroTileIndex];
-
+      //console.log(curTile.up);
       // Deal with the elevation
       if (curTile && prevTile && curTile.id !== prevTile.id) {
           // Changed Tiles

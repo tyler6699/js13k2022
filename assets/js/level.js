@@ -1,4 +1,4 @@
-colz=35;
+colz=40;
 
 function level(num, canvasW, canvasH, scale) {
   STAGE = num;

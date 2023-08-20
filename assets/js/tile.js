@@ -11,13 +11,15 @@ function Tile(id, size, x, y, angle, type, solid, column, row, scale) {
   if(this.up>=0&&type==types.GRASS){
     this.e.sx=16;
     this.e.sy=16;
+  } else if(this.up==-12&&type==types.GRASS){
+    this.e.sx=32;
+    this.e.sy=16;
   }
   this.column = column;
   this.row = row;
   this.active = true;
   if(type==types.GRASS) this.e.y -= 4;
   // Water is generated after the entities are made.
-  // if(type==types.WTR) this.e.y +=4;
   if(type==types.SND) this.e.y +=2;
 
   // SEA
@@ -74,7 +76,7 @@ function getElevationOffset(c, r, maxCols, maxRows) {
     const outerRadiusOfInfluence = Math.min(maxCols, maxRows) / 3;
 
     // Define the elevation amounts
-    const maxInnerElevation = 24; 
+    const maxInnerElevation = 24;
     const maxOuterElevation = 12;
 
     // Add randomness to the tile's position
