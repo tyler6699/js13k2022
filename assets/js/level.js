@@ -26,7 +26,7 @@ function level(num, canvasW, canvasH, scale) {
     // TODO: if the hero is in front of any of the objects then draw the HERO
     // Putting these blocks and sorting them will probably be a pain as we
     // want them stacked
-    if(hero.e.y>308) hero.e.update(delta);
+    if(hero.e.y>280) hero.e.update(delta);
     // The above only fixes the front pilar
     // Maybe put the bottom of the pilar coords into a var and just check it
 
@@ -122,17 +122,19 @@ function level(num, canvasW, canvasH, scale) {
     });
 
     // Add a simple castle
-    //buildCastle(this.castle, scale);
-
-    buildTower(this.castle, -41, 240, 6, 0, 8); // Back Left Tower
     buildTower(this.castle, -41 + 46, 240 - 22, 6, 0, 8); // Back Right Tower
+    buildTower(this.castle, -9, 244, 1, 0, 8); // Back Left Wall (R)
+    buildTower(this.castle, -26, 252, 1, 0, 8); // Back Left Wall (L)
+    buildTower(this.castle, -41, 240, 6, 0, 8); // Back Left Tower
     buildTower(this.castle, 22, 253, 2, 0, -8, false); // Right back wall
     buildTower(this.castle, 40, 254, 1, 0, -8, false); // Right front wall
     buildTower(this.castle, 55, 244, 6, 0, 8); // Front Right Tower
-    buildTower(this.castle, 42, 290, 4, 0, -8, false); // Front Right Wall (R)
-    buildTower(this.castle, 26, 298, 4, 0, -8, false); // Front Right Wall (L)
-    buildTower(this.castle, -7 - 16, 290, 4, 0, -8, false); // Front Left Wall (L)
-    buildTower(this.castle, -7, 298, 4, 0, -8, false); // Front Left Wall (R)
+    // buildTower(this.castle, 42, 290, 2, 0, -8, false); // Front Right Wall (R) CLOSED
+    // buildTower(this.castle, 26, 298, 2, 0, -8, false); // Front Right Wall (L) CLOSED
+    buildTower(this.castle, 42, 278, 2, 0, -8, false); // Front Right Wall (R) OPEN
+    buildTower(this.castle, 26, 286, 2, 0, -8, false); // Front Right Wall (L) OPEN
+    buildTower(this.castle, -7 - 16, 290, 4, 0, -8, false); // Front Left Wall (L) CLOSED
+    buildTower(this.castle, -7, 298, 4, 0, -8, false); // Front Left Wall (R) CLOSED
     buildTower(this.castle, 9, 266, 6, 0, 8); // Front Left Tower
 
   }
