@@ -130,7 +130,8 @@ function updateGameArea() {
     writeTxt(ctx, 1, font,"WHITE","Lives: " + cart.hero.hp, 10, 40);
     writeTxt(ctx, 1, font,"RED","Deaths: " + cart.hero.deaths, 10, 60);
     writeTxt(ctx, 1, font,"WHITE","Level: " + (cart.hero.e.curLevel+1), 10, 20);
-
+    writeTxt(ctx, 1, font,"WHITE","X: " + (cart.hero.e.x), 10, 80);
+    writeTxt(ctx, 1, font,"WHITE","Y: " + (cart.hero.e.y), 10, 100);
     let lvl=cart.hero.e.curLevel;
 
     // Music

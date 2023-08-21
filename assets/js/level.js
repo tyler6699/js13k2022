@@ -109,15 +109,19 @@ function level(num, canvasW, canvasH, scale) {
     rocks=0;
     this.tiles.forEach(t => {
       if(t.e.type==types.GRASS && rndNo(0,100) > 98 && (trees<maxTrees)){
-        obj = new entity(16, 23, t.e.x, t.e.y-t.drop-10-30, 0, types.TREE, "", scale, false, 0);
-        obj.parent=t;
-        //this.objs.push(obj);
-        trees++;
+        if(!nearCastle(t.e.x, t.e.y-t.drop-10-30)){
+          obj = new entity(16, 23, t.e.x, t.e.y-t.drop-10-30, 0, types.TREE, "", scale, false, 0);
+          obj.parent=t;
+          this.objs.push(obj);
+          trees++;
+        }
       } else if(t.e.type==types.GRASS && rndNo(0,100) > 98 && (rocks<maxRocks)) {
-        obj = new entity(16, 16, t.e.x, t.e.y-t.drop-10, 0, types.ROCK, "", scale, false, 0);
-        obj.parent=t;
-        //this.objs.push(obj);
-        rocks++;
+        if(!nearCastle(t.e.x, t.e.y-t.drop-10)){
+          obj = new entity(16, 16, t.e.x, t.e.y-t.drop-10, 0, types.ROCK, "", scale, false, 0);
+          obj.parent=t;
+          this.objs.push(obj);
+          rocks++;
+        }
       }
     });
 
@@ -131,85 +135,23 @@ function level(num, canvasW, canvasH, scale) {
     buildTower(this.castle, 55, 244, 6, 0, 8); // Front Right Tower
     // buildTower(this.castle, 42, 290, 2, 0, -8, false); // Front Right Wall (R) CLOSED
     // buildTower(this.castle, 26, 298, 2, 0, -8, false); // Front Right Wall (L) CLOSED
-    buildTower(this.castle, 42, 278, 2, 0, -8, false); // Front Right Wall (R) OPEN
-    buildTower(this.castle, 26, 286, 2, 0, -8, false); // Front Right Wall (L) OPEN
+    buildTower(this.castle, 42, 278, 2, 0, -8, false, types.BRDE); // Front Right Wall (R) OPEN
+    buildTower(this.castle, 26, 286, 2, 0, -8, false,types.BRDE); // Front Right Wall (L) OPEN
     buildTower(this.castle, -7 - 16, 290, 4, 0, -8, false); // Front Left Wall (L) CLOSED
     buildTower(this.castle, -7, 298, 4, 0, -8, false); // Front Left Wall (R) CLOSED
     buildTower(this.castle, 9, 266, 6, 0, 8); // Front Left Tower
 
   }
 
-  const buildTower = (tiles, x, y, count, dx = 0, dy = 8, decrement = true) => {
+  const buildTower = (tiles, x, y, count, dx = 0, dy = 8, decrement = true, type=types.ROCK) => {
     const loopInit = decrement ? count - 1 : 0;
     const loopCond = decrement ? (i) => i >= 0 : (i) => i < count;
     const loopChange = decrement ? (i) => --i : (i) => ++i;
 
     for (let i = loopInit; loopCond(i); i = loopChange(i)) {
-        tiles.push(new entity(16, 16, x + dx * i, y + dy * i, 0, types.ROCK, "", scale, false, 0));
+        tiles.push(new entity(16, 16, x + dx * i, y + dy * i, 0, type, "", scale, false, 0));
     }
 };
-
-
-
-  function buildCastle(tiles, scale) {
-    // // Back Towers
-    // for (let i = 5; i >= 0; i--) {
-    //   x=-41;y=240;
-    //   tiles.push(new entity(16, 16, x, y+(8*i), 0, types.ROCK, "", scale, false, 0));
-    //   tiles.push(new entity(16, 16, x+46, y-22+(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // // Back Right 1
-    // for (let i = 0; i < 2; i++) {
-    //   x=22;y=253;
-    //   tiles.push(new entity(16, 16, x, y-(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // // Back Right 0
-    // for (let i = 0; i < 1; i++) {
-    //   x=40;y=254;
-    //   console.log( + " " + y-(8*i))
-    //   tiles.push(new entity(16, 16, x, y-(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // // Front Tower Right
-    // for (let i = 5; i >= 0; i--) {
-    //   x = 55;y = 244;
-    //   tiles.push(new entity(16, 16, x, y+(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // // Right Side 1 (Front)
-    // for (let i = 0; i < 4; i++) {
-    //   x=42;y=290;
-    //   tiles.push(new entity(16, 16, x, y-(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // // Right Side 0 (Front)
-    // for (let i = 0; i < 4; i++) {
-    //   x=26;y=298;
-    //   tiles.push(new entity(16, 16, x, y-(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // // Left side 1 (Back)
-    // for (let i = 0; i < 4; i++) {
-    //   x=-7;y=290;
-    //   tiles.push(new entity(16, 16, x-16, y-(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // // Left Side 0 (Front)
-    // for (let i = 0; i < 4; i++) {
-    //   x=-7;y=298;
-    //   tiles.push(new entity(16, 16, x, y-(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-    //
-    // for (let i = 5; i >= 0; i--) {
-    //   // Front Left Tower
-    //   x = 9;y = 266;
-    //   tiles.push(new entity(16, 16, x, y+(8*i), 0, types.ROCK, "", scale, false, 0));
-    // }
-
-}
-
 
   function printMap(cart) {
       let size = colz;
@@ -260,6 +202,13 @@ function level(num, canvasW, canvasH, scale) {
         }
     }
 }
+
+  function nearCastle(x, y) {
+      const topLeft = [-90, 220];
+      const bottomRight = [90, 320];
+
+      return x >= topLeft[0] && x <= bottomRight[0] && y >= topLeft[1] && y <= bottomRight[1];
+  }
 
   function isValidPos(pos, max) {
       return pos >= 0 && pos < max;
