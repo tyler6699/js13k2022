@@ -105,3 +105,18 @@ function partDir(p) {
 function lerp (start, end, amt){
   return (1-amt)*start+amt*end
 }
+
+function findIsometricCenter(numColumns, numRows) {
+    const tileWidth = 16;
+    const tileHeight = 16;
+
+    // Finding the center tile
+    const centerTileX = Math.floor(numColumns / 2);
+    const centerTileY = Math.floor(numRows / 2);
+
+    // Calculating the pixel coordinates of the center tile
+    const centerPixelX = (centerTileX - centerTileY) * tileWidth / 2;
+    const centerPixelY = (centerTileX + centerTileY) * tileHeight / 2;
+
+    return { x: centerPixelX, y: centerPixelY };
+}

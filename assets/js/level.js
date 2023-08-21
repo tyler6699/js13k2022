@@ -1,4 +1,4 @@
-colz=40;
+colz=38;
 
 function level(num, canvasW, canvasH, scale) {
   STAGE = num;
@@ -102,6 +102,8 @@ function level(num, canvasW, canvasH, scale) {
         }
     });
 
+    let cen=findIsometricCenter(colz-1,colz-1);
+
     // Add decor
     maxTrees=10;
     trees=0;
@@ -109,14 +111,14 @@ function level(num, canvasW, canvasH, scale) {
     rocks=0;
     this.tiles.forEach(t => {
       if(t.e.type==types.GRASS && rndNo(0,100) > 98 && (trees<maxTrees)){
-        if(!nearCastle(t.e.x, t.e.y-t.drop-10-30)){
+        if(!nearCastle(t.e.x, t.e.y-t.drop-10-30, cen)){
           obj = new entity(16, 23, t.e.x, t.e.y-t.drop-10-30, 0, types.TREE, "", scale, false, 0);
           obj.parent=t;
           this.objs.push(obj);
           trees++;
         }
       } else if(t.e.type==types.GRASS && rndNo(0,100) > 98 && (rocks<maxRocks)) {
-        if(!nearCastle(t.e.x, t.e.y-t.drop-10)){
+        if(!nearCastle(t.e.x, t.e.y-t.drop-10, cen)){
           obj = new entity(16, 16, t.e.x, t.e.y-t.drop-10, 0, types.ROCK, "", scale, false, 0);
           obj.parent=t;
           this.objs.push(obj);
@@ -126,20 +128,18 @@ function level(num, canvasW, canvasH, scale) {
     });
 
     // Add a simple castle
-    buildTower(this.castle, -41 + 46, 240 - 22, 6, 0, 8); // Back Right Tower
-    buildTower(this.castle, -9, 244, 1, 0, 8); // Back Left Wall (R)
-    buildTower(this.castle, -26, 252, 1, 0, 8); // Back Left Wall (L)
-    buildTower(this.castle, -41, 240, 6, 0, 8); // Back Left Tower
-    buildTower(this.castle, 22, 253, 2, 0, -8, false); // Right back wall
-    buildTower(this.castle, 40, 254, 1, 0, -8, false); // Right front wall
-    buildTower(this.castle, 55, 244, 6, 0, 8); // Front Right Tower
-    // buildTower(this.castle, 42, 290, 2, 0, -8, false); // Front Right Wall (R) CLOSED
-    // buildTower(this.castle, 26, 298, 2, 0, -8, false); // Front Right Wall (L) CLOSED
-    buildTower(this.castle, 42, 278, 2, 0, -8, false, types.BRDE); // Front Right Wall (R) OPEN
-    buildTower(this.castle, 26, 286, 2, 0, -8, false,types.BRDE); // Front Right Wall (L) OPEN
-    buildTower(this.castle, -7 - 16, 290, 4, 0, -8, false); // Front Left Wall (L) CLOSED
-    buildTower(this.castle, -7, 298, 4, 0, -8, false); // Front Left Wall (R) CLOSED
-    buildTower(this.castle, 9, 266, 6, 0, 8); // Front Left Tower
+    buildTower(this.castle, cen.x + 5, cen.y-86, 6, 0, 8); // Back Right Tower
+    buildTower(this.castle, cen.x-9, cen.y-60, 1, 0, 8); // Back Left Wall (R)
+    buildTower(this.castle, cen.x-26, cen.y-51, 1, 0, 8); // Back Left Wall (L)
+    buildTower(this.castle, cen.x-41, cen.y-64, 6, 0, 8); // Back Left Tower
+    buildTower(this.castle, cen.x+22, cen.y-51, 2, 0, -8, false); // Right back wall
+    buildTower(this.castle, cen.x+40, cen.y-51, 1, 0, -8, false); // Right front wall
+    buildTower(this.castle, cen.x+55, cen.y-60, 6, 0, 8); // Front Right Tower
+    buildTower(this.castle, cen.x+42, cen.y-28, 2, 0, -8, false, types.BRDE); // Front Right Wall (R) OPEN
+    buildTower(this.castle, cen.x+26, cen.y-18, 2, 0, -8, false,types.BRDE); // Front Right Wall (L) OPEN
+    buildTower(this.castle, cen.x-23, cen.y-14, 4, 0, -8, false); // Front Left Wall (L) CLOSED
+    buildTower(this.castle, cen.x-7, cen.y-6, 4, 0, -8, false); // Front Left Wall (R) CLOSED
+    buildTower(this.castle, cen.x+9, cen.y-38, 6, 0, 8); // Front Left Tower
 
   }
 
@@ -203,9 +203,9 @@ function level(num, canvasW, canvasH, scale) {
     }
 }
 
-  function nearCastle(x, y) {
-      const topLeft = [-90, 220];
-      const bottomRight = [90, 320];
+  function nearCastle(x, y, cen) {
+      const topLeft = [-90, cen.y-100];
+      const bottomRight = [90, cen.y+20];
 
       return x >= topLeft[0] && x <= bottomRight[0] && y >= topLeft[1] && y <= bottomRight[1];
   }
