@@ -14,6 +14,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
   this.angle = angle;
   this.x = x;
   this.y = y;
+  this.z = 0;
   this.active = true;
   this.colour = colour;
   this.image = atlas;
@@ -72,7 +73,8 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
 
     if(this.active) {
       ctx.save();
-      ctx.translate(this.x, this.y);
+      // Z value user to lift up the hero when on raised land
+      ctx.translate(this.x, this.y-(this.z*.25));
       ctx.globalAlpha = this.alpha;
 
       img = this.image;

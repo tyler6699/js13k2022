@@ -1,5 +1,7 @@
 function Tile(id, size, x, y, angle, type, solid, column, row, scale) {
   this.id = id;
+  // Used to pair up a tile and an object sitting on it.
+  this.obj=null;
   // Add some height to the map
   this.up=getElevationOffset(column, row, colz, colz);
   y += this.up;

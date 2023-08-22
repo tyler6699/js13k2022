@@ -1,5 +1,6 @@
 function hero(w, h, x, y, angle, type, scale) {
   this.e = new entity(w, h, x, y, angle, type, "", scale, false, 100);
+  this.e.z = 24; // Hero always starts on raised ground. Calculate this if island layout changes
   this.active=true;
   this.hp=2;
   this.particles=[];
@@ -115,8 +116,8 @@ function hero(w, h, x, y, angle, type, scale) {
       prevTile=curTile;
       // Convert hero's Cartesian position to grid position
       const gridX = (this.e.x) / scaled;
-      const gridY = (this.e.y+this.e.height*1.5) / scaled * 2;
-
+      const gridY = (this.e.y+this.e.height*2+this.e.z) / scaled * 2;
+      console.log(this.e.z);
       // Convert this grid position to isometric grid position based on your setup
       const isoGridRow = gridY - gridX;
       const isoGridCol = gridX + gridY;
@@ -132,9 +133,16 @@ function hero(w, h, x, y, angle, type, scale) {
       if (curTile && prevTile && curTile.id !== prevTile.id) {
           // Changed Tiles
           if (prevTile.up !== curTile.up) {
-              this.e.y += .5* (curTile.up - prevTile.up);
+              // this.e.z = .5* (curTile.up - prevTile.up);
+              this.e.z = -curTile.up;
           }
+
+          // Test currentTile
+          //curTile.e.y+=70;
       }
+    }
+    if(curTile != null && curTile.obj != null){
+        console.log(curTile.obj)
     }
   }
 

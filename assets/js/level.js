@@ -26,7 +26,10 @@ function level(num, canvasW, canvasH, scale) {
     // TODO: if the hero is in front of any of the objects then draw the HERO
     // Putting these blocks and sorting them will probably be a pain as we
     // want them stacked
-    if(hero.e.y>280) hero.e.update(delta);
+
+    // Sort this mess out!!
+    if(hero.e.y>290&&nearCastle(hero.e.x, hero.e.y,findIsometricCenter(colz-1,colz-1))) hero.e.update(delta);
+
     // The above only fixes the front pilar
     // Maybe put the bottom of the pilar coords into a var and just check it
 
@@ -62,13 +65,12 @@ function level(num, canvasW, canvasH, scale) {
         } else if ((r < 8||c<8||c>colz-8||r>colz-8) && rndNo(0,100)>20) {
           t=types.SND;
         } else {
-          //if(rndNo(0,100)>90){ t=types.AIR }
-          // if(rndNo(0,100)>90){ t=types.BRDE }
           if(rndNo(0,100)>99 && water<maxWater){
             t=types.WTR;
             water++;
           }
         }
+
         // Adjust the xx and yy calculation for isometric positioning
         xx = (c - r) * tileWidth;
         yy = (c + r) * tileHeight;
@@ -114,6 +116,7 @@ function level(num, canvasW, canvasH, scale) {
         if(!nearCastle(t.e.x, t.e.y-t.drop-10-30, cen)){
           obj = new entity(16, 23, t.e.x, t.e.y-t.drop-10-30, 0, types.TREE, "", scale, false, 0);
           obj.parent=t;
+          t.obj=obj;
           this.objs.push(obj);
           trees++;
         }
@@ -121,6 +124,7 @@ function level(num, canvasW, canvasH, scale) {
         if(!nearCastle(t.e.x, t.e.y-t.drop-10, cen)){
           obj = new entity(16, 16, t.e.x, t.e.y-t.drop-10, 0, types.ROCK, "", scale, false, 0);
           obj.parent=t;
+          t.obj=obj;
           this.objs.push(obj);
           rocks++;
         }
