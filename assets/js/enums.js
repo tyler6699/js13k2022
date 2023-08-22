@@ -7,7 +7,9 @@ const types = {
   SEA:5,
   SND:6,
   TREE:7,
-  RCK:8
+  RCK:8,
+  CST:9,
+  CNE:10
 }
 
 const mobtype = {
