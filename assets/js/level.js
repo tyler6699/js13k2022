@@ -1,4 +1,4 @@
-colz=30;
+colz=40;
 
 function level(num, canvasW, canvasH, scale) {
   STAGE = num;
@@ -130,18 +130,23 @@ function level(num, canvasW, canvasH, scale) {
     // Add a simple castle
     // Castle looks great! Very, uh, can't find the right word, but, like,
     // it means business, you know? No nonsense castle vibe, fortification lvl 99
-    buildTower(this.castle, cen.x+5, cen.y-86, 4, 0, 16, true, types.CST, true); // Back Right Tower
-    buildTower(this.castle, cen.x-10, cen.y-64, 1, 0, 16); // Back Left Wall (R)
-    buildTower(this.castle, cen.x-26, cen.y-56, 1, 0, 16); // Back Left Wall (L)
-    buildTower(this.castle, cen.x-41, cen.y-64, 4, 0, 16,true, types.CST, true); // Back Left Tower
-    buildTower(this.castle, cen.x+22, cen.y-64, 1, 0, -16, false); // Right back wall
-    buildTower(this.castle, cen.x+38, cen.y-56, 1, 0, -16, false); // Right front wall
-    buildTower(this.castle, cen.x+54, cen.y-64, 4, 0, 16,true, types.CST, true); // Front Right Tower
-    buildTower(this.castle, cen.x+38, cen.y-24, 2, 0, -16, false); // Front Right Wall (R) OPEN
-    buildTower(this.castle, cen.x+22, cen.y-18, 2, 0, -16, false); // Front Right Wall (L) OPEN
-    buildTower(this.castle, cen.x-26, cen.y-8, 3, 0, -16, false); // Front Left Wall (L) CLOSED
-    buildTower(this.castle, cen.x-10, cen.y, 3, 0, -16, false); // Front Left Wall (R) CLOSED
-    buildTower(this.castle, cen.x+6, cen.y-40, 4, 0, 16, true, types.CST, true); // Front Left Tower
+    //for(i = 0; i < 2; i++){
+      //cen.x-=(i*70);
+      //cen.y+=(i*40);
+      buildTower(this.castle, cen.x+5, cen.y-86, 4, 0, 16, true, types.CST, true); // Back Right Tower
+      buildTower(this.castle, cen.x-10, cen.y-64, 1, 0, 16); // Back Left Wall (R)
+      buildTower(this.castle, cen.x-26, cen.y-56, 1, 0, 16); // Back Left Wall (L)
+      buildTower(this.castle, cen.x-41, cen.y-64, 4, 0, 16,true, types.CST, true); // Back Left Tower
+      buildTower(this.castle, cen.x+22, cen.y-64, 1, 0, -16, false); // Right back wall
+      buildTower(this.castle, cen.x+38, cen.y-56, 1, 0, -16, false); // Right front wall
+      buildTower(this.castle, cen.x+54, cen.y-64, 4, 0, 16,true, types.CST, true); // Front Right Tower
+      buildTower(this.castle, cen.x+38, cen.y-24, 2, 0, -16, false); // Front Right Wall (R) OPEN
+      buildTower(this.castle, cen.x+22, cen.y-18, 2, 0, -16, false); // Front Right Wall (L) OPEN
+      buildTower(this.castle, cen.x-26, cen.y-8, 3, 0, -16, false); // Front Left Wall (L) CLOSED
+      buildTower(this.castle, cen.x-10, cen.y, 3, 0, -16, false); // Front Left Wall (R) CLOSED
+      buildTower(this.castle, cen.x+6, cen.y-40, 4, 0, 16, true, types.CST, true); // Front Left Tower
+    //}
+
   }
 
   const buildTower = (tiles, x, y, count, dx = 0, dy = 8, decrement = true, type=types.CST, tower=false) => {
@@ -181,7 +186,6 @@ function level(num, canvasW, canvasH, scale) {
 
   function rotateMap90Degrees(cart) {
     // todo loop through objects and update their X & Y based on the parent
-
     let size = colz;
 
     // Step 1: Transpose the matrix
