@@ -1,4 +1,4 @@
-colz=38;
+colz=30;
 
 function level(num, canvasW, canvasH, scale) {
   STAGE = num;
@@ -128,28 +128,32 @@ function level(num, canvasW, canvasH, scale) {
     });
 
     // Add a simple castle
-    buildTower(this.castle, cen.x + 5, cen.y-86, 6, 0, 8); // Back Right Tower
-    buildTower(this.castle, cen.x-9, cen.y-60, 1, 0, 8); // Back Left Wall (R)
-    buildTower(this.castle, cen.x-26, cen.y-51, 1, 0, 8); // Back Left Wall (L)
-    buildTower(this.castle, cen.x-41, cen.y-64, 6, 0, 8); // Back Left Tower
-    buildTower(this.castle, cen.x+22, cen.y-51, 2, 0, -8, false); // Right back wall
-    buildTower(this.castle, cen.x+40, cen.y-51, 1, 0, -8, false); // Right front wall
-    buildTower(this.castle, cen.x+55, cen.y-60, 6, 0, 8); // Front Right Tower
-    buildTower(this.castle, cen.x+42, cen.y-28, 2, 0, -8, false, types.BRDE); // Front Right Wall (R) OPEN
-    buildTower(this.castle, cen.x+26, cen.y-18, 2, 0, -8, false,types.BRDE); // Front Right Wall (L) OPEN
-    buildTower(this.castle, cen.x-23, cen.y-14, 4, 0, -8, false); // Front Left Wall (L) CLOSED
-    buildTower(this.castle, cen.x-7, cen.y-6, 4, 0, -8, false); // Front Left Wall (R) CLOSED
-    buildTower(this.castle, cen.x+9, cen.y-38, 6, 0, 8); // Front Left Tower
-
+    // Castle looks great! Very, uh, can't find the right word, but, like,
+    // it means business, you know? No nonsense castle vibe, fortification lvl 99
+    buildTower(this.castle, cen.x+5, cen.y-86, 4, 0, 16, true, types.CST, true); // Back Right Tower
+    buildTower(this.castle, cen.x-10, cen.y-64, 1, 0, 16); // Back Left Wall (R)
+    buildTower(this.castle, cen.x-26, cen.y-56, 1, 0, 16); // Back Left Wall (L)
+    buildTower(this.castle, cen.x-41, cen.y-64, 4, 0, 16,true, types.CST, true); // Back Left Tower
+    buildTower(this.castle, cen.x+22, cen.y-64, 1, 0, -16, false); // Right back wall
+    buildTower(this.castle, cen.x+38, cen.y-56, 1, 0, -16, false); // Right front wall
+    buildTower(this.castle, cen.x+54, cen.y-64, 4, 0, 16,true, types.CST, true); // Front Right Tower
+    buildTower(this.castle, cen.x+38, cen.y-24, 2, 0, -16, false); // Front Right Wall (R) OPEN
+    buildTower(this.castle, cen.x+22, cen.y-18, 2, 0, -16, false); // Front Right Wall (L) OPEN
+    buildTower(this.castle, cen.x-26, cen.y-8, 3, 0, -16, false); // Front Left Wall (L) CLOSED
+    buildTower(this.castle, cen.x-10, cen.y, 3, 0, -16, false); // Front Left Wall (R) CLOSED
+    buildTower(this.castle, cen.x+6, cen.y-40, 4, 0, 16, true, types.CST, true); // Front Left Tower
   }
 
-  const buildTower = (tiles, x, y, count, dx = 0, dy = 8, decrement = true, type=types.ROCK) => {
+  const buildTower = (tiles, x, y, count, dx = 0, dy = 8, decrement = true, type=types.CST, tower=false) => {
     const loopInit = decrement ? count - 1 : 0;
     const loopCond = decrement ? (i) => i >= 0 : (i) => i < count;
     const loopChange = decrement ? (i) => --i : (i) => ++i;
 
     for (let i = loopInit; loopCond(i); i = loopChange(i)) {
-        tiles.push(new entity(16, 16, x + dx * i, y + dy * i, 0, type, "", scale, false, 0));
+      tiles.push(new entity(16, 16, x + dx * i, y + dy * i, 0, type, "", scale, false, 0));
+    }
+    if(tower){
+      tiles.push(new entity(16, 16, x + dx, y + dy - 20, 0, types.CNE, "", scale, false, 0));
     }
 };
 
