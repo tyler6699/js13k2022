@@ -34,7 +34,6 @@ function hero(w, h, x, y, angle, type, scale) {
         runtime = 0;
       } else {
         runtime += delta;
-        speed = maxSpeed;
       }
 
       if (up()){
@@ -135,13 +134,21 @@ function hero(w, h, x, y, angle, type, scale) {
               // this.e.z = .5* (curTile.up - prevTile.up);
               this.e.z = -curTile.up;
           }
+          // Test current tile position
           // curTile.e.type=10;
           // curTile.e.setType();
       }
     }
-    //if(curTile != null && curTile.obj != null){
-        //console.log(curTile.obj)
-    //}
+    if(curTile != null){
+      if(curTile.e.type==types.WTR){
+        speed=1;
+      } else if(curTile.e.type==types.SEA){
+        speed=.25;
+      } else {
+        speed=maxSpeed;
+      }
+     console.log(speed)
+    }
   }
 
   this.addDust = function(both=false){
@@ -156,19 +163,12 @@ function hero(w, h, x, y, angle, type, scale) {
     this.e.idle=0;
 
     rec = cloneRectanlge(this.e.hb);
-    console.log(rec);
     rec.w=20; // Fudge a smaller HB
     rec.h=10;
     rec.x += xx * speed;
     rec.y += yy * speed;
     canMove = true;
 
-    // console.log("New");
-    // console.log(rec);
-    // console.log("Old");
-    // console.log(this.e.hb);
-
-    canMove = true;
     for (var t = 0; t < cart.level.objs.length; t++) {
       obj = cart.level.objs[t];
       if(obj!=null){

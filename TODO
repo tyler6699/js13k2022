@@ -9,6 +9,7 @@ UI
 
 General
   - Collisions (Working but needs improving)
+  - Add the bottom later of objects of the castle to the obj array to stop the hero walking through the castle
   - Create a castle where bad guys come out of (Added one type)
   - Give the castle HP and you have to defeat it
   - Destroy trees and stones to stop the caste from getting resources
