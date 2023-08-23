@@ -75,7 +75,7 @@ function entity(w, h, x, y, angle, type, colour, scale, isButton = false, maxHP 
     if(this.active) {
       ctx.save();
       // Z value user to lift up the hero when on raised land
-      ctx.translate(this.x, this.y-(this.z*.25));
+      ctx.translate(this.x, this.y-this.z);
       ctx.globalAlpha = this.alpha;
 
       img = this.image;

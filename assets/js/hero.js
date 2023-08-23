@@ -132,7 +132,7 @@ function hero(w, h, x, y, angle, type, scale) {
           // Changed Tiles
           if (prevTile.up !== curTile.up) {
               // this.e.z = .5* (curTile.up - prevTile.up);
-              this.e.z = -curTile.up;
+              this.e.z = -curTile.up*.25;
           }
           // Test current tile position
           // curTile.e.type=10;
