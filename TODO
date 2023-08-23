@@ -19,6 +19,7 @@ General
 
 HERO
   - Walking in water makes you sink and you move very slowly, you die in the sea
+      - Added sinking
   - Walk, attack, idle animations
   - New character pixel art
   - Add HP, Strength, Agility, Swords, Arrows

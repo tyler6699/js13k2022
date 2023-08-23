@@ -143,10 +143,13 @@ function hero(w, h, x, y, angle, type, scale) {
     if(curTile != null){
       if(curTile.e.type==types.WTR){
         speed=1;
+        this.e.wet=true;
       } else if(curTile.e.type==types.SEA){
         speed=.25;
+        this.e.wet=true;
       } else {
         speed=maxSpeed;
+        this.e.wet=false;
       }
     }
   }
