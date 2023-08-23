@@ -8,8 +8,8 @@ UI
   - Player UI (stats)
 
 General
-  - Collisions
-  - Create a castle where bad guys come out of
+  - Collisions (Working but needs improving)
+  - Create a castle where bad guys come out of (Added one type)
   - Give the castle HP and you have to defeat it
   - Destroy trees and stones to stop the caste from getting resources
   - While trees and rocks are available the mobs keep spawning

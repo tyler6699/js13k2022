@@ -156,6 +156,9 @@ function hero(w, h, x, y, angle, type, scale) {
     this.e.idle=0;
 
     rec = cloneRectanlge(this.e.hb);
+    console.log(rec);
+    rec.w=20; // Fudge a smaller HB
+    rec.h=10;
     rec.x += xx * speed;
     rec.y += yy * speed;
     canMove = true;
