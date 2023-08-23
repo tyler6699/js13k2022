@@ -139,6 +139,7 @@ function hero(w, h, x, y, angle, type, scale) {
           // curTile.e.setType();
       }
     }
+    // Hero Speed based on the tile
     if(curTile != null){
       if(curTile.e.type==types.WTR){
         speed=1;
@@ -147,7 +148,6 @@ function hero(w, h, x, y, angle, type, scale) {
       } else {
         speed=maxSpeed;
       }
-     console.log(speed)
     }
   }
 
